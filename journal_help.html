@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aide | Journal de Trading</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;400;500&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2MiI+PHJlY3QgeD0iOSIgeT0iNiIgd2lkdGg9IjYiIGhlaWdodD0iMTIiIGZpbGw9IiMyNmE2OWEiLz48bGluZSB4MT0iMTIiIHkxPSIyIiB4Mj0iMTIiIHkyPSI2IiBzdHJva2U9IiMyNmE2OWEiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSIxMiIgeTE9IjE4IiB4Mj0iMTIiIHkyPSIyMiIgc3Ryb2tlPSIjMjZhNjlhIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=">
+    <style>
+        :root {
+            --bg-dark: #131722;
+            --bg-light: #1e222d;
+            --border-color: #2a2e39;
+            --text-primary: #d1d4dc;
+            --text-secondary: #8a91a0;
+            --accent-blue: #FF5722;
+            --accent-green: #26a69a;
+            --accent-red: #ef5350;
+            --accent-yellow: #FFD700;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            min-height: 90vh;
+            margin: 20px auto;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        header {
+            position: relative;
+            padding: 25px 30px;
+            background-color: var(--border-color);
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--accent-blue);
+            font-size: 1.8em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 1.1em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 100;
+            letter-spacing: -1px;
+        }
+
+        .header-content {
+            text-align: left;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .help-button, .back-button {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-button:hover, .back-button:hover {
+            background-color: #E64A19;
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        section {
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            font-size: 1.4em;
+            color: #ffffff;
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.1em;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        p, li {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        ol {
+            list-style: decimal;
+            padding-left: 20px;
+        }
+
+        strong, .highlight {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .code {
+            background-color: var(--bg-dark);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+            font-size: 0.95em;
+            color: var(--accent-green);
+        }
+
+        .disclaimer {
+            font-size: 0.9em;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            color: #6c757d;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            letter-spacing: -1px;
+        }
+
+        [lang="en"] {
+            display: none;
+        }
+
+        [lang="fr"] {
+            display: block;
+        }
+
+        /* Responsive Design for Mobile */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 0;
+                -webkit-text-size-adjust: 100%;
+            }
+
+            .container {
+                width: 100%;
+                margin: 0;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px 15px;
+                border-radius: 0;
+            }
+
+            .header-nav {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            header h1 {
+                font-size: 1.6em;
+            }
+
+            header p {
+                font-size: 1em;
+            }
+
+            main {
+                padding: 20px 15px;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+    <script>
+        function switchLang(lang) {
+            const btnFr = document.getElementById('btn-fr');
+            const btnEn = document.getElementById('btn-en');
+
+            document.querySelectorAll('[lang]').forEach(el => {
+                el.style.display = 'none';
+            });
+
+            if (lang === 'en') {
+                document.documentElement.lang = 'en';
+                document.title = 'Help | Trading Journal';
+                document.querySelectorAll('[lang="en"]').forEach(el => el.style.display = 'block');
+                if (btnEn) btnEn.classList.add('active');
+                if (btnFr) btnFr.classList.remove('active');
+            } else {
+                document.documentElement.lang = 'fr';
+                document.title = 'Aide | Journal de Trading';
+                document.querySelectorAll('[lang="fr"]').forEach(el => el.style.display = 'block');
+                if (btnFr) btnFr.classList.add('active');
+                if (btnEn) btnEn.classList.remove('active');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default language to French on load
+            switchLang('fr');
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Aide du Journal de Trading</h1>
+                <p>Guide d'utilisation de l'application</p>
+            </div>
+            <nav class="header-nav">
+                <button id="btn-fr" onclick="switchLang('fr')" type="button" class="active">FR</button>
+                <button id="btn-en" onclick="switchLang('en')" type="button">EN</button>
+                <a href="journal.html" class="back-button">Retour</a>
+            </nav>
+        </header>
+        <main>
+            <!-- French Content -->
+            <div lang="fr">
+                <section>
+                    <h2>Introduction</h2>
+                    <p>Bienvenue dans votre Journal de Trading ! Cette application vous permet d'enregistrer, de suivre et d'analyser vos activités de trading au quotidien, à la semaine, et de prendre des notes générales. Elle est conçue pour vous aider à améliorer votre discipline et votre compréhension du marché.</p>
+                </section>
+
+                <section>
+                    <h2>Utilisation du Calendrier</h2>
+                    <h3>Sélectionner une Date</h3>
+                    <ul>
+                        <li>Le calendrier affiche le mois en cours. Utilisez les flèches <strong class="highlight">&lt;</strong> et <strong class="highlight">&gt;</strong> pour naviguer entre les mois.</li>
+                        <li>Cliquez sur un jour du mois en cours pour sélectionner cette date. Le formulaire d'entrée du journal apparaîtra en dessous.</li>
+                        <li>La date sélectionnée sera affichée au-dessus du formulaire ("Nouvelle Entrée pour le...").</li>
+                        <li>Les numéros de semaine sont affichés en haut à gauche de chaque première journée de la semaine.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Formulaire d'Entrée du Journal</h2>
+                    <p>Une fois une date sélectionnée, le formulaire d'entrée apparaît, divisé en quatre onglets : <strong class="highlight">Daily</strong>, <strong class="highlight">Trade</strong>, <strong class="highlight">Weekly</strong> et <strong class="highlight">Notes</strong>.</p>
+
+                    <h3>Onglet "Daily" (Analyse Quotidienne)</h3>
+                    <p>Cet onglet est dédié à votre analyse quotidienne du marché et à la préparation de votre journée de trading.</p>
+                    <ul>
+                        <li><strong>Tendance du PDR (Previous Day Range):</strong> Indiquez le biais du PDR (Bullish, Bearish, Consolidation).</li>
+                        <li><strong>Capture H1 (URL):</strong> Collez l'URL d'une capture d'écran de votre analyse H1. Un aperçu de l'image s'affichera.</li>
+                        <li><strong>Observations:</strong> Notez vos observations générales sur le PDR et vos attentes pour la journée.</li>
+                        <li><strong>Cycles C1 & C2:</strong> Enregistrez la phase de marché observée durant les cycles C1 et C2 (Accumulation, Distribution, etc.) et ajoutez des captures d'écran si nécessaire.</li>
+                        <li><strong>Cycle C3 & Setup:</strong> Décrivez le type de setup (Long/Short), la manipulation observée et le swing point balayé.</li>
+                    </ul>
+
+                    <h3>Onglet "Trade" (Détails du Trade)</h3>
+                    <p>Utilisez cet onglet pour enregistrer les détails spécifiques de chaque trade effectué.</p>
+                    <ul>
+                        <li><strong>Actif:</strong> Sélectionnez l'actif tradé (EUR/USD, MNQ, etc.).</li>
+                        <li><strong>$/Tick - $/Pip:</strong> Ce champ s'auto-remplit en fonction de l'actif sélectionné pour vous donner une indication de la valeur par tick/pip.</li>
+                        <li><strong>Stop Loss / Take Profit:</strong> Entrez vos niveaux de SL et TP.</li>
+                        <li><strong>Taille de position:</strong> Indiquez la taille de votre position.</li>
+                        <li><strong>Résultat:</strong> Choisissez le résultat du trade (Gagnant, Perdant, Breakeven).</li>
+                        <li><strong>P&L (Profit & Loss):</strong> Le profit ou la perte est calculé automatiquement en fonction de votre SL/TP, de la taille de position et du résultat.</li>
+                        <li><strong>Ratio R/R (Risk/Reward):</strong> Le ratio risque/rendement est également calculé automatiquement.</li>
+                        <li><strong>Revue du Trade:</strong> Un espace pour vos notes post-trade, vos leçons apprises, et si vous avez respecté votre plan.</li>
+                    </ul>
+
+                    <h3>Onglet "Weekly" (Analyse Hebdomadaire)</h3>
+                    <p>Cet onglet est destiné à votre revue hebdomadaire.</p>
+                    <ul>
+                        <li><strong>Tendance du PWR (Previous Week Range):</strong> Définissez le biais du PWR.</li>
+                        <li><strong>Semaine #:</strong> Le numéro de la semaine est automatiquement sélectionné, mais vous pouvez le modifier.</li>
+                        <li><strong>Capture H4 (URL):</strong> Collez l'URL d'une capture d'écran de votre analyse H4 pour la semaine.</li>
+                        <li><strong>Obs/Notes:</strong> Vos observations et notes générales pour la semaine.</li>
+                    </ul>
+
+                    <h3>Onglet "Notes" (Notes Générales & Outils)</h3>
+                    <p>Un espace pour les notes diverses, les tâches à faire et les événements économiques.</p>
+                    <ul>
+                        <li><strong>Notes Générales / Pense-bêtes:</strong> Écrivez toutes les notes qui ne rentrent pas dans les autres catégories.</li>
+                        <li><strong>Liste de Tâches (To-Do):</strong>
+                            <ul>
+                                <li>Ajoutez des tâches avec un niveau d'importance (1 à 3 étoiles).</li>
+                                <li>Cochez une tâche pour la marquer comme complétée (elle sera barrée).</li>
+                                <li>Cliquez sur <strong class="highlight">X</strong> pour supprimer une tâche.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Événements Économiques Importants:</strong>
+                            <ul>
+                                <li>Ajoutez l'heure et une description des événements économiques à surveiller.</li>
+                                <li>Cliquez sur <strong class="highlight">X</strong> pour supprimer un événement.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h2>Sauvegarde des Entrées</h2>
+                    <p>Toutes les données que vous entrez dans le formulaire sont automatiquement sauvegardées localement dans votre navigateur (via <code class="code">localStorage</code>) pour la date sélectionnée. Vous pouvez revenir sur une date ultérieure et retrouver vos entrées.</p>
+                    <p>Pour sauvegarder explicitement une entrée, cliquez sur le bouton <strong class="highlight">"Enregistrer l'entrée"</strong> en bas du formulaire.</p>
+                </section>
+            </div>
+
+            <!-- English Content -->
+            <div lang="en">
+                <section>
+                    <h2>Introduction</h2>
+                    <p>Welcome to your Trading Journal! This application allows you to record, track, and analyze your trading activities on a daily and weekly basis, and to take general notes. It is designed to help you improve your discipline and market understanding.</p>
+                </section>
+
+                <section>
+                    <h2>Using the Calendar</h2>
+                    <h3>Selecting a Date</h3>
+                    <ul>
+                        <li>The calendar displays the current month. Use the <strong class="highlight">&lt;</strong> and <strong class="highlight">&gt;</strong> arrows to navigate between months.</li>
+                        <li>Click on a day of the current month to select that date. The journal entry form will appear below.</li>
+                        <li>The selected date will be displayed above the form ("New Entry for...").</li>
+                        <li>Week numbers are displayed in the top left corner of each first day of the week.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Journal Entry Form</h2>
+                    <p>Once a date is selected, the entry form appears, divided into four tabs: <strong class="highlight">Daily</strong>, <strong class="highlight">Trade</strong>, <strong class="highlight">Weekly</strong>, and <strong class="highlight">Notes</strong>.</p>
+
+                    <h3>"Daily" Tab (Daily Analysis)</h3>
+                    <p>This tab is dedicated to your daily market analysis and preparation for your trading day.</p>
+                    <ul>
+                        <li><strong>PDR (Previous Day Range) Trend:</strong> Indicate the PDR bias (Bullish, Bearish, Consolidation).</li>
+                        <li><strong>H1 Capture (URL):</strong> Paste the URL of a screenshot of your H1 analysis. An image preview will be displayed.</li>
+                        <li><strong>Observations:</strong> Note your general observations on the PDR and your expectations for the day.</li>
+                        <li><strong>Cycles C1 & C2:</strong> Record the market phase observed during cycles C1 and C2 (Accumulation, Distribution, etc.) and add screenshots if necessary.</li>
+                        <li><strong>Cycle C3 & Setup:</strong> Describe the type of setup (Long/Short), the observed manipulation, and the swept swing point.</li>
+                    </ul>
+
+                    <h3>"Trade" Tab (Trade Details)</h3>
+                    <p>Use this tab to record the specific details of each trade executed.</p>
+                    <ul>
+                        <li><strong>Asset:</strong> Select the traded asset (EUR/USD, MNQ, etc.).</li>
+                        <li><strong>$/Tick - $/Pip:</strong> This field auto-populates based on the selected asset to give you an indication of the value per tick/pip.</li>
+                        <li><strong>Stop Loss / Take Profit:</strong> Enter your SL and TP levels.</li>
+                        <li><strong>Position Size:</strong> Indicate your position size.</li>
+                        <li><strong>Outcome:</strong> Choose the trade outcome (Win, Loss, Breakeven).</li>
+                        <li><strong>P&L (Profit & Loss):</strong> Profit or loss is automatically calculated based on your SL/TP, position size, and outcome.</li>
+                        <li><strong>R/R Ratio (Risk/Reward):</strong> The risk/reward ratio is also automatically calculated.</li>
+                        <li><strong>Trade Review:</strong> A space for your post-trade notes, lessons learned, and whether you followed your plan.</li>
+                    </ul>
+
+                    <h3>"Weekly" Tab (Weekly Analysis)</h3>
+                    <p>This tab is for your weekly review.</p>
+                    <ul>
+                        <li><strong>PWR (Previous Week Range) Trend:</strong> Define the PWR bias.</li>
+                        <li><strong>Week #:</strong> The week number is automatically selected, but you can change it.</li>
+                        <li><strong>H4 Capture (URL):</strong> Paste the URL of a screenshot of your H4 analysis for the week.</li>
+                        <li><strong>Obs/Notes:</strong> Your general observations and notes for the week.</li>
+                    </ul>
+
+                    <h3>"Notes" Tab (General Notes & Tools)</h3>
+                    <p>A space for various notes, to-do lists, and economic events.</p>
+                    <ul>
+                        <li><strong>General Notes / Reminders:</strong> Write any notes that don't fit into other categories.</li>
+                        <li><strong>To-Do List:</strong>
+                            <ul>
+                                <li>Add tasks with an importance level (1 to 3 stars).</li>
+                                <li>Check a task to mark it as completed (it will be crossed out).</li>
+                                <li>Click <strong class="highlight">X</strong> to delete a task.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Important Economic Events:</strong>
+                            <ul>
+                                <li>Add the time and a description of economic events to watch.</li>
+                                <li>Click <strong class="highlight">X</strong> to delete an event.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </section>
+
+                <section>
+                    <h2>Saving Entries</h2>
+                    <p>All data you enter into the form is automatically saved locally in your browser (via <code class="code">localStorage</code>) for the selected date. You can return to a later date and find your entries.</p>
+                    <p>To explicitly save an entry, click the <strong class="highlight">"Save Entry"</strong> button at the bottom of the form.</p>
+                </section>
+            </div>
+        </main>
+        <footer class="disclaimer">
+            Powered by 3drives - © 2025 - Thitix
+        </footer>
+    </div>
+</body>
+
+</html>
