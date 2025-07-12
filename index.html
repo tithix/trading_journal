@@ -431,24 +431,24 @@
         .economic-event-input-group button {
             flex-shrink: 0; /* Empêche les boutons de rétrécir */
             width: 40px; /* Largeur fixe */
-            height: 40px; /* Hauteur fixe pour un cercle */
-            border-radius: 50%; /* Rend le bouton circulaire */
+            height: 40px; /* Hauteur fixe pour un carré */
+            border-radius: 4px; /* Rend le bouton carré avec des coins légèrement arrondis */
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 0; /* Supprime le padding pour un meilleur contrôle de la taille */
             font-size: 1.8em; /* Taille du symbole + */
             font-weight: bold;
-            background-color: var(--accent-green); /* Couleur de fond */
-            color: white; /* Couleur du symbole */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+            background-color: var(--accent-blue); /* Couleur de fond orange */
+            color: white; /* Couleur du symbole blanc */
+            box-shadow: 0 2px 5px rgba(255, 87, 34, 0.2); /* Ombre subtile, ajustée pour l'orange */
             transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s; /* Transitions douces */
         }
 
         .todo-input-group button:hover,
         .economic-event-input-group button:hover {
-            background-color: #2bbbad; /* Couleur au survol */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Ombre plus prononcée au survol */
+            background-color: #E64A19; /* Couleur au survol (orange plus foncé) */
+            box-shadow: 0 4px 8px rgba(255, 87, 34, 0.3); /* Ombre plus prononcée au survol, ajustée pour l'orange */
             transform: translateY(-1px); /* Léger effet de soulèvement */
         }
 
@@ -542,6 +542,17 @@
 
         #todoList li .delete-btn:hover,
         #eventList li .delete-btn:hover {
+            color: var(--accent-red);
+        }
+
+        /* P&L and R/R styling */
+        .pnl-win {
+            font-weight: bold;
+            color: var(--accent-blue);
+        }
+
+        .pnl-loss {
+            font-weight: bold;
             color: var(--accent-red);
         }
 
@@ -736,11 +747,19 @@
                         <div class="form-grid">
                             <div class="form-group">
                                 <label for="asset">Actif</label>
-                                <input type="text" id="asset" name="asset" placeholder="EUR/USD">
+                                <select id="asset" name="asset">
+                                    <option value="">- Sélectionner -</option>
+                                    <option value="EUR/USD">EUR/USD</option>
+                                    <option value="GBP/USD">GBP/USD</option>
+                                    <option value="MNQ">MNQ</option>
+                                    <option value="NQ">NQ</option>
+                                    <option value="US100">US100</option>
+                                    <!-- Add more assets as needed -->
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="entryPrice">Prix d'entrée</label>
-                                <input type="number" id="entryPrice" name="entryPrice" step="any">
+                                <label for="entryPrice">$/Tick - $/Pip</label>
+                                <input type="text" id="entryPrice" name="entryPrice" step="any" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="stopLossPrice">Stop Loss</label>
@@ -750,7 +769,11 @@
                                 <label for="takeProfitPrice">Take Profit</label>
                                 <input type="number" id="takeProfitPrice" name="takeProfitPrice" step="any">
                             </div>
-                             <div class="form-group">
+                            <div class="form-group">
+                                <label for="positionSize">Taille de position</label>
+                                <input type="number" id="positionSize" name="positionSize" step="any" min="0.01">
+                            </div>
+                            <div class="form-group">
                                 <label for="outcome">Résultat</label>
                                 <select id="outcome" name="outcome">
                                     <option value="win">Gagnant</option>
@@ -759,13 +782,14 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="profitOrLoss">Gain ou Perte (€, $, pips...)</label>
-                                <input type="text" id="profitOrLoss" name="profitOrLoss">
+                                <label for="profitOrLoss">P&L</label>
+                                <input type="text" id="profitOrLoss" name="profitOrLoss" readonly>
                             </div>
-                             <div class="form-group full-width">
-                                <label for="screenshotResult">Capture d'écran (Résultat)</label>
-                                <input type="file" id="screenshotResult" name="screenshotResult">
+                            <div class="form-group">
+                                <label for="riskRewardRatio">Ratio R/R (TP/SL)</label>
+                                <input type="text" id="riskRewardRatio" name="riskRewardRatio" readonly>
                             </div>
+                             
                             <div class="form-group full-width">
                                 <label for="tradeNotes">Revue du Trade</label>
                                 <textarea id="tradeNotes" name="tradeNotes" placeholder="Ai-je respecté le plan ? Leçons..."></textarea>
@@ -867,10 +891,17 @@
             const captureH4Preview = document.getElementById('captureH4-preview');
             
             const pdrObservationsTextarea = document.getElementById('pdrObservations');
-            const weeklyScreenshotInput = document.getElementById('weeklyScreenshot');
-            const weeklyScreenshotPreview = document.getElementById('weeklyScreenshot-preview');
             const weeklyObsNotesTextarea = document.getElementById('weeklyObsNotes');
             const weekNumberSelect = document.getElementById('weekNumber');
+
+            // Asset values
+            const assetValues = {
+                "EUR/USD": { type: "pip", value: 10, unit: "$/lot standard" },
+                "GBP/USD": { type: "pip", value: 10, unit: "$/lot standard" },
+                "MNQ": { type: "tick", value: 0.5, unit: "$" },
+                "NQ": { type: "tick", value: 5, unit: "$" },
+                "US100": { type: "tick", value: 0.1, unit: "$", note: "10 ticks = 1 point = $1" }
+            };
 
             // Notes Tab Elements
             const generalNotesTextarea = document.getElementById('generalNotes');
@@ -882,6 +913,90 @@
             const eventDateInput = document.getElementById('eventDate');
             const eventDescriptionInput = document.getElementById('eventDescription');
             const eventList = document.getElementById('eventList');
+
+            // Trade Tab Elements
+            const assetSelect = document.getElementById('asset');
+            const entryPriceInput = document.getElementById('entryPrice');
+            const stopLossPriceInput = document.getElementById('stopLossPrice');
+            const takeProfitPriceInput = document.getElementById('takeProfitPrice');
+            const positionSizeInput = document.getElementById('positionSize');
+            const outcomeSelect = document.getElementById('outcome');
+            const profitOrLossInput = document.getElementById('profitOrLoss');
+            const riskRewardRatioInput = document.getElementById('riskRewardRatio');
+
+            // Event listener for asset selection to update $/Tick - $/Pip
+            assetSelect.addEventListener('change', () => {
+                const selectedAsset = assetSelect.value;
+                if (selectedAsset && assetValues[selectedAsset]) {
+                    const assetInfo = assetValues[selectedAsset];
+                    let displayValue = `${assetInfo.value} ${assetInfo.unit}`; 
+                    if (assetInfo.note) {
+                        displayValue += ` (${assetInfo.note})`;
+                    }
+                    entryPriceInput.value = displayValue;
+                } else {
+                    entryPriceInput.value = ''; // Clear if no asset selected or unknown asset
+                }
+                calculatePnLAndRR(); // Recalculate P&L and R/R when asset changes
+            });
+
+            // Event listeners for SL, TP, and Outcome to trigger P&L and R/R calculation
+            stopLossPriceInput.addEventListener('input', calculatePnLAndRR);
+            takeProfitPriceInput.addEventListener('input', calculatePnLAndRR);
+            outcomeSelect.addEventListener('change', calculatePnLAndRR);
+
+            function calculatePnLAndRR() {
+                const selectedAsset = assetSelect.value;
+                const sl = parseFloat(stopLossPriceInput.value);
+                const tp = parseFloat(takeProfitPriceInput.value);
+                const positionSize = parseFloat(positionSizeInput.value) || 0;
+                const outcome = outcomeSelect.value;
+
+                let pnl = 0;
+                let rr = 0;
+
+                if (selectedAsset && assetValues[selectedAsset] && !isNaN(sl) && !isNaN(tp) && positionSize > 0) {
+                    const assetInfo = assetValues[selectedAsset];
+                    const valuePerUnit = assetInfo.value;
+
+                    // Calculate P&L
+                    if (outcome === 'win') {
+                        pnl = tp * valuePerUnit * positionSize;
+                    } else if (outcome === 'loss') {
+                        pnl = -sl * valuePerUnit * positionSize; // Negative for loss
+                    } else if (outcome === 'breakeven') {
+                        pnl = 0;
+                    }
+
+                    // Calculate R/R
+                    if (outcome === 'win') {
+                        if (sl !== 0) {
+                            rr = (tp / sl).toFixed(2);
+                        } else {
+                            rr = 'N/A'; // Avoid division by zero
+                        }
+                    } else if (outcome === 'loss') {
+                        rr = -1;
+                    } else {
+                        rr = 'N/A'; // For breakeven or no outcome selected
+                    }
+                }
+
+                profitOrLossInput.value = pnl.toFixed(2) + " USD"; // Display P&L with 2 decimal places and USD
+                riskRewardRatioInput.value = rr;
+
+                // Apply styling based on outcome
+                profitOrLossInput.classList.remove('pnl-win', 'pnl-loss');
+                riskRewardRatioInput.classList.remove('pnl-win', 'pnl-loss');
+
+                if (outcome === 'win') {
+                    profitOrLossInput.classList.add('pnl-win');
+                    riskRewardRatioInput.classList.add('pnl-win');
+                } else if (outcome === 'loss') {
+                    profitOrLossInput.classList.add('pnl-loss');
+                    riskRewardRatioInput.classList.add('pnl-loss');
+                }
+            }
 
             let currentDate = new Date();
             let selectedDateForEntry = null;
@@ -941,7 +1056,8 @@
 
                     if (dayIterator.getMonth() === month) {
                         dayCell.classList.add('current-month');
-                    } else {
+                    }
+                    else {
                         dayCell.classList.add('other-month');
                     }
 
@@ -1325,6 +1441,9 @@
             renderCalendar();
             // Initial resize for observations textarea
             autoResizeTextarea(pdrObservationsTextarea);
+
+            // Initial calculation for P&L and R/R
+            calculatePnLAndRR();
         });
     </script>
 </body>
