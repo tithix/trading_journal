@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trading Journal | AMED</title>
+    <title>Journal de Trading AMED</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;400;500&display=swap" rel="stylesheet">
@@ -51,6 +51,13 @@
             border-top-left-radius: 8px;
             border-top-right-radius: 8px;
             border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content {
+            text-align: left;
         }
 
         header h1 {
@@ -69,6 +76,30 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 100;
             letter-spacing: -1px;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .help-button {
+            background-color: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .help-button:hover {
+            background-color: #E64A19;
         }
 
         main {
@@ -195,6 +226,7 @@
             gap: 5px;
             text-align: center;
         }
+        }
 
         .calendar-day-name {
             font-weight: bold;
@@ -216,6 +248,7 @@
             transition: background-color 0.2s;
             position: relative;
             /* Added for absolute positioning of week number */
+        }
         }
 
         .calendar-day:hover {
@@ -609,8 +642,13 @@
 <body>
     <div class="container">
         <header>
-            <h1>Journal de Trading</h1>
-            <p>Enregistrez et analysez vos trades selon les cycles Intraday</p>
+            <div class="header-content">
+                <h1>Journal de Trading</h1>
+                <p>Enregistrez et analysez vos trades selon les cycles Intraday</p>
+            </div>
+            <nav class="header-nav">
+                <a href="journal_help.html" class="help-button">Help</a>
+            </nav>
         </header>
         <main>
             <section class="calendar-container">
