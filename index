@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal de Trading AMED</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;400;500&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2MiI+PHJlY3QgeD0iOSIgeT0iNiIgd2lkdGg9IjYiIGhlaWdodD0iMTIiIGZpbGw9IiMyNmE2OWEiLz48bGluZSB4MT0iMTIiIHkxPSIyIiB4Mj0iMTIiIHkyPSI2IiBzdHJva2U9IiMyNmE2OWEiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSIxMiIgeTE9IjE4IiB4Mj0iMTIiIHkyPSIyMiIgc3Ryb2tlPSIjMjZhNjlhIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=">
+    <style>
+        :root {
+            --bg-dark: #131722;
+            --bg-light: #1e222d;
+            --border-color: #2a2e39;
+            --text-primary: #d1d4dc;
+            --text-secondary: #8a91a0;
+            --accent-blue: #FF5722;
+            --accent-green: #26a69a;
+            --accent-red: #ef5350;
+            --accent-yellow: #FFD700; /* Or pour l'onglet Notes */
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            min-height: 90vh;
+            /* Added for minimum height */
+            margin: 20px auto;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        header {
+            position: relative;
+            padding: 25px 30px;
+            background-color: var(--border-color);
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--accent-blue);
+            font-size: 1.8em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 1.1em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 100;
+            letter-spacing: -1px;
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        section {
+            margin-bottom: 35px;
+        }
+
+        h2 {
+            font-size: 1.4em;
+            color: #ffffff;
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-size: 1.1em;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        p {
+            color: var(--text-secondary);
+        }
+
+        strong,
+        .highlight {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .code {
+            background-color: var(--bg-dark);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+            font-size: 0.95em;
+            color: var(--accent-green);
+        }
+
+        .disclaimer {
+            font-size: 0.9em;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+            color: #6c757d;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            letter-spacing: -1px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--bg-dark);
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card h3 {
+            border: none;
+            padding-left: 0;
+            margin-bottom: 10px;
+        }
+
+        /* Calendar Specific Styles */
+        .calendar-container {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-header button {
+            background-color: transparent;
+            color: var(--accent-blue);
+            border: none;
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s, opacity 0.2s;
+        }
+
+        .calendar-header button:hover {
+            background-color: rgba(255, 87, 34, 0.1);
+            opacity: 0.8;
+        }
+
+        .calendar-header h2 {
+            margin: 0;
+            color: var(--text-primary);
+            border-bottom: none;
+            padding-bottom: 0;
+            font-size: 1.6em;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            letter-spacing: -1px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+
+        .calendar-day-name {
+            font-weight: bold;
+            color: var(--text-primary);
+            padding: 10px 5px;
+            background-color: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            position: relative;
+            /* Added for absolute positioning of week number */
+        }
+
+        .calendar-day:hover {
+            background-color: #2a303d;
+            /* Slightly lighter bg-light */
+        }
+
+        .calendar-day.current-month {
+            color: var(--text-primary);
+        }
+
+        .calendar-day.other-month {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .calendar-day.today {
+            border: 2px solid var(--accent-blue);
+            /* Changed to accent-blue (orange) */
+            font-weight: bold;
+        }
+
+        .week-number-label {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 0.7em;
+            color: var(--accent-blue);
+        }
+        
+        /* Journal Entry Form Styles */
+        #journal-entry-container {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            display: none; /* Initially hidden */
+        }
+
+        .tab-buttons {
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .tab-buttons button {
+            background-color: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            font-size: 1em;
+            margin-right: 5px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .tab-buttons button.active {
+            background-color: var(--accent-blue);
+            color: #fff;
+            border: 1px solid var(--accent-blue);
+            border-bottom: 1px solid var(--bg-dark);
+            margin-bottom: -11px;
+        }
+
+        .tab-buttons button[data-tab="notes"].active {
+            background-color: var(--accent-yellow);
+            border-color: var(--accent-yellow);
+            color: var(--bg-dark); /* Texte sombre sur fond jaune */
+        }
+
+        .tab-content {
+            display: none; /* Hidden by default */
+        }
+
+        .tab-content.active {
+            display: block; /* Shown when active */
+            padding-top: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .weekly-form-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        .form-group-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
+            gap: 25px; /* Même espacement que le form-grid parent */
+            grid-column: 1 / -1; /* S'étend sur toute la largeur du parent */
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .pdr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            grid-column: 1 / -1; /* Make it span full width of parent grid */
+        }
+
+        .pdr-grid .form-group {
+            margin-bottom: 0; /* Remove extra margin from nested form-groups */
+        }
+
+        .cycle-phases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            grid-column: 1 / -1; /* Make it span full width of parent grid */
+        }
+
+        .cycle-phases-grid .form-group {
+            margin-bottom: 0; /* Remove extra margin from nested form-groups */
+        }
+
+        .cycle-phases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            grid-column: 1 / -1; /* Make it span full width of parent grid */
+        }
+
+        .cycle-phases-grid .form-group {
+            margin-bottom: 0; /* Remove extra margin from nested form-groups */
+        }
+
+        .form-group label {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10L12 15L17 10' stroke='%23FF5722' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-color: transparent;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 38px; /* Hauteur minimale pour alignement */
+            resize: vertical;
+            overflow-y: hidden; /* Cache la scrollbar par défaut */
+        }
+
+        .form-group textarea.auto-resize {
+            min-height: auto;
+            height: auto; /* Reset height */
+        }
+
+        .form-group textarea.auto-resize.max-height {
+            overflow-y: auto; /* Affiche la scrollbar si dépasse la max-height */
+        }
+
+        #weeklyObsNotes {
+            color: #b0b0b0; /* Gris très clair */
+            font-size: 0.85em; /* Taille de police plus petite */
+        }
+
+        .todo-input-group,
+        .economic-event-input-group {
+            display: flex;
+            gap: 10px; /* Espace entre les éléments */
+            align-items: center;
+        }
+
+        .todo-input-group input[type="text"],
+        .economic-event-input-group input[type="text"],
+        .economic-event-input-group input[type="date"] {
+            flex-grow: 1; /* Permet aux champs de texte et de date de prendre l'espace disponible */
+        }
+
+        .todo-input-group button,
+        .economic-event-input-group button {
+            flex-shrink: 0; /* Empêche les boutons de rétrécir */
+            width: 40px; /* Largeur fixe */
+            height: 40px; /* Hauteur fixe pour un cercle */
+            border-radius: 50%; /* Rend le bouton circulaire */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0; /* Supprime le padding pour un meilleur contrôle de la taille */
+            font-size: 1.8em; /* Taille du symbole + */
+            font-weight: bold;
+            background-color: var(--accent-green); /* Couleur de fond */
+            color: white; /* Couleur du symbole */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre subtile */
+            transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s; /* Transitions douces */
+        }
+
+        .todo-input-group button:hover,
+        .economic-event-input-group button:hover {
+            background-color: #2bbbad; /* Couleur au survol */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Ombre plus prononcée au survol */
+            transform: translateY(-1px); /* Léger effet de soulèvement */
+        }
+
+        .todo-input-group button:active,
+        .economic-event-input-group button:active {
+            transform: translateY(0); /* Retour à la position normale au clic */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Ombre réduite au clic */
+        }
+
+        .form-actions {
+            grid-column: 1 / -1;
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .form-actions button {
+            background-color: var(--accent-green);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .form-actions button:hover {
+            background-color: #2bbbad;
+        }
+
+        .image-preview {
+            margin-top: 15px;
+            max-height: 400px; /* Taille plus grande pour l'aperçu */
+            width: 100%;
+            display: none; /* Caché par défaut */
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #todoList li.completed span:not(.importance) {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        #todoList li,
+        #eventList li {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espace ajusté entre les éléments */
+            padding: 12px 0; /* Padding vertical augmenté */
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #todoList li input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        #todoList li span:not(.importance),
+        #eventList li span {
+            /* flex-grow: 1; est supprimé pour rapprocher les éléments */
+            font-size: 1.1em; /* Police de la tâche agrandie */
+        }
+
+        #todoList li .importance {
+            color: var(--accent-yellow);
+        }
+
+        #todoList li .delete-btn,
+        #eventList li .delete-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.5em; /* Icône de suppression agrandie */
+            padding: 0 5px;
+            line-height: 1;
+            transition: color 0.2s;
+            margin-left: auto; /* Pousse le bouton tout à droite */
+            flex-shrink: 0;
+        }
+
+        #todoList li .delete-btn:hover,
+        #eventList li .delete-btn:hover {
+            color: var(--accent-red);
+        }
+
+        /* Responsive Design for Mobile */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 0;
+                -webkit-text-size-adjust: 100%;
+            }
+
+            .container {
+                width: 100%;
+                margin: 0;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+            }
+
+            header {
+                padding: 20px 15px;
+                text-align: center;
+                border-radius: 0;
+            }
+
+            header h1 {
+                font-size: 1.6em;
+            }
+
+            header p {
+                font-size: 1em;
+            }
+
+            main {
+                padding: 20px 15px;
+            }
+
+            h2 {
+                font-size: 1.3em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Journal de Trading</h1>
+            <p>Enregistrez et analysez vos trades selon les cycles Intraday</p>
+        </header>
+        <main>
+            <section class="calendar-container">
+                <div class="calendar-header">
+                    <button id="prevMonth">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <h2 id="currentMonthYear"></h2>
+                    <button id="nextMonth">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <div class="calendar-day-name">Lun</div>
+                    <div class="calendar-day-name">Mar</div>
+                    <div class="calendar-day-name">Mer</div>
+                    <div class="calendar-day-name">Jeu</div>
+                    <div class="calendar-day-name">Ven</div>
+                    <div class="calendar-day-name">Sam</div>
+                    <div class="calendar-day-name">Dim</div>
+                </div>
+            </section>
+
+            <section id="journal-entry-container">
+                <h2>Nouvelle Entrée pour le <span id="entry-date"></span></h2>
+
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="daily">Daily</button>
+                    <button class="tab-button" data-tab="trade">Trade</button>
+                    <button class="tab-button" data-tab="weekly">Weekly</button>
+                    <button class="tab-button" data-tab="notes">Notes</button>
+                </div>
+
+                <form id="journal-form">
+                    <!-- Tab 1: Analyse -->
+                    <div id="daily-tab" class="tab-content active">
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <h3>Tendance du PDR (Previous Day Range)</h3>
+                            </div>
+                            <div class="form-group pdr-grid">
+                                <div class="form-group">
+                                    <label for="pdr">PDR</label>
+                                    <select id="pdr" name="pdr">
+                                        <option value="bullish">Bullish</option>
+                                        <option value="bearish">Bearish</option>
+                                        <option value="consolidation">Consolidation</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="captureH1">Capture H1 (URL)</label>
+                                    <input type="url" id="captureH1" name="captureH1" placeholder="https://...">
+                                    <div class="image-preview" id="captureH1-preview"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pdrObservations">Observations</label>
+                                    <textarea id="pdrObservations" name="pdrObservations" placeholder="Ex: Attente d'un retour sur le FVG..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <div class="cycle-phases-grid">
+                                    <div class="form-group">
+                                        <h3>Cycle C1</h3>
+                                        <label for="cycleC1Phase">Phase C1</label>
+                                        <select id="cycleC1Phase" name="cycleC1Phase">
+                                            <option value="accumulation">Accumulation</option>
+                                            <option value="re-accumulation">Ré-Accumulation</option>
+                                            <option value="distribution">Distribution</option>
+                                            <option value="re-distribution">Re-Distribution</option>
+                                            <option value="continuation">Continuation</option>
+                                            <option value="reversal">Renversement</option>
+                                        </select>
+                                        <label for="captureC1">Capture C1 (URL)</label>
+                                        <input type="url" id="captureC1" name="captureC1" placeholder="https://...">
+                                        <div class="image-preview" id="captureC1-preview"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <h3>Cycle C2</h3>
+                                        <label for="cycleC2Phase">Phase C2</label>
+                                        <select id="cycleC2Phase" name="cycleC2Phase">
+                                            <option value="accumulation">Accumulation</option>
+                                            <option value="re-accumulation">Ré-Accumulation</option>
+                                            <option value="distribution">Distribution</option>
+                                            <option value="re-distribution">Re-Distribution</option>
+                                            <option value="continuation">Continuation</option>
+                                            <option value="reversal">Renversement</option>
+                                        </select>
+                                        <label for="captureC2">Capture C2 (URL)</label>
+                                        <input type="url" id="captureC2" name="captureC2" placeholder="https://...">
+                                        <div class="image-preview" id="captureC2-preview"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <h3>Cycle C3 & Setup</h3>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group-pair">
+                                    <div class="form-group">
+                                        <label for="setupType">Type de Setup</label>
+                                        <select id="setupType" name="setupType">
+                                            <option value="long">Long</option>
+                                            <option value="short">Short</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="manipulation">Manipulation</label>
+                                        <select id="manipulation" name="manipulation">
+                                            <option value="">-- Sélectionner --</option>
+                                            <option value="bullish_shorts">Bullish (for Shorts)</option>
+                                            <option value="bearish_longs">Bearish (for Longs)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="swingPointSwept">Swing Point balayé</label>
+                                    <input type="text" id="swingPointSwept" name="swingPointSwept" placeholder="Ex: PDL, PWH, Swing Low M15">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- Tab 2: Trade -->
+                    <div id="trade-tab" class="tab-content">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="asset">Actif</label>
+                                <input type="text" id="asset" name="asset" placeholder="EUR/USD">
+                            </div>
+                            <div class="form-group">
+                                <label for="entryPrice">Prix d'entrée</label>
+                                <input type="number" id="entryPrice" name="entryPrice" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="stopLossPrice">Stop Loss</label>
+                                <input type="number" id="stopLossPrice" name="stopLossPrice" step="any">
+                            </div>
+                            <div class="form-group">
+                                <label for="takeProfitPrice">Take Profit</label>
+                                <input type="number" id="takeProfitPrice" name="takeProfitPrice" step="any">
+                            </div>
+                             <div class="form-group">
+                                <label for="outcome">Résultat</label>
+                                <select id="outcome" name="outcome">
+                                    <option value="win">Gagnant</option>
+                                    <option value="loss">Perdant</option>
+                                    <option value="breakeven">Breakeven</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="profitOrLoss">Gain ou Perte (€, $, pips...)</label>
+                                <input type="text" id="profitOrLoss" name="profitOrLoss">
+                            </div>
+                             <div class="form-group full-width">
+                                <label for="screenshotResult">Capture d'écran (Résultat)</label>
+                                <input type="file" id="screenshotResult" name="screenshotResult">
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="tradeNotes">Revue du Trade</label>
+                                <textarea id="tradeNotes" name="tradeNotes" placeholder="Ai-je respecté le plan ? Leçons..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 3: Weekly -->
+                    <div id="weekly-tab" class="tab-content">
+                        <div class="form-grid weekly-form-grid">
+                            <div class="form-group full-width">
+                                <h3>Tendance du PWR (Previous Week Range)</h3>
+                            </div>
+                            <div class="form-group">
+                                <label for="pwr">PWR</label>
+                                <select id="pwr" name="pwr">
+                                    <option value="bullish">Bullish</option>
+                                    <option value="bearish">Bearish</option>
+                                    <option value="consolidation">Consolidation</option>
+                                </select>
+                                <label for="weekNumber">Semaine #</label>
+                                <select id="weekNumber" name="weekNumber">
+                                    <!-- Options will be generated by JavaScript -->
+                                </select>
+                                <label for="weeklyObsNotes">Obs/Notes</label>
+                                <textarea id="weeklyObsNotes" name="weeklyObsNotes" placeholder="texte"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="captureH4">Capture H4 (URL)</label>
+                                <input type="url" id="captureH4" name="captureH4" placeholder="https://...">
+                                <div class="image-preview" id="captureH4-preview"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4: Notes -->
+                    <div id="notes-tab" class="tab-content">
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <h3>Notes Générales / Pense-bêtes</h3>
+                                <textarea id="generalNotes" name="generalNotes" placeholder="Écrivez vos notes générales ici..."></textarea>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <h3>Liste de Tâches (To-Do)</h3>
+                                <div class="todo-input-group">
+                                    <input type="text" id="todoTask" placeholder="Nouvelle tâche...">
+                                    <select id="todoImportance">
+                                        <option value="1">⭐</option>
+                                        <option value="2">⭐⭐</option>
+                                        <option value="3">⭐⭐⭐</option>
+                                    </select>
+                                    <button type="button" id="addTodo">+</button>
+                                </div>
+                                <ul id="todoList"></ul>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <h3>Événements Économiques Importants</h3>
+                                <div class="economic-event-input-group">
+                                    <input type="time" id="eventTime">
+                                    <input type="text" id="eventDescription" placeholder="Description de l'événement...">
+                                    <button type="button" id="addEvent">+</button>
+                                </div>
+                                <ul id="eventList"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Enregistrer l'entrée</button>
+                    </div>
+                </form>
+            </section>
+
+        </main>
+        <footer class="disclaimer">
+            Powered by 3drives - © 2025 - Thitix
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const calendarGrid = document.getElementById('calendarGrid');
+            const currentMonthYear = document.getElementById('currentMonthYear');
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+            const entryContainer = document.getElementById('journal-entry-container');
+            const entryDateEl = document.getElementById('entry-date');
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const captureH1Input = document.getElementById('captureH1');
+            const captureH1Preview = document.getElementById('captureH1-preview');
+            const captureC1Input = document.getElementById('captureC1');
+            const captureC1Preview = document.getElementById('captureC1-preview');
+            const captureC2Input = document.getElementById('captureC2');
+            const captureC2Preview = document.getElementById('captureC2-preview');
+            const captureH4Input = document.getElementById('captureH4');
+            const captureH4Preview = document.getElementById('captureH4-preview');
+            
+            const pdrObservationsTextarea = document.getElementById('pdrObservations');
+            const weeklyScreenshotInput = document.getElementById('weeklyScreenshot');
+            const weeklyScreenshotPreview = document.getElementById('weeklyScreenshot-preview');
+            const weeklyObsNotesTextarea = document.getElementById('weeklyObsNotes');
+            const weekNumberSelect = document.getElementById('weekNumber');
+
+            // Notes Tab Elements
+            const generalNotesTextarea = document.getElementById('generalNotes');
+            const addTodoButton = document.getElementById('addTodo');
+            const todoTaskInput = document.getElementById('todoTask');
+            const todoImportanceSelect = document.getElementById('todoImportance');
+            const todoList = document.getElementById('todoList');
+            const addEventButton = document.getElementById('addEvent');
+            const eventDateInput = document.getElementById('eventDate');
+            const eventDescriptionInput = document.getElementById('eventDescription');
+            const eventList = document.getElementById('eventList');
+
+            let currentDate = new Date();
+            let selectedDateForEntry = null;
+
+            function getWeekNumber(d) {
+                d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+                d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+                var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+                var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+                return weekNo;
+            }
+
+            function populateWeekNumbers() {
+                for (let i = 1; i <= 53; i++) {
+                    const option = document.createElement('option');
+                    option.value = i;
+                    option.textContent = i;
+                    weekNumberSelect.appendChild(option);
+                }
+                // Set current week as default
+                weekNumberSelect.value = getWeekNumber(new Date());
+            }
+
+            // Call populateWeekNumbers on load
+            populateWeekNumbers();
+
+            function renderCalendar() {
+                calendarGrid.innerHTML = `
+                    <div class="calendar-day-name">Lun</div>
+                    <div class="calendar-day-name">Mar</div>
+                    <div class="calendar-day-name">Mer</div>
+                    <div class="calendar-day-name">Jeu</div>
+                    <div class="calendar-day-name">Ven</div>
+                    <div class="calendar-day-name">Sam</div>
+                    <div class="calendar-day-name">Dim</div>
+                `;
+
+                const year = currentDate.getFullYear();
+                const month = currentDate.getMonth();
+                currentMonthYear.textContent = new Date(year, month).toLocaleString('fr-FR', { month: 'long', year: 'numeric' });
+
+                const firstDayOfMonth = new Date(year, month, 1);
+                const lastDayOfMonth = new Date(year, month + 1, 0);
+                let firstDayOfWeek = firstDayOfMonth.getDay();
+                firstDayOfWeek = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+                const startDisplayDate = new Date(year, month, 1 - firstDayOfWeek);
+                let lastDayOfWeek = lastDayOfMonth.getDay();
+                lastDayOfWeek = lastDayOfWeek === 0 ? 6 : lastDayOfWeek - 1;
+                const endDisplayDate = new Date(year, month, lastDayOfMonth.getDate() + (6 - lastDayOfWeek));
+
+                let dayIterator = new Date(startDisplayDate);
+                while (dayIterator <= endDisplayDate) {
+                    const dayCell = document.createElement('div');
+                    dayCell.classList.add('calendar-day');
+                    dayCell.textContent = dayIterator.getDate();
+                    dayCell.dataset.fullDate = dayIterator.toISOString().split('T')[0];
+
+                    if (dayIterator.getMonth() === month) {
+                        dayCell.classList.add('current-month');
+                    } else {
+                        dayCell.classList.add('other-month');
+                    }
+
+                    const today = new Date();
+                    if (dayIterator.getDate() === today.getDate() && dayIterator.getMonth() === today.getMonth() && dayIterator.getFullYear() === today.getFullYear()) {
+                        dayCell.classList.add('today');
+                    }
+
+                    if (dayIterator.getDay() === 1) {
+                        const weekNumber = getWeekNumber(dayIterator);
+                        const weekNumberLabel = document.createElement('span');
+                        weekNumberLabel.classList.add('week-number-label');
+                        weekNumberLabel.textContent = `S${weekNumber}`;
+                        dayCell.prepend(weekNumberLabel);
+                    }
+
+                    calendarGrid.appendChild(dayCell);
+                    dayIterator.setDate(dayIterator.getDate() + 1);
+                }
+            }
+
+            // --- Event Listeners ---
+
+            prevMonthBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
+            });
+
+            nextMonthBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
+            });
+
+            calendarGrid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('calendar-day') && e.target.classList.contains('current-month')) {
+                    const fullDate = e.target.dataset.fullDate; // YYYY-MM-DD
+                    selectedDateForEntry = fullDate; // Store the selected date
+                    // To avoid timezone issues, we treat the date as UTC.
+                    // new Date('2025-07-11') creates a date at midnight UTC.
+                    const dateObj = new Date(fullDate); 
+                    dateObj.setUTCDate(dateObj.getUTCDate() + 1);
+
+                    entryDateEl.textContent = dateObj.toLocaleDateString('fr-FR', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric',
+                        timeZone: 'UTC' // We specify UTC to format it correctly
+                    });
+                    entryContainer.style.display = 'block';
+                    entryContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Deactivate all
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    // Activate clicked
+                    button.classList.add('active');
+                    const tabId = button.dataset.tab;
+                    document.getElementById(tabId + '-tab').classList.add('active');
+                });
+            });
+            
+            document.getElementById('journal-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!selectedDateForEntry) {
+                    alert("Veuillez sélectionner une date dans le calendrier.");
+                    return;
+                }
+
+                const formData = new FormData(e.target);
+                const data = {};
+                for (let [key, value] of formData.entries()) {
+                    // Exclure les champs de type 'file' de la sauvegarde localStorage
+                    if (e.target.elements[key] && e.target.elements[key].type === 'file') {
+                        continue;
+                    }
+                    data[key] = value;
+                }
+
+                // Sauvegarder les données dans localStorage
+                localStorage.setItem(`journalEntry_${selectedDateForEntry}`, JSON.stringify(data));
+                alert('Entrée enregistrée avec succès !');
+                console.log('Données sauvegardées pour', selectedDateForEntry, data);
+            });
+
+            // Fonction pour charger les données d'une date sélectionnée
+            function loadJournalEntry(date) {
+                const savedData = localStorage.getItem(`journalEntry_${date}`);
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    for (const key in data) {
+                        const element = document.getElementById(key);
+                        if (element) {
+                            if (element.type === 'checkbox') {
+                                element.checked = (data[key] === 'true');
+                            } else {
+                                element.value = data[key];
+                            }
+                            // Trigger input event for textareas to auto-resize
+                            if (element.tagName === 'TEXTAREA' && element.id !== 'weeklyObservations') {
+                                autoResizeTextarea(element);
+                            }
+                            // Update image preview for captureH1, captureC1, and captureC2 if data exists
+                            if (key === 'captureH1') {
+                                updateImagePreview(data[key], captureH1Preview);
+                            } else if (key === 'captureC1') {
+                                updateImagePreview(data[key], captureC1Preview);
+                            } else if (key === 'captureC2') {
+                                updateImagePreview(data[key], captureC2Preview);
+                            } else if (key === 'captureSignal') {
+                                updateImagePreview(data[key], captureSignalPreview);
+                            } else if (key === 'captureH4') {
+                                updateImagePreview(data[key], captureH4Preview);
+                            } else if (key === 'weeklyObsNotes') {
+                                autoResizeTextarea(element);
+                            }
+                        }
+                    }
+                } else {
+                    // Clear form if no data for the selected date
+                    document.getElementById('journal-form').reset();
+                    captureH1Preview.innerHTML = '';
+                    captureH1Preview.style.display = 'none';
+                    captureC1Preview.innerHTML = '';
+                    captureC1Preview.style.display = 'none';
+                    captureC2Preview.innerHTML = '';
+                    captureC2Preview.style.display = 'none';
+                    captureH4Preview.innerHTML = '';
+                    captureH4Preview.style.display = 'none';
+                    
+                    // Reset textarea heights
+                    autoResizeTextarea(pdrObservationsTextarea);
+                }
+            }
+
+            // Modifier l'écouteur du calendrier pour charger les données
+            calendarGrid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('calendar-day') && e.target.classList.contains('current-month')) {
+                    const fullDate = e.target.dataset.fullDate; // YYYY-MM-DD
+                    selectedDateForEntry = fullDate; // Store the selected date
+                    const dateObj = new Date(fullDate);
+                    dateObj.setUTCDate(dateObj.getUTCDate() + 1);
+
+                    entryDateEl.textContent = dateObj.toLocaleDateString('fr-FR', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        timeZone: 'UTC'
+                    });
+                    entryContainer.style.display = 'block';
+                    entryContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    loadJournalEntry(fullDate); // Load data for the selected date
+                }
+            });
+
+            captureH1Input.addEventListener('paste', (e) => {
+                // Léger délai pour laisser le temps au champ de se mettre à jour
+                setTimeout(() => {
+                    updateImagePreview(e.target.value, captureH1Preview);
+                }, 100);
+            });
+
+            captureH1Input.addEventListener('input', (e) => {
+                updateImagePreview(e.target.value, captureH1Preview);
+            });
+
+            captureC1Input.addEventListener('paste', (e) => {
+                setTimeout(() => {
+                    updateImagePreview(e.target.value, captureC1Preview);
+                }, 100);
+            });
+
+            captureC1Input.addEventListener('input', (e) => {
+                updateImagePreview(e.target.value, captureC1Preview);
+            });
+
+            captureC2Input.addEventListener('paste', (e) => {
+                setTimeout(() => {
+                    updateImagePreview(e.target.value, captureC2Preview);
+                }, 100);
+            });
+
+            captureC2Input.addEventListener('input', (e) => {
+                updateImagePreview(e.target.value, captureC2Preview);
+            });
+
+            
+
+            function updateImagePreview(url, previewElement) {
+                if (url && url.startsWith('http')) {
+                    previewElement.innerHTML = `<a href="${url}" target="_blank"><img src="${url}" alt="Aperçu de l'image"></a>`;
+                    previewElement.style.display = 'block';
+                } else {
+                    previewElement.innerHTML = '';
+                    previewElement.style.display = 'none';
+                }
+            }
+
+            // Auto-resize textarea logic
+            function autoResizeTextarea(textarea) {
+                textarea.style.height = 'auto'; // Reset height to recalculate
+                const computedStyle = window.getComputedStyle(textarea);
+                const urlInputHeight = document.getElementById('captureH1').offsetHeight;
+
+                // Set min-height to match URL input height if content is small
+                if (textarea.scrollHeight <= urlInputHeight) {
+                    textarea.style.height = `${urlInputHeight}px`;
+                } else {
+                    textarea.style.height = `${textarea.scrollHeight}px`;
+                }
+
+                // Add/remove class for max-height scrollbar
+                if (textarea.scrollHeight > parseInt(computedStyle.maxHeight)) {
+                    textarea.classList.add('max-height');
+                } else {
+                    textarea.classList.remove('max-height');
+                }
+            }
+
+            pdrObservationsTextarea.addEventListener('input', () => autoResizeTextarea(pdrObservationsTextarea));
+            weeklyObsNotesTextarea.addEventListener('input', () => autoResizeTextarea(weeklyObsNotesTextarea));
+            
+            // Initial render and resize
+            renderCalendar();
+            // Initial resize for observations textarea
+            autoResizeTextarea(pdrObservationsTextarea);
+
+            // Add Todo with Enter key
+            todoTaskInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent form submission
+                    addTodoButton.click(); // Trigger the add button's click event
+                }
+            });
+
+            // Add Todo
+            addTodoButton.addEventListener('click', () => {
+                const taskText = todoTaskInput.value.trim();
+                const importance = todoImportanceSelect.value;
+                if (taskText) {
+                    const todos = getNotesData().todos;
+                    todos.push({ text: taskText, completed: false, importance: parseInt(importance) });
+                    saveNotesData({ todos: todos });
+                    renderTodos();
+                    todoTaskInput.value = '';
+                    todoTaskInput.focus();
+                }
+            });
+
+            // Add Event with Enter key
+            eventDescriptionInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addEventButton.click();
+                }
+            });
+
+            // Add Event
+            addEventButton.addEventListener('click', () => {
+                const eventTime = document.getElementById('eventTime').value;
+                const eventDescription = eventDescriptionInput.value.trim();
+                if (eventTime && eventDescription) {
+                    const events = getNotesData().events;
+                    events.push({ time: eventTime, description: eventDescription });
+                    saveNotesData({ events: events });
+                    renderEvents();
+                    document.getElementById('eventTime').value = '';
+                    eventDescriptionInput.value = '';
+                }
+            });
+
+            // Event delegation for todos
+            todoList.addEventListener('click', (e) => {
+                const todos = getNotesData().todos;
+                const index = e.target.dataset.index;
+
+                if (e.target.type === 'checkbox') {
+                    todos[index].completed = e.target.checked;
+                    saveNotesData({ todos: todos });
+                    renderTodos();
+                } else if (e.target.classList.contains('delete-btn')) {
+                    todos.splice(index, 1);
+                    saveNotesData({ todos: todos });
+                    renderTodos();
+                }
+            });
+
+            // Event delegation for events
+            eventList.addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-btn')) {
+                    const events = getNotesData().events;
+                    const index = e.target.dataset.index;
+                    events.splice(index, 1);
+                    saveNotesData({ events: events });
+                    renderEvents();
+                }
+            });
+
+            // Initial load of notes data when the page loads
+            const initialNotesData = getNotesData();
+            generalNotesTextarea.value = initialNotesData.generalNotes;
+            renderTodos();
+            renderEvents();
+
+            function renderTodos() {
+                const todos = getNotesData().todos;
+                todoList.innerHTML = '';
+                todos.sort((a, b) => a.completed - b.completed || b.importance - a.importance);
+
+                todos.forEach((todo, index) => {
+                    const li = document.createElement('li');
+                    if (todo.completed) {
+                        li.classList.add('completed');
+                    }
+                    li.innerHTML = `
+                        <input type="checkbox" data-index="${index}" ${todo.completed ? 'checked' : ''}>
+                        <span>${todo.text}</span>
+                        <span class="importance">${'⭐'.repeat(todo.importance)}</span>
+                        <button type="button" class="delete-btn" data-index="${index}">&times;</button>
+                    `;
+                    todoList.appendChild(li);
+                });
+            }
+
+            function renderEvents() {
+                const events = getNotesData().events;
+                eventList.innerHTML = '';
+                events.sort((a, b) => a.time.localeCompare(b.time)); // Sort by time
+                events.forEach((event, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <strong>${event.time}</strong>
+                        <span>${event.description}</span>
+                        <button type="button" class="delete-btn" data-index="${index}">&times;</button>
+                    `;
+                    eventList.appendChild(li);
+                });
+            }
+
+            function getNotesData() {
+                return JSON.parse(localStorage.getItem('journalNotesData') || '{ "generalNotes": "", "todos": [], "events": [] }');
+            }
+
+            function saveNotesData(data) {
+                const currentData = getNotesData();
+                const updatedData = { ...currentData, ...data };
+                localStorage.setItem('journalNotesData', JSON.stringify(updatedData));
+            }
+        // Auto-resize textarea logic
+            function autoResizeTextarea(textarea) {
+                textarea.style.height = 'auto'; // Reset height to recalculate
+                const computedStyle = window.getComputedStyle(textarea);
+                const urlInputHeight = document.getElementById('captureH1').offsetHeight;
+
+                // Set min-height to match URL input height if content is small
+                if (textarea.scrollHeight <= urlInputHeight) {
+                    textarea.style.height = `${urlInputHeight}px`;
+                } else {
+                    textarea.style.height = `${textarea.scrollHeight}px`;
+                }
+
+                // Add/remove class for max-height scrollbar
+                if (textarea.scrollHeight > parseInt(computedStyle.maxHeight)) {
+                    textarea.classList.add('max-height');
+                } else {
+                    textarea.classList.remove('max-height');
+                }
+            }
+
+            pdrObservationsTextarea.addEventListener('input', () => autoResizeTextarea(pdrObservationsTextarea));
+            weeklyObsNotesTextarea.addEventListener('input', () => autoResizeTextarea(weeklyObsNotesTextarea));
+            
+            // Initial render and resize
+            renderCalendar();
+            // Initial resize for observations textarea
+            autoResizeTextarea(pdrObservationsTextarea);
+        });
+    </script>
+</body>
+
+</html>
