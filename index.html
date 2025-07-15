@@ -118,6 +118,16 @@
             box-shadow: 0 4px 6px rgba(255, 87, 34, 0.2);
         }
 
+        .calendar-day-win {
+            background-color: var(--accent-green) !important;
+            color: white;
+        }
+
+        .calendar-day-loss {
+            background-color: var(--accent-red) !important;
+            color: white;
+        }
+
         .tab-content {
             animation: fadeIn 0.3s ease-in-out;
         }
@@ -171,10 +181,9 @@
             position: absolute;
             top: 0.25rem;
             right: 0.25rem;
-            width: 0.5rem;
-            height: 0.5rem;
-            background-color: var(--accent-blue);
-            border-radius: 50%;
+            font-size: 1rem;
+            /* Ajustez la taille si nécessaire */
+            color: var(--accent-blue);
         }
 
         /* Styles pour les formulaires */
@@ -194,8 +203,11 @@
         }
 
         .form-select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
             background-color: var(--bg-dark);
-            border: 2px solid var(--accent-blue);
+            border: none;
             color: var(--text-primary);
             padding: 0.75rem;
             border-radius: 0.75rem;
@@ -331,7 +343,7 @@
                     <h1
                         class="text-3xl font-bold text-accent-blue font-montserrat flex items-center justify-center md:justify-start">
                         <i class="fas fa-chart-bar mr-2"></i>
-                        Journal de Trading AMED
+                        Journal de Trading A.M.E.D
                     </h1>
                     <p class="text-text-secondary mt-2 font-montserrat">Enregistrez et analysez vos trades selon les
                         cycles Intraday</p>
@@ -412,34 +424,26 @@
 
                 <div id="calendarGrid" class="calendar-grid"></div>
 
-                <!-- Conseil du jour -->
-                <div id="daily-tip" class="mt-8 bg-bg-dark p-4 rounded-lg">
-                    <h3 class="font-bold text-accent-blue mb-3 flex items-center">
-                        <i class="fas fa-lightbulb mr-2"></i>
-                        Conseil du jour
-                    </h3>
-                    <p class="text-sm">"Toujours commencer par analyser le contexte du marché avant d'entrer en
-                        position. Une analyse technique fiable doit être à la fois confirmée et comporter un niveau
-                        clair d'invalidation."</p>
-                </div>
             </section>
 
             <!-- Colonne de Droite -->
             <section class="lg:col-span-1 bg-bg-light p-6 rounded-xl border border-border-color shadow-lg">
-                <h3 class="text-lg font-bold text-accent-blue mb-4">Semaines</h3>
-                <div class="space-y-2">
-                    <div class="bg-accent-blue rounded-lg p-3 text-center font-bold">Semaine 1</div>
-                    <div class="bg-bg-dark rounded-lg p-3 text-center cursor-pointer hover:bg-border-color transition">
-                        Semaine 2</div>
-                    <div class="bg-bg-dark rounded-lg p-3 text-center cursor-pointer hover:bg-border-color transition">
-                        Semaine 3</div>
-                    <div class="bg-bg-dark rounded-lg p-3 text-center cursor-pointer hover:bg-border-color transition">
-                        Semaine 4</div>
-                    <div class="bg-bg-dark rounded-lg p-3 text-center cursor-pointer hover:bg-border-color transition">
-                        Semaine 5</div>
-                    <div class="bg-bg-dark rounded-lg p-3 text-center cursor-pointer hover:bg-border-color transition">
-                        Semaine 6</div>
+                <h3 class="text-lg font-bold text-accent-blue mb-4 text-center">Résultats Hebdo</h3>
+                <div id="weekly-summary-container" class="space-y-2">
+                    <!-- Le contenu sera généré dynamiquement par le script -->
                 </div>
+            </section>
+
+            <!-- Conseil du jour -->
+            <section id="daily-tip-section"
+                class="lg:col-span-6 bg-bg-light p-6 rounded-xl border border-border-color shadow-lg">
+                <h3 class="font-bold text-accent-blue mb-3 flex items-center">
+                    <i class="fas fa-lightbulb mr-2"></i>
+                    Conseil du jour
+                </h3>
+                <p class="text-sm text-center">"Toujours commencer par analyser le contexte du marché avant d'entrer en
+                    position. Une analyse technique fiable doit être à la fois confirmée et comporter un niveau
+                    clair d'invalidation."</p>
             </section>
 
             <!-- Formulaire Section -->
@@ -497,7 +501,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-text-secondary mb-2">PDR</label>
-                                        <select class="form-select modern-select w-full">
+                                        <select class="form-select modern-select w-1/2">
                                             <option value="bullish">Bullish</option>
                                             <option value="bearish">Bearish</option>
                                             <option value="consolidation">Consolidation</option>
@@ -522,7 +526,7 @@
                                 <div>
                                     <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Cycle C1</h3>
                                     <label class="block text-text-secondary mb-2">Phase C1</label>
-                                    <select class="form-select modern-select w-full">
+                                    <select class="form-select modern-select w-1/2">
                                         <option value="accumulation">Accumulation</option>
                                         <option value="re-accumulation">Ré-Accumulation</option>
                                         <option value="distribution">Distribution</option>
@@ -542,7 +546,7 @@
                                 <div>
                                     <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Cycle C2</h3>
                                     <label class="block text-text-secondary mb-2">Phase C2</label>
-                                    <select class="form-select modern-select w-full">
+                                    <select class="form-select modern-select w-1/2">
                                         <option value="accumulation">Accumulation</option>
                                         <option value="re-accumulation">Ré-Accumulation</option>
                                         <option value="distribution">Distribution</option>
@@ -566,24 +570,33 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-text-secondary mb-2">Type de Setup</label>
-                                        <select class="form-select modern-select w-full">
+                                        <select class="form-select modern-select w-1/2">
                                             <option value="long">Long</option>
                                             <option value="short">Short</option>
                                         </select>
                                     </div>
                                     <div>
                                         <label class="block text-text-secondary mb-2">Manipulation</label>
-                                        <select class="form-select modern-select w-full">
+                                        <select class="form-select modern-select w-1/2">
                                             <option value="">-- Sélectionner --</option>
                                             <option value="bullish_shorts">Bullish (for Shorts)</option>
                                             <option value="bearish_longs">Bearish (for Longs)</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="mt-4">
-                                    <label class="block text-text-secondary mb-2">Swing Point balayé</label>
-                                    <input type="text" class="form-input w-full"
-                                        placeholder="Ex: PDL, PWH, Swing Low M15">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                    <div>
+                                        <label class="block text-text-secondary mb-2">Swing Point balayé</label>
+                                        <input type="text" class="form-input w-full"
+                                            placeholder="Ex: PDL, PWH, Swing Low M15">
+                                    </div>
+                                    <div>
+                                        <label class="block text-text-secondary mb-2">Capture Setup (URL)</label>
+                                        <input type="url" class="form-input w-full" placeholder="https://...">
+                                        <div class="image-preview hidden">
+                                            <img src="" alt="Preview">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -651,7 +664,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-text-secondary mb-2">PWR</label>
-                                    <select class="form-select modern-select w-full">
+                                    <select class="form-select modern-select w-1/2">
                                         <option value="bullish">Bullish</option>
                                         <option value="bearish">Bearish</option>
                                         <option value="consolidation">Consolidation</option>
@@ -691,9 +704,9 @@
                                 <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Liste de Tâches
                                     (To-Do)</h3>
                                 <div class="flex gap-2 mb-4">
-                                    <input type="text" id="todo-input" class="form-input flex-grow"
+                                    <input type="text" id="todo-input" class="form-input w-9/12"
                                         placeholder="Nouvelle tâche...">
-                                    <select id="todo-priority" class="form-select modern-select">
+                                    <select id="todo-priority" class="form-select modern-select w-2/12">
                                         <option value="1">⭐</option>
                                         <option value="2">⭐⭐</option>
                                         <option value="3">⭐⭐⭐</option>
@@ -875,7 +888,7 @@
                 this.entryDateEl = document.getElementById('entry-date');
                 this.helpSection = document.getElementById('help-section');
                 this.weekNumberInput = document.getElementById('week-number');
-                this.dailyTip = document.getElementById('daily-tip');
+                this.dailyTip = document.getElementById('daily-tip-section');
 
                 // Vérification des éléments critiques
                 if (!this.calendarGrid || !this.currentMonthYear) {
@@ -892,11 +905,13 @@
                 document.getElementById('prevMonth')?.addEventListener('click', () => {
                     this.currentDate.setMonth(this.currentDate.getMonth() - 1);
                     this.renderCalendar();
+                    this.updateWeeklySummary();
                 });
 
                 document.getElementById('nextMonth')?.addEventListener('click', () => {
                     this.currentDate.setMonth(this.currentDate.getMonth() + 1);
                     this.renderCalendar();
+                    this.updateWeeklySummary();
                 });
 
                 // Boutons du formulaire
@@ -940,6 +955,101 @@
 
                 // Calculatrice de risque
                 this.setupRiskCalculator();
+                this.updateWeeklySummary(); // Appel initial
+            }
+
+            updateWeeklySummary() {
+                const container = document.getElementById('weekly-summary-container');
+                if (!container) return;
+
+                container.innerHTML = ''; // Vider le conteneur
+
+                const year = this.currentDate.getFullYear();
+                const month = this.currentDate.getMonth();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                const weeklyData = {};
+
+                // 1. Agréger les données par semaine
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const date = new Date(year, month, i);
+                    const weekNumber = this.getWeekNumber(date);
+
+                    if (!weeklyData[weekNumber]) {
+                        weeklyData[weekNumber] = { pnl: 0, daysTraded: new Set() };
+                    }
+
+                    const formattedDate = this.formatDate(date);
+                    const entryDataString = localStorage.getItem(`journal_entry_${formattedDate}`);
+
+                    if (entryDataString) {
+                        try {
+                            const entryData = JSON.parse(entryDataString);
+                            if (entryData.trade && entryData.trade.result) {
+                                const pnl = this.calculatePnl(entryData.trade);
+                                if (pnl !== 0) {
+                                    weeklyData[weekNumber].pnl += pnl;
+                                    weeklyData[weekNumber].daysTraded.add(i);
+                                }
+                            }
+                        } catch (e) {
+                            console.error(`Erreur de parsing pour ${formattedDate}`, e);
+                        }
+                    }
+                }
+
+                // 2. Afficher les résultats
+                const sortedWeeks = Object.keys(weeklyData).sort((a, b) => a - b);
+                let weekCounter = 1;
+
+                for (const weekNumber of sortedWeeks) {
+                    const data = weeklyData[weekNumber];
+                    const pnl = data.pnl;
+                    const daysCount = data.daysTraded.size;
+
+                    const weekBlock = document.createElement('div');
+                    weekBlock.className = 'bg-bg-dark rounded-lg p-3 text-sm';
+
+                    const title = document.createElement('h4');
+                    title.className = 'font-normal text-text-primary text-center';
+                    title.textContent = `W${weekCounter} - ${weekNumber}`;
+
+                    const pnlDisplay = document.createElement('p');
+                    pnlDisplay.className = `font-semibold ${pnl >= 0 ? 'text-accent-green' : 'text-accent-red'}`;
+                    pnlDisplay.textContent = `${pnl >= 0 ? '+' : ''}${pnl.toFixed(2)}`;
+
+                    const daysDisplay = document.createElement('p');
+                    daysDisplay.className = 'text-text-secondary text-xs';
+                    daysDisplay.textContent = `${daysCount} jour${daysCount > 1 ? 's' : ''}`;
+
+                    weekBlock.appendChild(title);
+                    weekBlock.appendChild(pnlDisplay);
+                    weekBlock.appendChild(daysDisplay);
+                    container.appendChild(weekBlock);
+
+                    weekCounter++;
+                }
+            }
+
+            calculatePnl(tradeData) {
+                if (!tradeData || !tradeData.result || tradeData.result === 'breakeven') return 0;
+
+                const { asset, positionSize, stopLoss, takeProfit, result } = tradeData;
+                if (!asset || !positionSize || !result) return 0;
+
+                const ticker = this.tickerData[asset];
+                if (!ticker) return 0;
+
+                const posSize = parseFloat(positionSize);
+                let pnl = 0;
+
+                if (result === 'win' && takeProfit) {
+                    pnl = posSize * parseFloat(takeProfit) * ticker.tickValue;
+                } else if (result === 'loss' && stopLoss) {
+                    pnl = -1 * posSize * parseFloat(stopLoss) * ticker.tickValue;
+                }
+
+                return pnl;
             }
 
             renderCalendar() {
@@ -948,45 +1058,62 @@
                     return;
                 }
 
-                // Nettoyer la grille
                 this.calendarGrid.innerHTML = '';
-
                 const year = this.currentDate.getFullYear();
                 const month = this.currentDate.getMonth();
 
-                // Mettre à jour l'en-tête
                 this.currentMonthYear.textContent = new Date(year, month).toLocaleDateString('fr-FR', {
                     month: 'long',
                     year: 'numeric'
                 });
 
-                // Calculer les jours
                 const firstDay = new Date(year, month, 1).getDay();
                 const daysInMonth = new Date(year, month + 1, 0).getDate();
                 const startOffset = firstDay === 0 ? 6 : firstDay - 1;
 
-                // Jours du mois précédent
                 const prevMonthDays = new Date(year, month, 0).getDate();
                 for (let i = startOffset - 1; i >= 0; i--) {
                     const day = this.createCalendarDay(prevMonthDays - i, true);
                     this.calendarGrid.appendChild(day);
                 }
 
-                // Jours du mois courant
                 const today = new Date();
                 const datesWithEntries = this.getDatesWithEntries();
 
                 for (let i = 1; i <= daysInMonth; i++) {
                     const dayDate = new Date(year, month, i);
                     const formattedDate = this.formatDate(dayDate);
-                    const isToday = i === today.getDate() &&
-                        month === today.getMonth() &&
-                        year === today.getFullYear();
+                    const isToday = i === today.getDate() && month === today.getMonth() && year === today.getFullYear();
                     const hasEntry = datesWithEntries.includes(formattedDate);
 
-                    const day = this.createCalendarDay(i, false, isToday, hasEntry);
+                    const day = this.createCalendarDay(i, false, isToday);
 
-                    // Ajouter l'événement click
+                    if (hasEntry) {
+                        try {
+                            const entryDataString = localStorage.getItem(`journal_entry_${formattedDate}`);
+                            if (entryDataString) {
+                                const entryData = JSON.parse(entryDataString);
+                                const tradeResult = entryData?.trade?.result;
+
+                                if (tradeResult === 'win') {
+                                    day.classList.add('calendar-day-win');
+                                } else if (tradeResult === 'loss') {
+                                    day.classList.add('calendar-day-loss');
+                                } else {
+                                    const icon = document.createElement('i');
+                                    icon.className = 'fas fa-calendar-week entry-indicator';
+                                    day.appendChild(icon);
+                                    console.log('Icône ajoutée pour le jour:', formattedDate);
+                                }
+                            }
+                        } catch (e) {
+                            console.error(`Failed to parse entry for ${formattedDate}`, e);
+                            const indicator = document.createElement('div');
+                            indicator.className = 'entry-indicator';
+                            day.appendChild(indicator);
+                        }
+                    }
+
                     day.addEventListener('click', () => {
                         this.selectedDateForEntry = new Date(year, month, i);
                         this.showEntryForm(this.selectedDateForEntry);
@@ -995,7 +1122,6 @@
                     this.calendarGrid.appendChild(day);
                 }
 
-                // Jours du mois suivant
                 const totalCells = 42;
                 const nextMonthDays = totalCells - (startOffset + daysInMonth);
                 for (let i = 1; i <= nextMonthDays; i++) {
@@ -1006,7 +1132,7 @@
                 console.log('Calendrier rendu avec succès');
             }
 
-            createCalendarDay(dayNumber, isOtherMonth = false, isToday = false, hasEntry = false) {
+            createCalendarDay(dayNumber, isOtherMonth = false, isToday = false) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day text-center p-3 bg-bg-dark rounded-lg cursor-pointer transition-all duration-200';
                 day.textContent = dayNumber;
@@ -1017,12 +1143,6 @@
 
                 if (isToday) {
                     day.classList.add('border-2', 'border-accent-blue');
-                }
-
-                if (hasEntry) {
-                    const indicator = document.createElement('div');
-                    indicator.className = 'entry-indicator';
-                    day.appendChild(indicator);
                 }
 
                 if (!isOtherMonth) {
@@ -1170,7 +1290,8 @@
                             cycleC2Capture: dailyTab.querySelectorAll('input[type="url"]')[2]?.value || '',
                             setupType: dailyTab.querySelectorAll('select')[3]?.value || '',
                             manipulation: dailyTab.querySelectorAll('select')[4]?.value || '',
-                            swingPointSwept: dailyTab.querySelector('input[type="text"]')?.value || ''
+                            swingPointSwept: dailyTab.querySelector('input[type="text"]')?.value || '',
+                            captureSetup: dailyTab.querySelectorAll('input[type="url"]')[3]?.value || ''
                         };
                     }
 
@@ -1263,8 +1384,11 @@
                         this.showNotification('Erreur lors du chargement des données', 'error');
                     }
                 } else {
-                    // Réinitialiser le formulaire
-                    this.journalForm.reset();
+                    // Réinitialiser uniquement les champs pertinents, pas tout le formulaire
+                    this.journalForm.querySelectorAll('input:not([readonly]), textarea, select').forEach(el => {
+                        if (el.type === 'checkbox') el.checked = false;
+                        else el.value = '';
+                    });
                     document.getElementById('todoList').innerHTML = '';
                     document.getElementById('eventList').innerHTML = '';
                 }
@@ -1298,6 +1422,7 @@
                             if (selects[3]) selects[3].value = data.daily.setupType || '';
                             if (selects[4]) selects[4].value = data.daily.manipulation || '';
                             if (textInputs[0]) textInputs[0].value = data.daily.swingPointSwept || '';
+                            if (urlInputs[3]) urlInputs[3].value = data.daily.captureSetup || '';
                         }
                     }
 
