@@ -19,7 +19,6 @@
         rel="stylesheet">
 
     <style>
-        /* Configuration Tailwind personnalisée */
         :root {
             --bg-dark: #131722;
             --bg-light: #1e222d;
@@ -111,6 +110,9 @@
             transition: all 0.2s ease;
             min-height: 80px;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .calendar-day:hover {
@@ -118,14 +120,29 @@
             box-shadow: 0 4px 6px rgba(255, 87, 34, 0.2);
         }
 
-        .calendar-day-win {
-            background-color: var(--accent-green) !important;
-            color: white;
+        .indicators-container {
+            position: absolute;
+            right: 0.3rem;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0.2rem 0;
         }
 
-        .calendar-day-loss {
-            background-color: var(--accent-red) !important;
-            color: white;
+        .indicator {
+            font-size: 0.8rem;
+            line-height: 1;
+        }
+
+        .indicator.note-indicator {
+            color: var(--accent-yellow);
+        }
+
+        .indicator.daily-indicator {
+            color: var(--accent-blue);
         }
 
         .tab-content {
@@ -175,15 +192,6 @@
             grid-template-columns: repeat(7, 1fr);
             gap: 0.25rem;
             margin-bottom: 0.5rem;
-        }
-
-        .entry-indicator {
-            position: absolute;
-            top: 0.25rem;
-            right: 0.25rem;
-            font-size: 1rem;
-            /* Ajustez la taille si nécessaire */
-            color: var(--accent-blue);
         }
 
         /* Styles pour les formulaires */
@@ -441,9 +449,7 @@
                     <i class="fas fa-lightbulb mr-2"></i>
                     Conseil du jour
                 </h3>
-                <p class="text-sm text-center">"Toujours commencer par analyser le contexte du marché avant d'entrer en
-                    position. Une analyse technique fiable doit être à la fois confirmée et comporter un niveau
-                    clair d'invalidation."</p>
+                <p class="text-sm text-center">La patience est la clé. Attendez que votre setup se présente, ne le forcez pas.</p>
             </section>
 
             <!-- Formulaire Section -->
@@ -829,15 +835,32 @@
                         </div>
                     </div>
 
-                    <div class="pt-6 flex justify-end gap-4">
-                        <button type="button" id="cancel-btn" class="btn-secondary">
-                            <i class="fas fa-times mr-2"></i>
-                            Annuler
-                        </button>
-                        <button type="submit" class="btn-primary">
-                            <i class="fas fa-save mr-2"></i>
-                            Enregistrer
-                        </button>
+                    <div class="pt-6 flex justify-between items-center">
+                        <div class="flex gap-4">
+                            <input type="file" id="importDataInput" accept="application/json" class="hidden" />
+                            <button type="button" id="importDataBtn" class="btn-secondary flex items-center">
+                                <i class="fas fa-upload mr-2"></i>
+                                Importer
+                            </button>
+                            <button type="button" id="exportDataBtn" class="btn-secondary flex items-center">
+                                <i class="fas fa-download mr-2"></i>
+                                Sauvegarder
+                            </button>
+                            <button type="button" id="clearDataBtn" class="btn-secondary flex items-center">
+                                <i class="fas fa-eraser mr-2"></i>
+                                Effacer
+                            </button>
+                        </div>
+                        <div class="flex gap-4">
+                            <button type="button" id="cancel-btn" class="btn-secondary">
+                                <i class="fas fa-times mr-2"></i>
+                                Annuler
+                            </button>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-save mr-2"></i>
+                                Enregistrer
+                            </button>
+                        </div>
                     </div>
                 </form>
             </section>
@@ -859,6 +882,18 @@
             constructor() {
                 this.currentDate = new Date();
                 this.selectedDateForEntry = null;
+                this.tradingTips = [
+                    "La patience est la clé. Attendez que votre setup se présente, ne le forcez pas.",
+                    "Ne risquez jamais plus que ce que vous êtes prêt à perdre sur un seul trade.",
+                    "Le plan de trading est votre feuille de route. Suivez-le à la lettre.",
+                    "L'analyse post-trade est plus importante que l'analyse pré-trade. Apprenez de vos erreurs et de vos succès.",
+                    "Le marché est fractal. Les mêmes schémas se répètent sur toutes les unités de temps.",
+                    "La gestion du risque est la seule chose que vous pouvez contrôler à 100%.",
+                    "N'ayez pas peur de prendre une perte. C'est une partie inévitable du trading.",
+                    "Un trade gagnant ne fait pas de vous un génie, un trade perdant ne fait pas de vous un échec. Restez humble.",
+                    "La psychologie est 90% du jeu. Maîtrisez vos émotions.",
+                    "Toujours commencer par analyser le contexte du marché avant d'entrer en position. Une analyse technique fiable doit être à la fois confirmée et comporter un niveau clair d'invalidation."
+                ];
                 this.tickerData = {
                     'NQ': { tickValue: 5, tickSize: 0.25, name: 'NASDAQ-100 E-mini' },
                     'MNQ': { tickValue: 0.5, tickSize: 0.25, name: 'Micro NASDAQ-100' },
@@ -876,7 +911,16 @@
                 this.initializeDOM();
                 this.setupEventListeners();
                 this.renderCalendar();
+                this.showRandomTip();
                 this.showNotification('Application chargée avec succès!', 'success');
+            }
+
+            showRandomTip() {
+                const tipContainer = document.querySelector('#daily-tip-section p');
+                if (tipContainer) {
+                    const randomIndex = Math.floor(Math.random() * this.tradingTips.length);
+                    tipContainer.textContent = this.tradingTips[randomIndex];
+                }
             }
 
             initializeDOM() {
@@ -956,6 +1000,20 @@
                 // Calculatrice de risque
                 this.setupRiskCalculator();
                 this.updateWeeklySummary(); // Appel initial
+
+                // Nouveaux boutons
+                document.getElementById('importDataBtn')?.addEventListener('click', () => {
+                    document.getElementById('importDataInput').click();
+                });
+                document.getElementById('importDataInput')?.addEventListener('change', (e) => {
+                    this.importData(e.target.files[0]);
+                });
+                document.getElementById('exportDataBtn')?.addEventListener('click', () => {
+                    this.exportData();
+                });
+                document.getElementById('clearDataBtn')?.addEventListener('click', () => {
+                    this.clearAllData();
+                });
             }
 
             updateWeeklySummary() {
@@ -1089,28 +1147,55 @@
                     const day = this.createCalendarDay(i, false, isToday);
 
                     if (hasEntry) {
-                        try {
-                            const entryDataString = localStorage.getItem(`journal_entry_${formattedDate}`);
-                            if (entryDataString) {
+                        const entryDataString = localStorage.getItem(`journal_entry_${formattedDate}`);
+                        if (entryDataString) {
+                            try {
                                 const entryData = JSON.parse(entryDataString);
-                                const tradeResult = entryData?.trade?.result;
+                                const indicatorsContainer = document.createElement('div');
+                                indicatorsContainer.className = 'indicators-container';
 
+                                // 1. Trade Icon (Top)
+                                const tradeResult = entryData?.trade?.result;
+                                const tradeIndicator = document.createElement('span');
+                                tradeIndicator.className = 'indicator trade-indicator';
                                 if (tradeResult === 'win') {
-                                    day.classList.add('calendar-day-win');
+                                    tradeIndicator.textContent = '✅';
+                                    indicatorsContainer.appendChild(tradeIndicator);
                                 } else if (tradeResult === 'loss') {
-                                    day.classList.add('calendar-day-loss');
-                                } else {
-                                    const icon = document.createElement('i');
-                                    icon.className = 'fas fa-calendar-week entry-indicator';
-                                    day.appendChild(icon);
-                                    console.log('Icône ajoutée pour le jour:', formattedDate);
+                                    tradeIndicator.textContent = '❌';
+                                    indicatorsContainer.appendChild(tradeIndicator);
                                 }
+
+                                // 2. Daily Icon (Middle)
+                                const dailyData = entryData?.daily;
+                                const hasDailyEntry = dailyData && (
+                                    (dailyData.observations && dailyData.observations.trim() !== '') ||
+                                    (dailyData.captureH1 && dailyData.captureH1.trim() !== '') ||
+                                    (dailyData.cycleC1Capture && dailyData.cycleC1Capture.trim() !== '') ||
+                                    (dailyData.cycleC2Capture && dailyData.cycleC2Capture.trim() !== '') ||
+                                    (dailyData.captureSetup && dailyData.captureSetup.trim() !== '') ||
+                                    (dailyData.swingPointSwept && dailyData.swingPointSwept.trim() !== '')
+                                );
+                                if (hasDailyEntry) {
+                                    const dailyIndicator = document.createElement('i');
+                                    dailyIndicator.className = 'fas fa-calendar-week indicator daily-indicator';
+                                    indicatorsContainer.appendChild(dailyIndicator);
+                                }
+
+                                // 3. Note Icon (Bottom)
+                                const hasNoteEntry = entryData?.notes?.general?.trim() !== '' || (entryData?.notes?.todoList?.length > 0) || (entryData?.notes?.eventList?.length > 0);
+                                if (hasNoteEntry) {
+                                    const noteIndicator = document.createElement('i');
+                                    noteIndicator.className = 'fas fa-sticky-note indicator note-indicator';
+                                    indicatorsContainer.appendChild(noteIndicator);
+                                }
+
+                                if (indicatorsContainer.hasChildNodes()) {
+                                    day.appendChild(indicatorsContainer);
+                                }
+                            } catch (e) {
+                                console.error(`Failed to parse entry for ${formattedDate}`, e);
                             }
-                        } catch (e) {
-                            console.error(`Failed to parse entry for ${formattedDate}`, e);
-                            const indicator = document.createElement('div');
-                            indicator.className = 'entry-indicator';
-                            day.appendChild(indicator);
                         }
                     }
 
@@ -1258,7 +1343,7 @@
                 }
 
                 this.showNotification('Entrée sauvegardée avec succès!', 'success');
-                this.hideEntryForm();
+                // this.hideEntryForm(); // Commenté pour garder le formulaire ouvert après sauvegarde
                 this.renderCalendar();
             }
 
@@ -1628,6 +1713,8 @@
 
                 if (completed) {
                     textSpan.classList.add('line-through', 'text-text-secondary');
+                } else {
+                    textSpan.classList.remove('line-through', 'text-text-secondary');
                 }
 
                 const deleteBtn = document.createElement('button');
@@ -1746,8 +1833,14 @@
                 // Sélection du ticker
                 tickerButtons.forEach(btn => {
                     btn.addEventListener('click', () => {
-                        tickerButtons.forEach(b => b.classList.remove('bg-accent-blue', 'text-white'));
-                        btn.classList.add('bg-accent-blue', 'text-white');
+                        // Reset all buttons to secondary style
+                        tickerButtons.forEach(b => {
+                            b.classList.add('btn-secondary');
+                            b.classList.remove('btn-primary');
+                        });
+                        // Set clicked button to primary style
+                        btn.classList.remove('btn-secondary');
+                        btn.classList.add('btn-primary');
                         this.selectedTicker = btn.dataset.ticker;
                     });
                 });
@@ -1756,6 +1849,13 @@
                 calculateBtn?.addEventListener('click', () => {
                     this.calculateRisk();
                 });
+
+                // Activer le bouton du ticker par défaut au chargement
+                const defaultTickerBtn = document.querySelector(`.ticker-btn[data-ticker="${this.selectedTicker}"]`);
+                if (defaultTickerBtn) {
+                    defaultTickerBtn.classList.remove('btn-secondary');
+                    defaultTickerBtn.classList.add('btn-primary');
+                }
             }
 
             calculateRisk() {
@@ -1804,6 +1904,72 @@
                 setTimeout(() => {
                     notification.remove();
                 }, 3000);
+            }
+
+            importData(file) {
+                if (!file) {
+                    this.showNotification('Aucun fichier sélectionné.', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        // Restaurer les données dans localStorage
+                        for (const key in data) {
+                            localStorage.setItem(key, JSON.stringify(data[key]));
+                        }
+                        this.showNotification('Données importées avec succès!', 'success');
+                        // Recharger l'application pour refléter les changements
+                        window.location.reload();
+                    } catch (e) {
+                        console.error('Erreur lors de l\'importation des données:', e);
+                        this.showNotification('Fichier JSON invalide.', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            }
+
+            exportData() {
+                const dataToExport = {};
+                // Collecter toutes les entrées de journal
+                const datesWithEntries = this.getDatesWithEntries();
+                datesWithEntries.forEach(date => {
+                    const entry = localStorage.getItem(`journal_entry_${date}`);
+                    if (entry) {
+                        dataToExport[`journal_entry_${date}`] = JSON.parse(entry);
+                    }
+                });
+                // Collecter les dates avec entrées
+                dataToExport['journal_dates_with_entries'] = datesWithEntries;
+
+                const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'journal_trading_data.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                this.showNotification('Données exportées avec succès!', 'success');
+            }
+
+            clearAllData() {
+                if (confirm('Êtes-vous sûr de vouloir effacer TOUTES les données du journal ? Cette action est irréversible.')) {
+                    // Effacer toutes les entrées de journal
+                    const datesWithEntries = this.getDatesWithEntries();
+                    datesWithEntries.forEach(date => {
+                        localStorage.removeItem(`journal_entry_${date}`);
+                    });
+                    // Effacer la liste des dates avec entrées
+                    localStorage.removeItem('journal_dates_with_entries');
+
+                    this.showNotification('Toutes les données ont été effacées.', 'success');
+                    // Recharger l'application pour refléter les changements
+                    window.location.reload();
+                }
             }
         }
 
