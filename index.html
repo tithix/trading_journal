@@ -796,7 +796,7 @@
                                     </div>
                                 </div>
 
-                                <button id="calculate-btn" class="btn-primary w-full mb-6">
+                                <button id="calculate-btn" class="btn-primary w-1/4 justify-self-end mb-6">
                                     <i class="fas fa-calculator mr-2"></i>
                                     Calculer
                                 </button>
@@ -918,6 +918,13 @@
                 this.renderCalendar();
                 this.showRandomTip();
                 this.showNotification('Application chargée avec succès!', 'success');
+
+                // Appliquer la bordure aux onglets non sélectionnés au chargement initial
+                document.querySelectorAll('.tab-button').forEach(button => {
+                    if (button.getAttribute('data-tab') !== 'daily') {
+                        button.classList.add('border', 'border-orange-300', 'border-opacity-50');
+                    }
+                });
             }
 
             showRandomTip() {
@@ -1304,7 +1311,7 @@
                 // Désactiver tous les boutons
                 document.querySelectorAll('.tab-button').forEach(btn => {
                     btn.classList.remove('bg-accent-blue', 'text-white');
-                    btn.classList.add('bg-bg-dark');
+                    btn.classList.add('bg-bg-dark', 'border', 'border-orange-300', 'border-opacity-50');
                 });
 
                 // Masquer tous les contenus
@@ -1318,7 +1325,7 @@
                 const activeContent = document.getElementById(`${tabId}-tab`);
 
                 if (activeButton && activeContent) {
-                    activeButton.classList.remove('bg-bg-dark');
+                    activeButton.classList.remove('bg-bg-dark', 'border', 'border-orange-300', 'border-opacity-50');
                     activeButton.classList.add('bg-accent-blue', 'text-white');
                     activeContent.classList.remove('hidden');
                     activeContent.classList.add('block');
