@@ -641,6 +641,7 @@
                             <div>
                                 <label class="block text-text-secondary mb-2">Résultat</label>
                                 <select id="result-select" class="form-select modern-select w-full">
+                                    <option value="">- Sélectionner -</option>
                                     <option value="win">Gagnant</option>
                                     <option value="loss">Perdant</option>
                                     <option value="breakeven">Breakeven</option>
@@ -754,13 +755,13 @@
                                         <i class="fas fa-chart-line mr-2"></i>
                                         MNQ
                                     </button>
-                                    <button class="ticker-btn btn-secondary" data-ticker="ES">
+                                    <button class="ticker-btn btn-secondary" data-ticker="GU">
                                         <i class="fas fa-chart-line mr-2"></i>
-                                        ES
+                                        GU & EU
                                     </button>
-                                    <button class="ticker-btn btn-secondary" data-ticker="MES">
+                                    <button class="ticker-btn btn-secondary" data-ticker="US100">
                                         <i class="fas fa-chart-line mr-2"></i>
-                                        MES
+                                        US100
                                     </button>
                                 </div>
 
@@ -777,12 +778,12 @@
                                         <input type="number" id="calc-risk" class="form-input w-full" placeholder="1">
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-text-secondary mb-1">Stop Loss
+                                        <label class="block text-sm font-medium text-text-secondary mb-1" id="calc-sl-label">Stop Loss
                                             (ticks)</label>
                                         <input type="number" id="calc-sl" class="form-input w-full" placeholder="10">
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-text-secondary mb-1">Take Profit
+                                        <label class="block text-sm font-medium text-text-secondary mb-1" id="calc-tp-label">Take Profit
                                             (ticks)</label>
                                         <input type="number" id="calc-tp" class="form-input w-full" placeholder="20">
                                     </div>
@@ -897,13 +898,10 @@
                 this.tickerData = {
                     'NQ': { tickValue: 5, tickSize: 0.25, name: 'NASDAQ-100 E-mini' },
                     'MNQ': { tickValue: 0.5, tickSize: 0.25, name: 'Micro NASDAQ-100' },
-                    'ES': { tickValue: 12.5, tickSize: 0.25, name: 'S&P 500 E-mini' },
-                    'MES': { tickValue: 1.25, tickSize: 0.25, name: 'Micro S&P 500' },
-                    'EUR/USD': { tickValue: 10, tickSize: 0.0001, name: 'Euro / Dollar US' },
-                    'GBP/USD': { tickValue: 10, tickSize: 0.0001, name: 'Livre Sterling / Dollar US' },
-                    'US100': { tickValue: 1, tickSize: 0.01, name: 'US Tech 100' }
+                    'GU': { tickValue: 10, tickSize: 0.0001, name: 'GBP/USD & EUR/USD' }, // 1 pip = 0.0001, 1 pip value = 10$
+                    'US100': { tickValue: 0.1, tickSize: 0.01, name: 'US Tech 100' } // 1 tick = 0.01 point, 1 tick value = 0.1$
                 };
-                this.selectedTicker = 'NQ';
+                this.selectedTicker = 'GU';
                 this.init();
             }
 
@@ -1099,12 +1097,16 @@
                 if (!ticker) return 0;
 
                 const posSize = parseFloat(positionSize);
+                // Ensure takeProfit and stopLoss are valid numbers
+                const tp = parseFloat(takeProfit);
+                const sl = parseFloat(stopLoss);
+
                 let pnl = 0;
 
-                if (result === 'win' && takeProfit) {
-                    pnl = posSize * parseFloat(takeProfit) * ticker.tickValue;
-                } else if (result === 'loss' && stopLoss) {
-                    pnl = -1 * posSize * parseFloat(stopLoss) * ticker.tickValue;
+                if (result === 'win' && !isNaN(tp)) { // Check if tp is a valid number
+                    pnl = posSize * tp * ticker.tickValue;
+                } else if (result === 'loss' && !isNaN(sl)) { // Check if sl is a valid number
+                    pnl = -1 * posSize * sl * ticker.tickValue;
                 }
 
                 return pnl;
@@ -1168,14 +1170,7 @@
 
                                 // 2. Daily Icon (Middle)
                                 const dailyData = entryData?.daily;
-                                const hasDailyEntry = dailyData && (
-                                    (dailyData.observations && dailyData.observations.trim() !== '') ||
-                                    (dailyData.captureH1 && dailyData.captureH1.trim() !== '') ||
-                                    (dailyData.cycleC1Capture && dailyData.cycleC1Capture.trim() !== '') ||
-                                    (dailyData.cycleC2Capture && dailyData.cycleC2Capture.trim() !== '') ||
-                                    (dailyData.captureSetup && dailyData.captureSetup.trim() !== '') ||
-                                    (dailyData.swingPointSwept && dailyData.swingPointSwept.trim() !== '')
-                                );
+                                const hasDailyEntry = dailyData && Object.values(dailyData).some(value => value !== '');
                                 if (hasDailyEntry) {
                                     const dailyIndicator = document.createElement('i');
                                     dailyIndicator.className = 'fas fa-calendar-week indicator daily-indicator';
@@ -1385,9 +1380,9 @@
                     if (tradeTab) {
                         data.trade = {
                             asset: document.getElementById('asset-select')?.value || '',
-                            positionSize: document.getElementById('position-size')?.value || '',
-                            stopLoss: document.getElementById('stop-loss')?.value || '',
-                            takeProfit: document.getElementById('take-profit')?.value || '',
+                            positionSize: parseFloat(document.getElementById('position-size')?.value) || 0,
+                            stopLoss: parseFloat(document.getElementById('stop-loss')?.value) || 0,
+                            takeProfit: parseFloat(document.getElementById('take-profit')?.value) || 0,
                             result: document.getElementById('result-select')?.value || '',
                             pnl: document.getElementById('pnl-result')?.value || '',
                             riskReward: document.getElementById('rr-result')?.value || '',
@@ -1829,6 +1824,18 @@
                 const tickerButtons = document.querySelectorAll('.ticker-btn');
                 const calculateBtn = document.getElementById('calculate-btn');
                 const results = document.getElementById('calc-results');
+                const slLabel = document.getElementById('calc-sl-label');
+                const tpLabel = document.getElementById('calc-tp-label');
+
+                const updateSlTpLabels = () => {
+                    if (this.selectedTicker === 'GU') {
+                        slLabel.textContent = 'Stop Loss (pips)';
+                        tpLabel.textContent = 'Take Profit (pips)';
+                    } else {
+                        slLabel.textContent = 'Stop Loss (ticks)';
+                        tpLabel.textContent = 'Take Profit (ticks)';
+                    }
+                };
 
                 // Sélection du ticker
                 tickerButtons.forEach(btn => {
@@ -1842,6 +1849,7 @@
                         btn.classList.remove('btn-secondary');
                         btn.classList.add('btn-primary');
                         this.selectedTicker = btn.dataset.ticker;
+                        updateSlTpLabels(); // Update labels when ticker changes
                     });
                 });
 
@@ -1850,12 +1858,13 @@
                     this.calculateRisk();
                 });
 
-                // Activer le bouton du ticker par défaut au chargement
+                // Activer le bouton du ticker par défaut au chargement et mettre à jour les labels
                 const defaultTickerBtn = document.querySelector(`.ticker-btn[data-ticker="${this.selectedTicker}"]`);
                 if (defaultTickerBtn) {
                     defaultTickerBtn.classList.remove('btn-secondary');
                     defaultTickerBtn.classList.add('btn-primary');
                 }
+                updateSlTpLabels(); // Initial label update
             }
 
             calculateRisk() {
@@ -1881,14 +1890,17 @@
                 const potentialGain = takeProfitTicks * tickerInfo.tickValue * maxContracts;
                 const riskReward = takeProfitTicks / stopLossTicks;
 
+                const tickerUnit = (this.selectedTicker === 'GU') ? 'pip' : 'tick';
+                const pointUnit = (this.selectedTicker === 'GU') ? 'pips' : 'point';
+
                 // Afficher les résultats
                 document.getElementById('selected-ticker').textContent = this.selectedTicker;
                 document.getElementById('rr-display').textContent = `1:${riskReward.toFixed(2)}`;
-                document.getElementById('risk-display').textContent = `$${riskAmount.toFixed(2)}`;
-                document.getElementById('gain-display').textContent = `$${potentialGain.toFixed(2)}`;
+                document.getElementById('risk-display').textContent = `${riskAmount.toFixed(2)}`;
+                document.getElementById('gain-display').textContent = `${potentialGain.toFixed(2)}`;
                 document.getElementById('contracts-display').textContent = maxContracts;
                 document.getElementById('ticker-info').textContent =
-                    `${this.selectedTicker}: $${tickerInfo.tickValue} par tick (${tickerInfo.tickSize} point)`;
+                    `${this.selectedTicker}: ${tickerInfo.tickValue} par ${tickerUnit} (${tickerInfo.tickSize} ${pointUnit})`;
 
                 document.getElementById('calc-results').classList.remove('hidden');
                 this.showNotification('Calcul terminé avec succès', 'success');
