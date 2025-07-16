@@ -197,11 +197,23 @@
         /* Styles pour les formulaires */
         .form-input {
             background-color: var(--bg-dark);
-            border: 1px solid var(--border-color);
+            border: 1px solid #4B5563;
+            /* Modern discrete border */
             color: var(--text-primary);
             padding: 0.75rem;
             border-radius: 0.5rem;
             transition: all 0.2s ease;
+        }
+
+        /* Remove arrows from number inputs */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
         }
 
         .form-input:focus {
@@ -343,7 +355,8 @@
         /* Media query for screens between 769px and 1023px (typical for smaller laptops) */
         @media (min-width: 769px) and (max-width: 1023px) {
             .calendar-day {
-                min-height: 55px; /* Further adjusted for better fit on medium screens */
+                min-height: 55px;
+                /* Further adjusted for better fit on medium screens */
             }
         }
 
@@ -351,30 +364,37 @@
         .weekly-summary-card {
             background-color: var(--bg-dark);
             border: 1px solid var(--border-color);
-            border-radius: 0.5rem; /* 8px */
-            padding: 0.75rem; /* 12px */
+            border-radius: 0.5rem;
+            /* 8px */
+            padding: 0.75rem;
+            /* 12px */
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 0.25rem; /* 4px */
+            gap: 0.25rem;
+            /* 4px */
         }
 
         .week-title {
-            font-size: 0.875rem; /* 14px */
+            font-size: 0.875rem;
+            /* 14px */
             color: var(--text-secondary);
             font-weight: 500;
         }
 
         .week-pnl {
-            font-size: 1.25rem; /* 20px */
-            font-weight: 700; /* bold */
+            font-size: 1.25rem;
+            /* 20px */
+            font-weight: 700;
+            /* bold */
             line-height: 1.2;
         }
 
         .week-days {
-            font-size: 0.75rem; /* 12px */
+            font-size: 0.75rem;
+            /* 12px */
             color: var(--text-secondary);
         }
 
@@ -388,6 +408,136 @@
 
         .neutral-color {
             color: var(--text-primary);
+        }
+
+        .other-month {
+            background-color: #222733 !important;
+        }
+    </style>
+    <style>
+        /* Styles for Consistency Tab - Themed */
+        #consistency-tab {
+            color: var(--text-primary);
+        }
+
+        .card {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-color);
+        }
+
+        .card h2,
+        .card h1 {
+            color: var(--text-primary);
+        }
+
+        .subtitle-artistic {
+            color: var(--text-secondary);
+        }
+
+        .help-btn {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        .modern-select {
+            background-color: var(--bg-dark);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .modern-select:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+        }
+
+        .modern-select-wrapper::after {
+            color: var(--accent-blue);
+        }
+
+        #consistency-tab .form-input,
+        #consistency-tab input[type=number] {
+            background-color: var(--bg-dark);
+            /* border is now handled by the global .form-input class */
+            color: var(--text-primary);
+        }
+
+        #consistency-tab .form-input:focus,
+        #consistency-tab input[type=number]:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+        }
+
+        #consistency-tab .btn-primary,
+        #consistency-tab .btn-danger {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        #consistency-tab .btn-primary:hover,
+        #consistency-tab .btn-danger:hover {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        #consistency-tab .text-emerald-300 {
+            color: var(--accent-green);
+        }
+
+        #consistency-tab .text-rose-400 {
+            color: var(--accent-red);
+        }
+
+        #consistency-tab .bg-slate-800 {
+            background-color: var(--bg-dark);
+        }
+
+        #consistency-tab .border-slate-700 {
+            border-color: var(--border-color);
+        }
+
+        #consistency-tab .text-slate-300 {
+            color: var(--text-primary);
+        }
+
+        #consistency-tab .text-slate-400 {
+            color: var(--text-secondary);
+        }
+
+        #consistency-tab .text-slate-500 {
+            color: var(--text-secondary);
+        }
+
+        #consistency-tab .bg-slate-800\/50 {
+            background-color: rgba(30, 34, 45, 0.5);
+        }
+
+        #consistency-tab .divide-slate-700> :not([hidden])~ :not([hidden]) {
+            border-color: var(--border-color);
+        }
+
+        #consistency-tab .text-blue-400 {
+            color: var(--accent-blue);
+        }
+
+        #consistency-tab .text-purple-400 {
+            color: var(--accent-yellow);
+        }
+
+        #consistency-tab .text-amber-400 {
+            color: var(--accent-yellow);
+        }
+
+        #consistency-tab .bg-slate-700 {
+            background-color: var(--bg-light);
+        }
+
+        #consistency-tab .bg-gradient-to-r.from-blue-500.via-emerald-400.to-yellow-300 {
+            background-image: linear-gradient(to right, var(--accent-blue), var(--accent-green), var(--accent-yellow));
+        }
+
+        #consistency-tab .bg-gradient-to-r.from-blue-500.to-emerald-400 {
+            background-image: linear-gradient(to right, var(--accent-blue), var(--accent-green));
         }
     </style>
 </head>
@@ -472,7 +622,8 @@
                 </div>
 
                 <!-- Grille Principale (Calendrier + Résultats) -->
-                <div id="calendar-container" class="grid" style="grid-template-columns: repeat(7, 1fr) auto; gap: 0.5rem;">
+                <div id="calendar-container" class="grid"
+                    style="grid-template-columns: repeat(7, 1fr) auto; gap: 0.5rem;">
                     <!-- Headers de la grille (Lun-Dim + Hebdo) -->
                     <div class="text-center font-bold p-2 bg-bg-dark rounded-lg">Lun</div>
                     <div class="text-center font-bold p-2 bg-bg-dark rounded-lg">Mar</div>
@@ -481,7 +632,7 @@
                     <div class="text-center font-bold p-2 bg-bg-dark rounded-lg">Ven</div>
                     <div class="text-center font-bold p-2 bg-bg-dark rounded-lg">Sam</div>
                     <div class="text-center font-bold p-2 bg-bg-dark rounded-lg">Dim</div>
-                    <div class="text-center font-bold p-2 bg-bg-dark rounded-lg">Résultats Hebdo</div>
+                    <div class="text-center font-normal p-2 bg-accent-blue rounded-lg text-white">Résultats Hebdo</div>
 
                     <!-- Le contenu du calendrier (jours) et les résultats hebdo seront injectés ici par JS -->
                 </div>
@@ -494,12 +645,12 @@
                     <i class="fas fa-lightbulb mr-2"></i>
                     Conseil du jour
                 </h3>
-                <p class="text-sm text-center">La patience est la clé. Attendez que votre setup se présente, ne le forcez pas.</p>
+                <p class="text-sm text-center">La patience est la clé. Attendez que votre setup se présente, ne le
+                    forcez pas.</p>
             </section>
 
             <!-- Formulaire Section -->
-            <section id="form-section"
-                class="hidden bg-bg-light p-6 rounded-xl border border-border-color shadow-lg">
+            <section id="form-section" class="hidden bg-bg-light p-6 rounded-xl border border-border-color shadow-lg">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-xl font-bold">Nouvelle Entrée pour le <span id="entry-date"
                             class="text-accent-blue"></span></h2>
@@ -539,6 +690,12 @@
                         data-tab="calculator">
                         <i class="fas fa-calculator mr-2"></i>
                         Calculatrice
+                    </button>
+                    <button
+                        class="tab-button px-4 py-2 font-medium rounded-t-lg bg-bg-dark hover:bg-bg-light transition flex items-center border border-accent-blue"
+                        data-tab="consistency">
+                        <i class="fas fa-chart-line mr-2"></i>
+                        Consistency
                     </button>
                 </div>
 
@@ -823,12 +980,14 @@
                                         <input type="number" id="calc-risk" class="form-input w-full" placeholder="1">
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-text-secondary mb-1" id="calc-sl-label">Stop Loss
+                                        <label class="block text-sm font-medium text-text-secondary mb-1"
+                                            id="calc-sl-label">Stop Loss
                                             (ticks)</label>
                                         <input type="number" id="calc-sl" class="form-input w-full" placeholder="10">
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-medium text-text-secondary mb-1" id="calc-tp-label">Take Profit
+                                        <label class="block text-sm font-medium text-text-secondary mb-1"
+                                            id="calc-tp-label">Take Profit
                                             (ticks)</label>
                                         <input type="number" id="calc-tp" class="form-input w-full" placeholder="20">
                                     </div>
@@ -881,6 +1040,18 @@
                         </div>
                     </div>
 
+                    <!-- Consistency Tab -->
+                    <div id="consistency-tab" class="tab-content hidden">
+                        <div id="consistency-app" class="container mx-auto px-2 sm:px-4 py-8 max-w-6xl"></div>
+                        <div id="helpModal" class="modal-bg" style="display:none;">
+                            <div class="modal-content">
+                                <button class="modal-close" id="closeHelpModal" title="Close">&times;</button>
+                                <h2>Instructions</h2>
+                                <div id="helpModalContent"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="pt-6 flex justify-between items-center">
                         <div class="flex gap-4">
                             <input type="file" id="importDataInput" accept="application/json" class="hidden" />
@@ -922,7 +1093,846 @@
         </footer>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
+        const { jsPDF } = window.jspdf;
+
+        // Traductions
+        const translations = {
+            en: {
+                title: "Prop Firm Performance Analyzer",
+                settings: "Challenge Parameters",
+                initialCapital: "Initial Capital ($)",
+                targetProfit: "Target Profit ($)",
+                consistencyPercent: "Consistency Rule (%)",
+                minDayPercent: "Min % of Best Day",
+                minProfitPerDay: "Min Profit/Day ($)",
+                minTradingDays: "Min Trading Days",
+                maxDrawdown: "Max Drawdown ($)",
+                dailyLossLimit: "Daily Loss Limit ($)",
+                dailyPnL: "Daily Performance",
+                enterPnL: "Enter daily P&L ($)",
+                add: "Add",
+                results: "Performance Analysis",
+                totalPnL: "Total P&L",
+                bestDay: "Best Day",
+                minRequiredDay: "Min Required/Day",
+                optimalDailyPnL: "Optimal Daily Target",
+                eligible: "✅ Challenge Passed!",
+                notEligible: "❌ Challenge Failed",
+                notEnoughDays: "Not enough trading days",
+                bestDayExceeds: "Best day exceeds",
+                daysBelowMin: "Some days below",
+                daysBelowProfit: "Some days below min profit/day",
+                drawdownViolated: "Drawdown limit violated",
+                dailyLossViolated: "Daily loss limit violated",
+                exportPDF: "Export Report",
+                exportData: "Export Data",
+                importData: "Import Data",
+                language: "Language",
+                accountBalance: "Account Balance",
+                error: "An error occurred. Please check the console for details.",
+                clearData: "Clear",
+                performanceChart: "Performance Trend",
+                profitDays: "Profit Days",
+                lossDays: "Loss Days",
+                avgProfit: "Avg Profit/Day",
+                avgLoss: "Avg Loss/Day",
+                winRate: "Win Rate",
+                maxConsecutiveWins: "Max Consecutive Wins",
+                maxConsecutiveLosses: "Max Consecutive Losses",
+                ignoreConsistency: "Ignore Consistency/Min%/Min Profit rules",
+                helpText: "For any rule you want to ignore, enter 0 in the corresponding field. Only fields with a value greater than 0 will be enforced."
+            },
+            fr: {
+                title: "Analyseur de Performance pour Prop Firms",
+                settings: "Paramètres du Challenge",
+                initialCapital: "Capital Initial ($)",
+                targetProfit: "Objectif de Profit ($)",
+                consistencyPercent: "Règle de Cohérence (%)",
+                minDayPercent: "Min % du Meilleur Jour",
+                minProfitPerDay: "Profit Min/Jour ($)",
+                minTradingDays: "Jours de Trading Min",
+                maxDrawdown: "Drawdown Max ($)",
+                dailyLossLimit: "Limite de Perte Quotidienne ($)",
+                dailyPnL: "Performance Quotidienne",
+                enterPnL: "Entrez le P&L quotidien ($)",
+                add: "Ajouter",
+                results: "Analyse de Performance",
+                totalPnL: "P&L Total",
+                bestDay: "Meilleur Jour",
+                minRequiredDay: "Min Requis/Jour",
+                optimalDailyPnL: "Objectif Quotidien Optimal",
+                eligible: "✅ Challenge Réussi !",
+                notEligible: "❌ Challenge Échoué",
+                notEnoughDays: "Pas assez de jours de trading",
+                bestDayExceeds: "Meilleur jour dépasse",
+                daysBelowMin: "Certains jours sous",
+                daysBelowProfit: "Certains jours sous le profit min/jour",
+                drawdownViolated: "Limite de drawdown violée",
+                dailyLossViolated: "Limite de perte quotidienne violée",
+                exportPDF: "Exporter Rapport",
+                exportData: "Exporter les données",
+                importData: "Importer les données",
+                language: "Langue",
+                accountBalance: "Solde du Compte",
+                error: "Une erreur s'est produite. Veuillez vérifier la console pour plus de détails.",
+                clearData: "Effacer",
+                performanceChart: "Tendance de Performance",
+                profitDays: "Jours de Profit",
+                lossDays: "Jours de Perte",
+                avgProfit: "Moyenne Profit/Jour",
+                avgLoss: "Moyenne Perte/Jour",
+                winRate: "Taux de Réussite",
+                maxConsecutiveWins: "Gains Consécutifs Max",
+                maxConsecutiveLosses: "Pertes Consécutives Max",
+                ignoreConsistency: "Ignorer les règles de Cohérence/Min%/Profit Min",
+                helpText: "Pour ignorer une règle, entrez 0 dans le champ correspondant. Seules les valeurs supérieures à 0 seront prises en compte."
+            }
+        };
+
+        // Fonction pour calculer les statistiques avancées
+        function calculateAdvancedStats(dailyPnLs) {
+            const stats = {
+                profitDays: 0,
+                lossDays: 0,
+                totalProfit: 0,
+                totalLoss: 0,
+                winStreak: 0,
+                loseStreak: 0,
+                maxWinStreak: 0,
+                maxLoseStreak: 0,
+                currentStreak: 0,
+                previousType: null
+            };
+
+            dailyPnLs.forEach(pnL => {
+                if (pnL >= 0) {
+                    stats.profitDays++;
+                    stats.totalProfit += pnL;
+
+                    if (stats.previousType === 'win' || stats.previousType === null) {
+                        stats.winStreak++;
+                    } else {
+                        stats.winStreak = 1;
+                    }
+                    stats.maxWinStreak = Math.max(stats.maxWinStreak, stats.winStreak);
+                    stats.previousType = 'win';
+                } else {
+                    stats.lossDays++;
+                    stats.totalLoss += Math.abs(pnL);
+
+                    if (stats.previousType === 'loss' || stats.previousType === null) {
+                        stats.loseStreak++;
+                    } else {
+                        stats.loseStreak = 1;
+                    }
+                    stats.maxLoseStreak = Math.max(stats.maxLoseStreak, stats.loseStreak);
+                    stats.previousType = 'loss';
+                }
+            });
+
+            return {
+                profitDays: stats.profitDays,
+                lossDays: stats.lossDays,
+                avgProfit: stats.profitDays > 0 ? (stats.totalProfit / stats.profitDays) : 0,
+                avgLoss: stats.lossDays > 0 ? (stats.totalLoss / stats.lossDays) : 0,
+                winRate: dailyPnLs.length > 0 ? (stats.profitDays / dailyPnLs.length * 100) : 0,
+                maxConsecutiveWins: stats.maxWinStreak,
+                maxConsecutiveLosses: stats.maxLoseStreak
+            };
+        }
+
+        // Composant principal
+        class ConsistencyApp {
+            constructor() {
+                this.state = {
+                    language: localStorage.getItem('language') || 'en',
+                    error: null,
+                    initialCapital: localStorage.getItem('initialCapital') || 50000,
+                    targetProfit: localStorage.getItem('targetProfit') || 10000,
+                    consistencyPercent: localStorage.getItem('consistencyPercent') || 40,
+                    minDayPercent: localStorage.getItem('minDayPercent') || 23,
+                    minProfitPerDay: localStorage.getItem('minProfitPerDay') || 200,
+                    minTradingDays: localStorage.getItem('minTradingDays') || 10,
+                    maxDrawdown: localStorage.getItem('maxDrawdown') || 2000,
+                    dailyLossLimit: localStorage.getItem('dailyLossLimit') || 1000,
+                    dailyPnLs: JSON.parse(localStorage.getItem('dailyPnLs')) || [],
+                    newPnL: ''
+                };
+                this.chartInstance = null;
+                this.t = translations[this.state.language];
+                this.init();
+            }
+
+            init() {
+                this.render();
+                this.initChart();
+                this.bindEvents();
+            }
+
+            saveState() {
+                try {
+                    localStorage.setItem('language', this.state.language);
+                    localStorage.setItem('initialCapital', this.state.initialCapital);
+                    localStorage.setItem('targetProfit', this.state.targetProfit);
+                    localStorage.setItem('consistencyPercent', this.state.consistencyPercent);
+                    localStorage.setItem('minDayPercent', this.state.minDayPercent);
+                    localStorage.setItem('minProfitPerDay', this.state.minProfitPerDay);
+                    localStorage.setItem('minTradingDays', this.state.minTradingDays);
+                    localStorage.setItem('maxDrawdown', this.state.maxDrawdown);
+                    localStorage.setItem('dailyLossLimit', this.state.dailyLossLimit);
+                    localStorage.setItem('dailyPnLs', JSON.stringify(this.state.dailyPnLs));
+                } catch (err) {
+                    console.error('Failed to save to localStorage:', err);
+                    this.setState({ error: this.t.error });
+                }
+            }
+
+            setState(newState) {
+                this.state = { ...this.state, ...newState };
+                this.t = translations[this.state.language];
+                this.saveState();
+                this.render();
+                setTimeout(() => {
+                    if (!this.chartInstance && this.state.dailyPnLs.length > 0) {
+                        this.initChart();
+                    } else if (this.chartInstance) {
+                        this.updateChart();
+                    }
+                }, 0);
+            }
+
+            calculateResults() {
+                const {
+                    dailyPnLs,
+                    initialCapital,
+                    targetProfit,
+                    consistencyPercent,
+                    minDayPercent,
+                    minProfitPerDay,
+                    minTradingDays,
+                    maxDrawdown,
+                    dailyLossLimit
+                } = this.state;
+
+                const totalPnL = dailyPnLs.reduce((sum, pnL) => sum + Number(pnL), 0);
+                const maxDayPnL = dailyPnLs.length > 0 ? Math.max(...dailyPnLs) : 0;
+                const maxDayPercent = totalPnL > 0 ? (maxDayPnL / totalPnL) * 100 : 0;
+                const minRequiredPerDay = (minDayPercent / 100) * maxDayPnL;
+                const accountBalance = Number(initialCapital) + totalPnL;
+                const drawdownViolated = maxDrawdown > 0 ? accountBalance < (initialCapital - maxDrawdown) : false;
+                const dailyLossViolated = dailyLossLimit > 0 ? dailyPnLs.some(pnL => pnL < -dailyLossLimit) : false;
+                // Only enforce rules if their value is >0
+                const checkConsistency = consistencyPercent > 0 ? maxDayPercent <= consistencyPercent : true;
+                const checkMinDay = minDayPercent > 0 ? dailyPnLs.filter(pnL => pnL > 0).every(pnL => pnL >= minRequiredPerDay) : true;
+                const checkMinProfit = minProfitPerDay > 0 ? dailyPnLs.filter(pnL => pnL > 0).every(pnL => pnL >= minProfitPerDay) : true;
+                const isEligible = dailyPnLs.length >= minTradingDays &&
+                    checkConsistency &&
+                    checkMinDay &&
+                    checkMinProfit &&
+                    !drawdownViolated &&
+                    !dailyLossViolated;
+                const targetDiff = totalPnL < targetProfit ? targetProfit - totalPnL : 0;
+
+                const optimalDailyPnL = dailyPnLs.length > 0
+                    ? (targetProfit / Math.max(dailyPnLs.length, minTradingDays)) * (100 / (100 - (consistencyPercent > 0 ? consistencyPercent : 0)))
+                    : targetProfit / minTradingDays;
+
+                const advancedStats = calculateAdvancedStats(dailyPnLs);
+
+                return {
+                    totalPnL,
+                    maxDayPnL,
+                    maxDayPercent,
+                    minRequiredPerDay,
+                    accountBalance,
+                    drawdownViolated,
+                    dailyLossViolated,
+                    isEligible,
+                    optimalDailyPnL,
+                    targetDiff,
+                    checkConsistency,
+                    checkMinDay,
+                    checkMinProfit,
+                    ...advancedStats
+                };
+            }
+
+            addPnL() {
+                try {
+                    // Always get the latest value from the input field
+                    const input = document.getElementById('newPnL');
+                    const value = input ? parseFloat(input.value) : parseFloat(this.state.newPnL);
+                    if (!isNaN(value)) {
+                        this.setState({
+                            dailyPnLs: [...this.state.dailyPnLs, value],
+                            newPnL: ''
+                        });
+                    }
+                } catch (err) {
+                    console.error('Failed to add P&L:', err);
+                    this.setState({ error: this.t.error });
+                }
+            }
+
+            removePnL(index) {
+                try {
+                    this.setState({
+                        dailyPnLs: this.state.dailyPnLs.filter((_, i) => i !== index)
+                    });
+                } catch (err) {
+                    console.error('Failed to remove P&L:', err);
+                    this.setState({ error: this.t.error });
+                }
+            }
+
+            clearAllData() {
+                if (confirm(this.state.language === 'fr' ? "Êtes-vous sûr de vouloir tout effacer ?" : "Are you sure you want to clear all data?")) {
+                    this.setState({
+                        dailyPnLs: [],
+                        newPnL: ''
+                    });
+                }
+            }
+
+            initChart() {
+                const ctx = document.getElementById('performanceChart').getContext('2d');
+                this.chartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: this.state.dailyPnLs.map((_, i) => `Day ${i + 1}`),
+                        datasets: [
+                            {
+                                label: this.t.performanceChart,
+                                data: this.state.dailyPnLs,
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16,185,129,0.15)', // always green fill
+                                borderWidth: 2,
+                                tension: 0.3,
+                                fill: true,
+                                pointBackgroundColor: this.state.dailyPnLs.map(pnl => pnl >= 0 ? '#10b981' : '#ef4444'),
+                                pointBorderColor: '#fff',
+                                pointRadius: 4,
+                                pointHoverRadius: 6
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                backgroundColor: '#1e293b',
+                                titleColor: '#f8fafc',
+                                bodyColor: '#e2e8f0',
+                                borderColor: '#334155',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function (context) {
+                                        let label = '';
+                                        if (context.parsed.y !== null) {
+                                            label += (context.parsed.y >= 0 ? '+' : '') + '$ ' + context.parsed.y.toFixed(2);
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                                ticks: { color: '#94a3b8' },
+                                title: { display: true, text: 'Trading Days', color: '#94a3b8' }
+                            },
+                            y: {
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                                ticks: {
+                                    color: '#94a3b8',
+                                    callback: function (value) { return '$ ' + value; }
+                                },
+                                title: { display: true, text: 'P&L ($)', color: '#94a3b8' }
+                            }
+                        },
+                        interaction: { mode: 'nearest', axis: 'x', intersect: false }
+                    }
+                });
+            }
+
+            updateChart() {
+                if (!this.chartInstance) return;
+                const labels = this.state.dailyPnLs.map((_, i) => `Day ${i + 1}`);
+                this.chartInstance.data.labels = labels;
+                this.chartInstance.data.datasets[0].data = this.state.dailyPnLs;
+                this.chartInstance.data.datasets[0].pointBackgroundColor = this.state.dailyPnLs.map(pnl => pnl >= 0 ? '#10b981' : '#ef4444');
+                this.chartInstance.update();
+            }
+
+            bindEvents() {
+                // Attach listeners directly after each render
+                const addBtn = document.getElementById('addPnL');
+                const clearBtn = document.getElementById('clearData');
+                const newPnLInput = document.getElementById('newPnL');
+                const langSelect = document.getElementById('language');
+                const helpBtn = document.getElementById('helpBtn');
+                const helpModal = document.getElementById('helpModal');
+                const closeHelpModal = document.getElementById('closeHelpModal');
+                const removeBtns = document.querySelectorAll('.remove-pnl');
+                const inputIds = [
+                    'initialCapital', 'targetProfit', 'consistencyPercent', 'minDayPercent',
+                    'minProfitPerDay', 'minTradingDays', 'maxDrawdown', 'dailyLossLimit'
+                ];
+
+                if (addBtn) addBtn.onclick = () => this.addPnL();
+                if (clearBtn) clearBtn.onclick = () => this.clearAllData();
+                if (langSelect) langSelect.onchange = (e) => this.setState({ language: e.target.value });
+                if (helpBtn && helpModal) {
+                    helpBtn.onclick = () => {
+                        const content = this.state.language === 'fr' ? `
+                  <p><b>À propos :</b><br>Cette application web vous aide à vérifier si vos performances de trading respectent les règles de consistance et de gestion du risque imposées par les prop firms. Elle permet de simuler, suivre et analyser vos résultats quotidiens pour maximiser vos chances de réussir un challenge ou d’obtenir un payout.</p>
+                  <p><b>Instructions :</b></p>
+                  <ul>
+                    <li>1. Renseignez les paramètres du challenge (capital initial, objectif, drawdown, etc.).</li>
+                    <li>2. Ajoutez chaque jour votre P&L (profit ou perte) dans le champ prévu puis cliquez sur “Ajouter Jour”.</li>
+                    <li>3. Consultez vos statistiques, l’éligibilité et le graphique de performance.</li>
+                    <li>4. Vous pouvez supprimer un jour, effacer toutes les données, exporter vos données au format JSON ou importer un fichier JSON pour restaurer vos données.</li>
+                    <li>5. Changez la langue avec le sélecteur en haut à droite.</li>
+                  </ul>
+                  <p><b>Import/Export :</b><br>Utilisez “Exporter les données” pour sauvegarder vos paramètres et performances au format JSON. Utilisez “Importer les données” pour charger un fichier JSON précédemment exporté et restaurer votre session.</p>
+                  <p><b>Stockage :</b><br>Vos données sont enregistrées localement dans votre navigateur (aucune transmission externe).</p>
+                ` : `
+                  <p><b>About:</b><br>This web app helps you check if your trading performance meets the consistency and risk management rules required by prop firms. It lets you simulate, track, and analyze your daily results to maximize your chances of passing a challenge or getting a payout.</p>
+                  <p><b>Instructions:</b></p>
+                  <ul>
+                    <li>1. Fill in the challenge parameters (initial capital, target, drawdown, etc.).</li>
+                    <li>2. Add your daily P&L (profit or loss) in the input field and click “Add Day”.</li>
+                    <li>3. Review your stats, eligibility, and the performance chart.</li>
+                    <li>4. You can remove a day, clear all data, export your data as JSON, or import a JSON file to restore your session.</li>
+                    <li>5. Switch language using the selector at the top right.</li>
+                  </ul>
+                  <p><b>Import/Export:</b><br>Use “Export Data” to save your settings and performance as a JSON file. Use “Import Data” to load a previously exported JSON file and restore your session.</p>
+                  <p><b>Data Storage:</b><br>Your data is saved locally in your browser (never sent anywhere).</p>
+                `;
+                        document.getElementById('helpModalContent').innerHTML = content;
+                        helpModal.style.display = 'flex';
+                    };
+                }
+                if (closeHelpModal && helpModal) closeHelpModal.onclick = () => { helpModal.style.display = 'none'; };
+                if (helpModal) helpModal.onclick = (e) => { if (e.target === helpModal) helpModal.style.display = 'none'; };
+                if (newPnLInput) {
+                    // Only update state on blur or Enter, not on every input
+                    newPnLInput.oninput = null;
+                    newPnLInput.onblur = (e) => this.setState({ newPnL: e.target.value });
+                    newPnLInput.onkeypress = (e) => { if (e.key === 'Enter') this.addPnL(); };
+                }
+                inputIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.onchange = (e) => this.setState({ [id]: e.target.value });
+                });
+                removeBtns.forEach(btn => {
+                    btn.onclick = (e) => {
+                        const idx = parseInt(btn.dataset.index);
+                        this.removePnL(idx);
+                    };
+                });
+
+                // Add import/export event listeners
+                const importBtn = document.getElementById('importDataBtn');
+                const importInput = document.getElementById('importData');
+                const exportDataBtn = document.getElementById('exportDataBtn');
+                if (importBtn && importInput) {
+                    importBtn.onclick = () => importInput.click();
+                    importInput.onchange = (e) => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            try {
+                                const data = JSON.parse(event.target.result);
+                                this.setState({ ...data });
+                            } catch (err) {
+                                alert('Invalid JSON file.');
+                            }
+                        };
+                        reader.readAsText(file);
+                    };
+                }
+                if (exportDataBtn) {
+                    exportDataBtn.onclick = () => {
+                        const data = {
+                            language: this.state.language,
+                            initialCapital: this.state.initialCapital,
+                            targetProfit: this.state.targetProfit,
+                            consistencyPercent: this.state.consistencyPercent,
+                            minDayPercent: this.state.minDayPercent,
+                            minProfitPerDay: this.state.minProfitPerDay,
+                            minTradingDays: this.state.minTradingDays,
+                            maxDrawdown: this.state.maxDrawdown,
+                            dailyLossLimit: this.state.dailyLossLimit,
+                            dailyPnLs: this.state.dailyPnLs
+                        };
+                        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'propfirm_data.json';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    };
+                }
+
+                // Add import/export event listeners for footer
+                const importBtnFooter = document.getElementById('importDataBtnFooter');
+                const importInputFooter = document.getElementById('importDataFooter');
+                const exportDataBtnFooter = document.getElementById('exportDataBtnFooter');
+                if (importBtnFooter && importInputFooter) {
+                    importBtnFooter.onclick = () => importInputFooter.click();
+                    importInputFooter.onchange = (e) => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            try {
+                                const data = JSON.parse(event.target.result);
+                                this.setState({ ...data });
+                            } catch (err) {
+                                alert('Invalid JSON file.');
+                            }
+                        };
+                        reader.readAsText(file);
+                    };
+                }
+                if (exportDataBtnFooter) {
+                    exportDataBtnFooter.onclick = () => {
+                        const data = {
+                            language: this.state.language,
+                            initialCapital: this.state.initialCapital,
+                            targetProfit: this.state.targetProfit,
+                            consistencyPercent: this.state.consistencyPercent,
+                            minDayPercent: this.state.minDayPercent,
+                            minProfitPerDay: this.state.minProfitPerDay,
+                            minTradingDays: this.state.minTradingDays,
+                            maxDrawdown: this.state.maxDrawdown,
+                            dailyLossLimit: this.state.dailyLossLimit,
+                            dailyPnLs: this.state.dailyPnLs
+                        };
+                        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'propfirm_data.json';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    };
+                }
+            }
+
+            render() {
+                const { t } = this;
+                const results = this.calculateResults();
+
+                document.getElementById('consistency-app').innerHTML = `
+              <div class="space-y-8">
+                <!-- Header -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                  <div class="flex flex-col">
+                    <h1 class="text-3xl font-bold text-accent-blue">
+                      <i class="fas fa-chart-line mr-2"></i>${t.title}
+                    </h1>
+                    <p class="subtitle-artistic">${this.state.language === 'fr' ? 'Simulez et analysez vos performances de trading pour réussir n’importe quel challenge prop firm.' : 'Simulate and analyze your trading performance to pass any prop firm challenge.'}</p>
+                  </div>
+                </div>
+                
+                ${this.state.error ? `
+                  <div class="bg-accent-red text-white p-4 rounded-lg">
+                    <i class="fas fa-exclamation-circle mr-2"></i>${this.state.error}
+                  </div>
+                ` : ''}
+                
+                <!-- Settings Card -->
+                <div class="card rounded-xl p-6 shadow-lg slide-in">
+                  <h2 class="text-xl font-semibold mb-4 flex items-center text-accent-blue">
+                    <i class="fas fa-cog mr-2"></i>${t.settings}
+                  </h2>
+                  
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <!-- Fields -->
+                    <div>
+                      <label for="initialCapital" class="block text-sm font-medium text-text-secondary mb-1">${t.initialCapital}</label>
+                      <input type="number" id="initialCapital" value="${this.state.initialCapital}" class="form-input w-full" min="0"/>
+                    </div>
+                    <div>
+                      <label for="targetProfit" class="block text-sm font-medium text-text-secondary mb-1">${t.targetProfit}</label>
+                      <input type="number" id="targetProfit" value="${this.state.targetProfit}" class="form-input w-full" min="0"/>
+                    </div>
+                    <div>
+                      <label for="consistencyPercent" class="block text-sm font-medium text-text-secondary mb-1">${t.consistencyPercent}</label>
+                      <input type="number" id="consistencyPercent" value="${this.state.consistencyPercent}" class="form-input w-full" min="0" max="100"/>
+                    </div>
+                    <div>
+                      <label for="minDayPercent" class="block text-sm font-medium text-text-secondary mb-1">${t.minDayPercent}</label>
+                      <input type="number" id="minDayPercent" value="${this.state.minDayPercent}" class="form-input w-full" min="0" max="100"/>
+                    </div>
+                    <div>
+                      <label for="minProfitPerDay" class="block text-sm font-medium text-text-secondary mb-1">${t.minProfitPerDay}</label>
+                      <input type="number" id="minProfitPerDay" value="${this.state.minProfitPerDay}" class="form-input w-full" min="0"/>
+                    </div>
+                    <div>
+                      <label for="minTradingDays" class="block text-sm font-medium text-text-secondary mb-1">${t.minTradingDays}</label>
+                      <input type="number" id="minTradingDays" value="${this.state.minTradingDays}" class="form-input w-full" min="1"/>
+                    </div>
+                    <div>
+                      <label for="maxDrawdown" class="block text-sm font-medium text-text-secondary mb-1">${t.maxDrawdown}</label>
+                      <input type="number" id="maxDrawdown" value="${this.state.maxDrawdown}" class="form-input w-full" min="0"/>
+                    </div>
+                    <div>
+                      <label for="dailyLossLimit" class="block text-sm font-medium text-text-secondary mb-1">${t.dailyLossLimit}</label>
+                      <input type="number" id="dailyLossLimit" value="${this.state.dailyLossLimit}" class="form-input w-full" min="0"/>
+                    </div>
+                  </div>
+
+                  <!-- Help Text -->
+                  <div class="col-span-full text-xs text-text-secondary mt-2">
+                    ${t.helpText}
+                  </div>
+                </div>
+                
+                <!-- Daily P&L Input -->
+                <div class="card rounded-xl p-6 shadow-lg slide-in">
+                  <h2 class="text-xl font-semibold mb-4 flex items-center text-accent-green">
+                    <i class="fas fa-calendar-day mr-2"></i>${t.dailyPnL}
+                  </h2>
+                  
+                  <div class="flex flex-col sm:flex-row gap-3 mb-4">
+                    <div class="relative flex-1">
+                      <input type="number" id="newPnL" value="${this.state.newPnL}" placeholder="${t.enterPnL.replace(/\$/g, '').trim()}" class="form-input w-full"/>
+                    </div>
+                    <button id="addPnL" class="btn-primary flex items-center justify-center px-6 py-2 rounded-lg transition">
+                      <i class="fas fa-plus mr-2"></i>${t.add}
+                    </button>
+                    <button id="clearData" class="btn-danger flex items-center justify-center px-6 py-2 rounded-lg transition">
+                      <i class="fas fa-trash-alt mr-2"></i>${t.clearData}
+                    </button>
+                  </div>
+                  
+                  <div class="max-h-60 overflow-y-auto scrollbar-hide border border-border-color rounded-lg">
+                    ${this.state.dailyPnLs.length > 0 ? `
+                      <table class="min-w-full divide-y divide-border-color">
+                        <thead class="bg-bg-dark">
+                          <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Day</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">P&L</th>
+                            <th class="px-4 py-3 text-right text-xs font-medium text-text-secondary uppercase tracking-wider">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody class="bg-bg-light divide-y divide-border-color">
+                          ${this.state.dailyPnLs.map((pnL, index) => `
+                            <tr class="${pnL >= 0 ? 'text-accent-green' : 'text-accent-red'}">
+                              <td class="px-4 py-3 whitespace-nowrap">Day ${index + 1}</td>
+                              <td class="px-4 py-3 whitespace-nowrap">${pnL !== 0 ? '$&nbsp;&nbsp;' : ''}${pnL.toFixed(2)}</td>
+                              <td class="px-4 py-3 whitespace-nowrap text-right">
+                                <button data-index="${index}" class="remove-pnl text-text-secondary hover:text-accent-red transition">
+                                  <i class="fas fa-times"></i>
+                                </button>
+                              </td>
+                            </tr>
+                          `).join('')}
+                        </tbody>
+                      </table>
+                    ` : `
+                      <div class="p-8 text-center text-text-secondary">
+                        <i class="fas fa-inbox text-4xl mb-2"></i>
+                        <p>No trading days added yet</p>
+                      </div>
+                    `}
+                  </div>
+                </div>
+                
+                <!-- Performance Chart -->
+                <div class="card rounded-xl p-6 shadow-lg slide-in">
+                  <h2 class="text-xl font-semibold mb-4 flex items-center text-accent-yellow">
+                    <i class="fas fa-chart-area mr-2"></i>${t.performanceChart}
+                  </h2>
+                  <div class="h-80 overflow-x-auto">
+                    <canvas id="performanceChart"></canvas>
+                  </div>
+                </div>
+                
+                <!-- Results Card -->
+                <div class="card rounded-xl p-6 shadow-lg slide-in">
+                  <h2 class="text-xl font-semibold mb-4 flex items-center text-accent-yellow">
+                    <i class="fas fa-chart-pie mr-2"></i>${t.results}
+                  </h2>
+                  
+                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Basic Stats -->
+                    <div class="space-y-4">
+                      <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                          <p class="text-sm text-text-secondary">${t.totalPnL}</p>
+                          <p class="text-2xl font-semibold ${results.totalPnL >= 0 ? 'text-accent-green' : 'text-accent-red'}">
+                            ${results.totalPnL !== 0 ? '$&nbsp;&nbsp;' : ''}${results.totalPnL.toFixed(2)}
+                          </p>
+                        </div>
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                          <p class="text-sm text-text-secondary">${t.accountBalance}</p>
+                          <p class="text-2xl font-semibold ${results.accountBalance >= this.state.initialCapital ? 'text-accent-green' : 'text-accent-red'}">
+                            ${results.accountBalance !== 0 ? '$&nbsp;&nbsp;' : ''}${results.accountBalance.toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                          <p class="text-sm text-text-secondary">${t.bestDay}</p>
+                          <p class="text-xl font-semibold text-accent-green">
+                            ${results.maxDayPnL !== 0 ? '$&nbsp;&nbsp;' : ''}${results.maxDayPnL.toFixed(2)} <span class="text-sm">(${results.maxDayPercent.toFixed(2)}%)</span>
+                          </p>
+                        </div>
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                          <p class="text-sm text-text-secondary">${t.minRequiredDay}</p>
+                          <p class="text-xl font-semibold text-accent-blue">
+                            ${results.minRequiredPerDay !== 0 ? '$&nbsp;&nbsp;' : ''}${results.minRequiredPerDay.toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div class="bg-bg-dark p-4 rounded-lg">
+                        <p class="text-sm text-text-secondary">${t.optimalDailyPnL}</p>
+                        <p class="text-xl font-semibold text-accent-yellow">
+                          ${results.optimalDailyPnL !== 0 ? '$&nbsp;&nbsp;' : ''}${results.optimalDailyPnL.toFixed(2)}
+                        </p>
+                      </div>
+                      
+                      <div class="bg-bg-dark p-4 rounded-lg">
+                        <p class="text-sm text-text-secondary">Challenge Status</p>
+                        ${this.state.dailyPnLs.length === 0 ? `
+                          <p class="text-base text-text-secondary italic">Awaiting trading data…</p>
+                        ` :
+                        !results.isEligible && this.state.dailyPnLs.length < this.state.minTradingDays && results.checkConsistency && results.checkMinDay && results.checkMinProfit && !results.drawdownViolated && !results.dailyLossViolated ? `
+                            <div class="mb-2">
+                              <div class="w-full bg-bg-light rounded-full h-3 overflow-hidden">
+                                <div class="bg-gradient-to-r from-blue-500 via-emerald-400 to-yellow-300 h-3 rounded-full animate-pulse" style="width: ${(this.state.dailyPnLs.length / this.state.minTradingDays) * 100}%"></div>
+                              </div>
+                              <p class="mt-2 text-accent-green font-semibold">Keep going! ${this.state.dailyPnLs.length} of ${this.state.minTradingDays} trading days completed.</p>
+                              <p class="text-xs text-text-secondary">Stay consistent and reach the minimum to be eligible for payout.</p>
+                            </div>
+                          ` :
+                            results.isEligible ? `
+                            <p class="text-xl font-semibold text-accent-green">✅ Eligible for Payout</p>
+                            ${results.targetDiff > 0 ? `<div class="mt-2 text-sm text-accent-yellow"><i class="fas fa-exclamation-circle mr-1"></i>Target not reached: $&nbsp;&nbsp;${results.targetDiff.toFixed(2)} left</div>` : ''}
+                          ` :
+                                `<p class="text-xl font-semibold text-accent-red">❌ Challenge Failed</p>`
+                    }
+                        ${!results.isEligible && this.state.dailyPnLs.length > 0 ? `
+                          <div class="mt-2 text-sm text-text-primary space-y-1">
+                            ${this.state.dailyPnLs.length < this.state.minTradingDays ? `
+                              <p><i class="fas fa-times-circle text-accent-red mr-1"></i> ${t.notEnoughDays} (${this.state.dailyPnLs.length}/${this.state.minTradingDays})</p>
+                            ` : ''}
+                            ${results.maxDayPercent > this.state.consistencyPercent ? `
+                              <p><i class="fas fa-times-circle text-accent-red mr-1"></i> ${t.bestDayExceeds} ${this.state.consistencyPercent}% (${results.maxDayPercent.toFixed(2)}%)</p>
+                            ` : ''}
+                            ${this.state.dailyPnLs.some(pnL => pnL < results.minRequiredPerDay) ? `
+                              <p><i class="fas fa-times-circle text-accent-red mr-1"></i> ${t.daysBelowMin} ${this.state.minDayPercent}% of best day ($&nbsp;&nbsp;${results.minRequiredPerDay.toFixed(2)})</p>
+                            ` : ''}
+                            ${this.state.dailyPnLs.some(pnL => pnL < this.state.minProfitPerDay) ? `
+                              <p><i class="fas fa-times-circle text-accent-red mr-1"></i> ${t.daysBelowProfit} ($&nbsp;&nbsp;${this.state.minProfitPerDay})</p>
+                            ` : ''}
+                            ${results.drawdownViolated ? `
+                              <p><i class="fas fa-times-circle text-accent-red mr-1"></i> ${t.drawdownViolated} ($&nbsp;&nbsp;${this.state.maxDrawdown})</p>
+                            ` : ''}
+                            ${results.dailyLossViolated ? `
+                              <p><i class="fas fa-times-circle text-accent-red mr-1"></i> ${t.dailyLossViolated} ($&nbsp;&nbsp;${this.state.dailyLossLimit})</p>
+                            ` : ''}
+                          </div>
+                        ` : ''}
+                      </div>
+                    </div>
+                    
+                    <!-- Advanced Stats -->
+                    <div class="space-y-4">
+                      <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                          <p class="text-sm text-text-secondary">${t.profitDays}</p>
+                          <p class="text-2xl font-semibold text-accent-green">
+                            ${results.profitDays}
+                          </p>
+                        </div>
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                          <p class="text-sm text-text-secondary">${t.lossDays}</p>
+                          <p class="text-2xl font-semibold text-accent-red">
+                            ${results.lossDays}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                          <p class="text-sm text-text-secondary">${t.avgProfit}</p>
+                          <p class="text-xl font-semibold text-accent-green">
+                            ${results.avgProfit !== 0 ? '$&nbsp;&nbsp;' : ''}${results.avgProfit.toFixed(2)}
+                          </p>
+                        </div>
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                          <p class="text-sm text-text-secondary">${t.avgLoss}</p>
+                          <p class="text-xl font-semibold text-accent-red">
+                            ${results.avgLoss !== 0 ? '$&nbsp;&nbsp;' : ''}${results.avgLoss.toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div class="bg-bg-dark p-4 rounded-lg">
+                        <p class="text-sm text-text-secondary">${t.winRate}</p>
+                        <div class="mt-1">
+                          <div class="w-full bg-bg-light rounded-full h-2.5">
+                            <div class="bg-gradient-to-r from-blue-500 to-emerald-400 h-2.5 rounded-full" style="width: ${results.winRate}%"></div>
+                          </div>
+                          <p class="text-xl font-semibold text-accent-blue mt-1">
+                            ${results.winRate.toFixed(2)}%
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                          <p class="text-sm text-text-secondary">${t.maxConsecutiveWins}</p>
+                          <p class="text-xl font-semibold text-accent-green">
+                            ${results.maxConsecutiveWins}
+                          </p>
+                        </div>
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                          <p class="text-sm text-text-secondary">${t.maxConsecutiveLosses}</p>
+                          <p class="text-xl font-semibold text-accent-red">
+                            ${results.maxConsecutiveLosses}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+
+                // Destroy and re-initialize the chart after each render
+                if (this.chartInstance) {
+                    this.chartInstance.destroy();
+                    this.chartInstance = null;
+                }
+                if (this.state.dailyPnLs.length > 0) {
+                    this.initChart();
+                }
+                this.bindEvents();
+            }
+        }
+
         // Application principale
         class TradingJournal {
             constructor() {
@@ -1145,7 +2155,7 @@
                         currentWeekPnl = 0;
                         currentWeekDaysTraded.clear();
                         weekCounter++;
-                    } 
+                    }
                     // Si c'est le dernier jour du mois (et pas un dimanche)
                     else if (i === daysInMonth) {
                         for (let j = dayOfWeek + 1; j < 7; j++) {
@@ -1162,7 +2172,7 @@
                 const cellsToAdd = totalGridCells - currentCells;
 
                 let nextMonthDay = 1;
-                for(let i = 0; i < cellsToAdd; i++) {
+                for (let i = 0; i < cellsToAdd; i++) {
                     const cellIndexInRow = (this.calendarContainer.children.length - 8) % 8;
                     if (cellIndexInRow < 7) {
                         this.calendarContainer.appendChild(this.createCalendarDay({ day: nextMonthDay++, isOtherMonth: true }));
@@ -1234,10 +2244,12 @@
 
             appendWeeklySummaryCard(pnl, daysCount, weekNumber, isEmpty = false) {
                 const card = document.createElement('div');
-                
+                const weekNum = this.getWeekNumber(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), (weekNumber * 7) - 6));
+
+
                 if (isEmpty || daysCount === 0) {
                     card.className = 'weekly-summary-card opacity-50';
-                    card.innerHTML = `<p class="week-title">Week ${weekNumber}</p><p class="week-pnl neutral-color">$0,00</p><p class="week-days">0 days</p>`;
+                    card.innerHTML = `<p class="week-title">Week ${weekNumber} / <span class="text-accent-blue">${weekNum}</span></p><p class="week-pnl neutral-color">$0,00</p><p class="week-days">0 days</p>`;
                 } else {
                     let pnlClass = 'neutral-color';
                     if (pnl > 0) pnlClass = 'profit-color';
@@ -1246,7 +2258,7 @@
 
                     card.className = 'weekly-summary-card';
                     card.innerHTML = `
-                        <p class="week-title">Week ${weekNumber}</p>
+                        <p class="week-title">Week ${weekNumber} / <span class="text-accent-blue">${weekNum}</span></p>
                         <p class="week-pnl ${pnlClass}">${pnlText}</p>
                         <p class="week-days">${daysCount} day${daysCount > 1 ? 's' : ''}</p>
                     `;
@@ -1257,17 +2269,17 @@
             createCalendarDay(dayNumber, isOtherMonth = false, isToday = false) {
                 const day = document.createElement('div');
                 day.className = 'calendar-day text-center p-3 bg-bg-dark rounded-lg cursor-pointer transition-all duration-200';
-                
-                if(dayNumber > 0) {
+
+                if (dayNumber > 0) {
                     day.textContent = dayNumber;
                 }
 
                 if (isOtherMonth) {
-                    day.classList.add('opacity-50');
+                    day.classList.add('opacity-50', 'other-month');
                 }
 
                 if (isToday) {
-                    day.classList.add('border-2', 'border-accent-blue');
+                    day.classList.add('border-2', 'border-accent-blue', 'font-semibold');
                 }
 
                 if (!isOtherMonth) {
@@ -1339,13 +2351,11 @@
             }
 
             switchTab(tabId) {
-                // Désactiver tous les boutons
+                // Désactiver tous les boutons et masquer tous les contenus
                 document.querySelectorAll('.tab-button').forEach(btn => {
                     btn.classList.remove('bg-accent-blue', 'text-white');
                     btn.classList.add('bg-bg-dark');
                 });
-
-                // Masquer tous les contenus
                 document.querySelectorAll('.tab-content').forEach(content => {
                     content.classList.add('hidden');
                     content.classList.remove('block');
@@ -1360,6 +2370,11 @@
                     activeButton.classList.add('bg-accent-blue', 'text-white');
                     activeContent.classList.remove('hidden');
                     activeContent.classList.add('block');
+
+                    // Initialiser l'application de l'onglet "Consistency" si c'est la première fois
+                    if (tabId === 'consistency' && !window.consistencyAppInstance) {
+                        window.consistencyAppInstance = new ConsistencyApp();
+                    }
                 }
             }
 
@@ -2032,7 +3047,7 @@
         // Initialiser l'application quand le DOM est chargé
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                const app = new TradingJournal();
+                window.tradingJournalApp = new TradingJournal();
                 console.log('Application Journal de Trading initialisée avec succès');
             } catch (error) {
                 console.error('Erreur lors de l\'initialisation de l\'application:', error);
