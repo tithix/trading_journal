@@ -360,6 +360,30 @@
             }
         }
 
+        /* Media query for laptop screens with limited height */
+        @media (min-width: 1024px) and (max-height: 800px) {
+            .container {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+            }
+            header, section {
+                margin-bottom: 1.5rem; /* Reduced from mb-8 */
+            }
+            .calendar-day {
+                min-height: 65px;
+                font-size: 0.9rem;
+            }
+            .weekly-summary-card {
+                padding: 0.5rem;
+            }
+            .week-pnl {
+                font-size: 1.1rem;
+            }
+            header h1 {
+                font-size: 1.75rem; /* Reduced from 3xl */
+            }
+        }
+
         /* Styles pour la colonne des résultats hebdomadaires */
         .weekly-summary-card {
             background-color: var(--bg-dark);
@@ -595,38 +619,61 @@
                 <i class="fas fa-info-circle mr-2"></i>
                 Aide & Introduction
             </h2>
-            <p class="mb-4">Bienvenue dans le Journal de Trading AMED. Cette application vous permet d'enregistrer,
-                d'analyser et de suivre vos opérations de trading selon différents cycles (Intraday, Hebdomadaire,
-                etc.).</p>
+            <p class="mb-4">Bienvenue dans le <strong>Journal de Trading A.M.E.D</strong>. Cette application est conçue pour vous aider à enregistrer, analyser et optimiser vos performances de trading en suivant une méthodologie structurée basée sur les cycles de marché.</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Calendrier -->
                 <div class="bg-bg-dark p-4 rounded-lg">
-                    <h3 class="font-bold text-accent-blue mb-2 flex items-center">
-                        <i class="fas fa-calendar mr-2"></i>
-                        Calendrier
-                    </h3>
-                    <p>Cliquez sur un jour pour ajouter ou consulter une entrée de journal pour cette date. Les jours
-                        avec des entrées sont marqués d'un point orange.</p>
+                    <h3 class="font-bold text-accent-blue mb-2 flex items-center"><i class="fas fa-calendar-alt mr-2"></i>Calendrier Principal</h3>
+                    <p>Le calendrier est votre point d'entrée. Cliquez sur un jour pour créer ou modifier une entrée. Les indicateurs visuels vous informent rapidement :</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                        <li><i class="fas fa-check-circle text-accent-green"></i> / <i class="fas fa-times-circle text-accent-red"></i>: Résultat du trade (Gagnant/Perdant).</li>
+                        <li><i class="fas fa-calendar-week text-accent-blue"></i>: Note journalière (Daily) enregistrée.</li>
+                        <li><i class="fas fa-sticky-note text-accent-yellow"></i>: Note ou tâche enregistrée.</li>
+                    </ul>
+                    <p class="mt-2 text-sm">La colonne de droite affiche vos <strong>résultats hebdomadaires</strong> consolidés.</p>
                 </div>
 
+                <!-- Onglets -->
                 <div class="bg-bg-dark p-4 rounded-lg">
-                    <h3 class="font-bold text-accent-blue mb-2 flex items-center">
-                        <i class="fas fa-folder mr-2"></i>
-                        Onglets
-                    </h3>
-                    <ul class="list-disc pl-5 space-y-1">
-                        <li><strong>Daily</strong>: Observations et tendances du jour</li>
-                        <li><strong>Trade</strong>: Détails d'un trade</li>
-                        <li><strong>Weekly</strong>: Analyse hebdomadaire</li>
-                        <li><strong>Notes</strong>: Pense-bêtes et événements</li>
-                        <li><strong>Calculatrice</strong>: Calculs de risque</li>
+                    <h3 class="font-bold text-accent-blue mb-2 flex items-center"><i class="fas fa-folder-open mr-2"></i>Détail des Onglets</h3>
+                    <p class="text-sm">Chaque onglet a un rôle précis pour une analyse complète :</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                        <li><strong>Daily</strong>: Pour analyser le contexte du jour (PDR, Cycles C1/C2/C3).</li>
+                        <li><strong>Trade</strong>: Pour détailler l'exécution de votre trade (actif, taille, SL/TP, P&L).</li>
+                        <li><strong>Weekly</strong>: Pour une vue d'ensemble de la semaine (PWR).</li>
+                        <li><strong>Notes</strong>: Pour vos pense-bêtes, listes de tâches et événements économiques.</li>
+                        <li><strong>Calculatrice</strong>: Un outil rapide pour calculer le risque et la taille de position.</li>
+                        <li><strong>Consistency</strong>: Un analyseur de performance avancé pour réussir vos challenges de prop firm.</li>
                     </ul>
+                </div>
+
+                <!-- Gestion des données -->
+                <div class="bg-bg-dark p-4 rounded-lg">
+                    <h3 class="font-bold text-accent-blue mb-2 flex items-center"><i class="fas fa-database mr-2"></i>Gestion des Données</h3>
+                    <p class="text-sm">Vos données sont précieuses. Utilisez les boutons en bas du formulaire pour :</p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1 text-sm">
+                        <li><strong>Importer</strong>: Chargez un fichier de sauvegarde (<code>.json</code>) pour restaurer vos données.</li>
+                        <li><strong>Sauvegarder</strong>: Exportez toutes vos entrées dans un fichier <code>.json</code>. Faites-le régulièrement !</li>
+                        <li><strong>Effacer</strong>: Supprimez toutes les données du journal. <strong>Attention, cette action est irréversible.</strong></li>
+                    </ul>
+                     <p class="mt-2 text-xs text-text-secondary">Toutes les données sont stockées localement dans votre navigateur.</p>
                 </div>
             </div>
 
             <div class="mt-6">
+                <h3 class="font-bold text-accent-blue mb-2 flex items-center"><i class="fas fa-lightbulb mr-2"></i>Conseils d'utilisation</h3>
+                <ul class="list-disc pl-5 space-y-1 text-sm">
+                    <li><strong>Régularité</strong>: Prenez l'habitude de remplir votre journal chaque jour de trading pour des statistiques fiables.</li>
+                    <li><strong>Captures d'écran</strong>: Utilisez un service comme Imgur pour héberger vos captures d'écran et collez les liens dans les champs URL prévus. L'aperçu s'affichera automatiquement.</li>
+                    <li><strong>Analyse Hebdomadaire</strong>: Le vendredi, prenez le temps de remplir l'onglet "Weekly" pour faire le bilan de la semaine.</li>
+                </ul>
+            </div>
+
+            <div class="mt-6 text-center">
                 <p class="text-text-secondary">Cliquez à nouveau sur le bouton "Aide" pour masquer cette section.</p>
             </div>
+        </div>
         </div>
 
         <main class="grid grid-cols-1 lg:grid-cols-1 gap-8">
@@ -2355,7 +2402,7 @@
                 }
 
                 this.formSection.classList.remove('hidden');
-                this.formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                this.formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
                 // Masquer le conseil du jour
                 if (this.dailyTip) {
@@ -2538,6 +2585,21 @@
             loadEntryData(date) {
                 const formattedDate = this.formatDate(date);
                 const savedData = localStorage.getItem(`journal_entry_${formattedDate}`);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Comparer uniquement les dates
+
+                // Toujours réinitialiser le formulaire avant de charger quoi que ce soit
+                this.journalForm.reset();
+                document.getElementById('todoList').innerHTML = '';
+                document.getElementById('eventList').innerHTML = '';
+                document.querySelectorAll('.image-preview').forEach(p => p.classList.add('hidden'));
+
+
+                // Si la date est dans le futur, on ne charge rien, le formulaire reste vide.
+                if (date > today) {
+                    // Le formulaire est déjà réinitialisé, on ne fait rien de plus.
+                    return;
+                }
 
                 if (savedData) {
                     try {
@@ -2546,26 +2608,22 @@
                     } catch (error) {
                         console.error('Erreur lors du chargement des données:', error);
                         this.showNotification('Erreur lors du chargement des données', 'error');
+                        // S'assure que le formulaire est vide en cas d'erreur de chargement
+                        this.journalForm.reset();
+                        document.getElementById('todoList').innerHTML = '';
+                        document.getElementById('eventList').innerHTML = '';
                     }
-                } else {
-                    // Réinitialiser uniquement les champs pertinents, pas tout le formulaire
-                    this.journalForm.querySelectorAll('input:not([readonly]), textarea, select').forEach(el => {
-                        if (el.type === 'checkbox') el.checked = false;
-                        else el.value = '';
-                    });
-                    document.getElementById('todoList').innerHTML = '';
-                    document.getElementById('eventList').innerHTML = '';
                 }
+                // Si pas de savedData et la date n'est pas dans le futur, le formulaire est déjà vide.
             }
 
             populateFormData(data) {
                 if (!data) return;
 
                 try {
-                    // Réinitialiser le formulaire
-                    this.journalForm.reset();
-                    document.getElementById('todoList').innerHTML = '';
-                    document.getElementById('eventList').innerHTML = '';
+                    // Le formulaire est déjà réinitialisé dans loadEntryData
+                    // document.getElementById('todoList').innerHTML = ''; // Déjà fait aussi
+                    // document.getElementById('eventList').innerHTML = ''; // Déjà fait aussi
 
                     // Peupler les données Daily
                     if (data.daily) {
