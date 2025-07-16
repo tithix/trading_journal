@@ -413,6 +413,30 @@
         .other-month {
             background-color: #222733 !important;
         }
+
+        .btn-like-consistency {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        .btn-like-consistency:hover {
+            background-color: var(--accent-blue);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        /* Styles pour les boutons de la calculatrice */
+        #calculator-tab .ticker-btn.btn-secondary {
+            background-color: black;
+            /* Fond noir par défaut */
+        }
+
+        #calculator-tab .ticker-btn.btn-secondary:hover {
+            background-color: var(--bg-light);
+            /* Garde un fond sombre au survol */
+            border-color: var(--accent-blue);
+        }
     </style>
     <style>
         /* Styles for Consistency Tab - Themed */
@@ -993,7 +1017,8 @@
                                     </div>
                                 </div>
 
-                                <button id="calculate-btn" class="btn-primary w-1/4 mx-auto block mb-6">
+                                <button id="calculate-btn"
+                                    class="btn-like-consistency flex items-center justify-center px-6 py-2 rounded-lg transition mx-auto mb-6">
                                     <i class="fas fa-calculator mr-2"></i>
                                     Calculer
                                 </button>
@@ -1248,7 +1273,7 @@
         class ConsistencyApp {
             constructor() {
                 this.state = {
-                    language: localStorage.getItem('language') || 'en',
+                    language: 'fr',
                     error: null,
                     initialCapital: localStorage.getItem('initialCapital') || 50000,
                     targetProfit: localStorage.getItem('targetProfit') || 10000,
@@ -2829,31 +2854,40 @@
                 const takeProfitInput = document.getElementById('take-profit');
                 const pnlInput = document.getElementById('pnl-result');
                 const rrInput = document.getElementById('rr-result');
-
-                const updateTickValue = () => {
-                    const selectedAsset = assetSelect.value;
-                    if (selectedAsset && this.tickerData[selectedAsset]) {
-                        tickValueInput.value = `${this.tickerData[selectedAsset].tickValue}`;
-                    } else {
-                        tickValueInput.value = '';
-                    }
-                    calculatePnL();
-                    calculateRR();
-                };
+                const resultSelect = document.getElementById('result-select');
 
                 const calculatePnL = () => {
                     const selectedAsset = assetSelect.value;
                     const position = parseFloat(positionInput.value) || 0;
                     const stopLoss = parseFloat(stopLossInput.value) || 0;
                     const takeProfit = parseFloat(takeProfitInput.value) || 0;
+                    const result = resultSelect.value;
+
+                    pnlInput.classList.remove('text-accent-green', 'text-accent-red', 'font-bold');
+                    pnlInput.value = ''; // Clear previous value
+
+                    if (result === 'breakeven') {
+                        pnlInput.value = '0.00';
+                        return;
+                    }
 
                     if (selectedAsset && this.tickerData[selectedAsset] && position > 0) {
                         const tickValue = this.tickerData[selectedAsset].tickValue;
-                        const tpPnL = (takeProfit * tickValue * position).toFixed(2);
-                        const slPnL = (-stopLoss * tickValue * position).toFixed(2);
-                        pnlInput.value = `TP: ${tpPnL} | SL: ${slPnL}`;
-                    } else {
-                        pnlInput.value = '';
+
+                        if (result === 'win' && takeProfit > 0) {
+                            const tpPnL = (takeProfit * tickValue * position).toFixed(2);
+                            pnlInput.value = `TP: ${tpPnL}`;
+                            pnlInput.classList.add('text-accent-green', 'font-bold');
+                        } else if (result === 'loss' && stopLoss > 0) {
+                            const slPnL = (-stopLoss * tickValue * position).toFixed(2);
+                            pnlInput.value = `SL: ${slPnL}`;
+                            pnlInput.classList.add('text-accent-red', 'font-bold');
+                        } else {
+                            // Default display when no result is selected or inputs are missing
+                            const tpPnL = (takeProfit * tickValue * position).toFixed(2);
+                            const slPnL = (-stopLoss * tickValue * position).toFixed(2);
+                            pnlInput.value = `TP: ${tpPnL} | SL: ${slPnL}`;
+                        }
                     }
                 };
 
@@ -2869,8 +2903,20 @@
                     }
                 };
 
+                const updateTickValue = () => {
+                    const selectedAsset = assetSelect.value;
+                    if (selectedAsset && this.tickerData[selectedAsset]) {
+                        tickValueInput.value = `${this.tickerData[selectedAsset].tickValue}`;
+                    } else {
+                        tickValueInput.value = '';
+                    }
+                    calculatePnL();
+                    calculateRR();
+                };
+
                 // Event listeners
                 assetSelect?.addEventListener('change', updateTickValue);
+                resultSelect?.addEventListener('change', calculatePnL); // Specific listener for select
                 [positionInput, stopLossInput, takeProfitInput].forEach(input => {
                     input?.addEventListener('input', () => {
                         calculatePnL();
@@ -2899,15 +2945,24 @@
                 // Sélection du ticker
                 tickerButtons.forEach(btn => {
                     btn.addEventListener('click', () => {
+                        const isAlreadyActive = btn.classList.contains('btn-primary');
+
                         // Reset all buttons to secondary style
                         tickerButtons.forEach(b => {
                             b.classList.add('btn-secondary');
                             b.classList.remove('btn-primary');
                         });
-                        // Set clicked button to primary style
-                        btn.classList.remove('btn-secondary');
-                        btn.classList.add('btn-primary');
-                        this.selectedTicker = btn.dataset.ticker;
+
+                        if (isAlreadyActive) {
+                            // If it was already active, just deactivate it and clear selection
+                            this.selectedTicker = null;
+                        } else {
+                            // If it was not active, activate it
+                            btn.classList.remove('btn-secondary');
+                            btn.classList.add('btn-primary');
+                            this.selectedTicker = btn.dataset.ticker;
+                        }
+
                         updateSlTpLabels(); // Update labels when ticker changes
                     });
                 });
