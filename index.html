@@ -620,6 +620,7 @@
                         <li><strong>Weekly</strong>: Analyse hebdomadaire</li>
                         <li><strong>Notes</strong>: Pense-bêtes et événements</li>
                         <li><strong>Calculatrice</strong>: Calculs de risque</li>
+                        <li><strong>Consistency</strong>: Suivi de la cohérence des performances</li>
                     </ul>
                 </div>
             </div>
@@ -936,10 +937,10 @@
                             <div>
                                 <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Liste de Tâches
                                     (To-Do)</h3>
-                                <div class="flex gap-2 mb-4">
-                                    <input type="text" id="todo-input" class="form-input w-9/12"
+                                <div class="flex items-center gap-2 mb-4">
+                                    <input type="text" id="todo-input" class="form-input flex-grow"
                                         placeholder="Nouvelle tâche...">
-                                    <select id="todo-priority" class="form-select modern-select w-2/12">
+                                    <select id="todo-priority" class="form-select modern-select">
                                         <option value="1">⭐</option>
                                         <option value="2">⭐⭐</option>
                                         <option value="3">⭐⭐⭐</option>
@@ -954,7 +955,7 @@
                             <div>
                                 <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Événements
                                     Économiques Importants</h3>
-                                <div class="flex gap-2 mb-4">
+                                <div class="flex items-center gap-2 mb-4">
                                     <input type="time" id="event-time" class="form-input">
                                     <input type="text" id="event-desc" class="form-input flex-grow"
                                         placeholder="Description de l'événement...">
@@ -2757,7 +2758,7 @@
                     const description = eventDesc.value.trim();
 
                     if (time && description) {
-                        this.addTodoItem(time, description);
+                        this.addEventItem(time, description);
                         eventTime.value = '';
                         eventDesc.value = '';
                     }
