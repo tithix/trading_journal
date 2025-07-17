@@ -2537,6 +2537,16 @@
             }
 
             loadEntryData(date) {
+                // Toujours réinitialiser le formulaire avant de charger de nouvelles données
+                this.journalForm.reset();
+                document.getElementById('todoList').innerHTML = '';
+                document.getElementById('eventList').innerHTML = '';
+                document.querySelectorAll('.image-preview').forEach(preview => {
+                    preview.classList.add('hidden');
+                    const img = preview.querySelector('img');
+                    if (img) img.src = '';
+                });
+
                 const formattedDate = this.formatDate(date);
                 const savedData = localStorage.getItem(`journal_entry_${formattedDate}`);
 
@@ -2548,25 +2558,15 @@
                         console.error('Erreur lors du chargement des données:', error);
                         this.showNotification('Erreur lors du chargement des données', 'error');
                     }
-                } else {
-                    // Réinitialiser uniquement les champs pertinents, pas tout le formulaire
-                    this.journalForm.querySelectorAll('input:not([readonly]), textarea, select').forEach(el => {
-                        if (el.type === 'checkbox') el.checked = false;
-                        else el.value = '';
-                    });
-                    document.getElementById('todoList').innerHTML = '';
-                    document.getElementById('eventList').innerHTML = '';
                 }
+                // La clause 'else' n'est plus nécessaire car le formulaire est déjà vidé.
             }
 
             populateFormData(data) {
                 if (!data) return;
 
                 try {
-                    // Réinitialiser le formulaire
-                    this.journalForm.reset();
-                    document.getElementById('todoList').innerHTML = '';
-                    document.getElementById('eventList').innerHTML = '';
+                    // La réinitialisation se fait maintenant dans loadEntryData
 
                     // Peupler les données Daily
                     if (data.daily) {
