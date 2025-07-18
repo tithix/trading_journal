@@ -25,11 +25,13 @@
                 font-size: 15px;
             }
         }
+
         @media (max-width: 1280px) {
             html {
                 font-size: 14px;
             }
         }
+
         @media (max-width: 1024px) {
             html {
                 font-size: 13px;
@@ -318,12 +320,22 @@
             border-radius: 0.5rem;
             overflow: hidden;
             max-width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .image-preview>a {
+            width: calc((100% - 1rem) / 3);
+            /* (100% - 2 * gap) / 3 */
         }
 
         .image-preview img {
             width: 100%;
             height: auto;
             display: block;
+            object-fit: cover;
+            border-radius: 0.25rem;
         }
 
         /* Styles pour les notifications */
@@ -361,11 +373,13 @@
 
         /* Responsive design */
         @media (max-width: 768px) {
+
             /* General Layout */
             .container {
                 padding-left: 0.5rem;
                 padding-right: 0.5rem;
             }
+
             section.bg-bg-light {
                 padding: 1rem;
             }
@@ -375,32 +389,43 @@
                 padding: 1rem;
                 margin-bottom: 1.5rem;
             }
+
             header .flex-col.md\:flex-row {
                 flex-direction: column;
                 align-items: center;
             }
+
             header h1 {
-                font-size: 1.5rem; /* 24px */
+                font-size: 1.5rem;
+                /* 24px */
             }
+
             header nav {
                 margin-top: 1rem;
             }
 
             /* Calendar */
             #calendar-container {
-                grid-template-columns: repeat(7, 1fr); /* Remove the 8th column */
+                grid-template-columns: repeat(7, 1fr);
+                /* Remove the 8th column */
                 gap: 0.25rem;
             }
-            #calendar-container > div.text-center.font-bold {
+
+            #calendar-container>div.text-center.font-bold {
                 padding: 0.25rem;
                 font-size: 0.75rem;
             }
-            #calendar-container > div:nth-child(8) {
-                display: none; /* Hide "Résultats Hebdo" header */
+
+            #calendar-container>div:nth-child(8) {
+                display: none;
+                /* Hide "Résultats Hebdo" header */
             }
-            #calendar-container > .weekly-summary-card {
-                display: none; /* Hide weekly summary cards */
+
+            #calendar-container>.weekly-summary-card {
+                display: none;
+                /* Hide weekly summary cards */
             }
+
             .calendar-day {
                 min-height: 55px;
                 font-size: 0.8rem;
@@ -410,6 +435,7 @@
                 justify-content: flex-start;
                 align-items: center;
             }
+
             .indicators-container {
                 position: static;
                 display: flex;
@@ -418,11 +444,14 @@
                 gap: 0.3rem;
                 width: 100%;
                 padding: 0.1rem 0;
-                order: 1; /* Place indicators below the day number */
+                order: 1;
+                /* Place indicators below the day number */
             }
+
             .indicator {
                 font-size: 0.65rem;
             }
+
             #currentMonthYear {
                 font-size: 1.25rem;
             }
@@ -432,6 +461,7 @@
                 padding: 0.5rem 0.5rem;
                 font-size: 0.8rem;
             }
+
             .tab-button .fas {
                 margin-right: 0.25rem;
             }
@@ -440,27 +470,33 @@
             #form-section {
                 padding: 1rem;
             }
+
             #journal-form .grid-cols-1.md\:grid-cols-2 {
                 grid-template-columns: 1fr;
             }
-            #journal-form .form-input, #journal-form .form-select {
+
+            #journal-form .form-input,
+            #journal-form .form-select {
                 width: 100%;
             }
+
             #journal-form .w-1\/2 {
                 width: 100%;
             }
 
             /* Form Buttons at the bottom */
-            #journal-form > div:last-child {
+            #journal-form>div:last-child {
                 flex-direction: column-reverse;
                 gap: 1rem;
             }
-            #journal-form > div:last-child > div {
+
+            #journal-form>div:last-child>div {
                 display: flex;
                 flex-direction: column;
                 gap: 0.5rem;
             }
-            #journal-form > div:last-child > div > button {
+
+            #journal-form>div:last-child>div>button {
                 width: 100%;
                 justify-content: center;
             }
@@ -714,15 +750,20 @@
                 <i class="fas fa-info-circle mr-2"></i>
                 Aide & Introduction
             </h2>
-            <p class="mb-4">Bienvenue dans le <strong>Journal de Trading A.M.E.D</strong>. Cet outil est conçu pour vous aider à structurer votre routine de trading, à analyser vos performances et à maintenir une discipline rigoureuse en suivant les cycles de marché Intraday.</p>
+            <p class="mb-4">Bienvenue dans le <strong>Journal de Trading A.M.E.D</strong>. Cet outil est conçu pour vous
+                aider à structurer votre routine de trading, à analyser vos performances et à maintenir une discipline
+                rigoureuse en suivant les cycles de marché Intraday.</p>
 
             <div class="space-y-6">
                 <!-- Section Calendrier -->
                 <div class="bg-bg-dark p-4 rounded-lg">
                     <h3 class="font-bold text-accent-blue mb-2">Fonctionnement du Calendrier</h3>
-                    <p>Le calendrier est votre point d'entrée. Cliquez sur une date pour ouvrir le formulaire et enregistrer vos données pour ce jour. Les indicateurs sur chaque case vous renseignent sur les données déjà sauvegardées :</p>
+                    <p>Le calendrier est votre point d'entrée. Cliquez sur une date pour ouvrir le formulaire et
+                        enregistrer vos données pour ce jour. Les indicateurs sur chaque case vous renseignent sur les
+                        données déjà sauvegardées :</p>
                     <ul class="list-disc pl-5 mt-2 text-text-secondary">
-                        <li><span class="text-accent-green font-bold">✅ Trade Gagnant</span> / <span class="text-accent-red font-bold">❌ Trade Perdant</span></li>
+                        <li><span class="text-accent-green font-bold">✅ Trade Gagnant</span> / <span
+                                class="text-accent-red font-bold">❌ Trade Perdant</span></li>
                         <li><i class="fas fa-calendar-week text-accent-blue"></i> Entrée "Daily" enregistrée</li>
                         <li><i class="fas fa-sticky-note text-accent-yellow"></i> Note ou événement enregistré</li>
                     </ul>
@@ -734,27 +775,33 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         <div class="bg-bg-dark p-4 rounded-lg">
                             <h4 class="font-bold mb-2">Daily</h4>
-                            <p class="text-sm">Analysez le contexte du jour : tendance du jour précédent (PDR), et phases des cycles C1/C2/C3. Ajoutez des captures d'écran pour chaque étape.</p>
+                            <p class="text-sm">Analysez le contexte du jour : tendance du jour précédent (PDR), et
+                                phases des cycles C1/C2/C3. Ajoutez des captures d'écran pour chaque étape.</p>
                         </div>
                         <div class="bg-bg-dark p-4 rounded-lg">
                             <h4 class="font-bold mb-2">Trade</h4>
-                            <p class="text-sm">Enregistrez les détails précis de votre trade : actif, taille, SL/TP, et résultat. Le P&L et le ratio R/R sont calculés automatiquement.</p>
+                            <p class="text-sm">Enregistrez les détails précis de votre trade : actif, taille, SL/TP, et
+                                résultat. Le P&L et le ratio R/R sont calculés automatiquement.</p>
                         </div>
                         <div class="bg-bg-dark p-4 rounded-lg">
                             <h4 class="font-bold mb-2">Weekly</h4>
-                            <p class="text-sm">Prenez du recul avec l'analyse hebdomadaire. Notez la tendance de la semaine précédente (PWR) et vos observations générales.</p>
+                            <p class="text-sm">Prenez du recul avec l'analyse hebdomadaire. Notez la tendance de la
+                                semaine précédente (PWR) et vos observations générales.</p>
                         </div>
                         <div class="bg-bg-dark p-4 rounded-lg">
                             <h4 class="font-bold mb-2">Notes</h4>
-                            <p class="text-sm">Utilisez cet espace pour vos pense-bêtes, listes de tâches (avec priorités) et pour noter les événements économiques importants de la journée.</p>
+                            <p class="text-sm">Utilisez cet espace pour vos pense-bêtes, listes de tâches (avec
+                                priorités) et pour noter les événements économiques importants de la journée.</p>
                         </div>
                         <div class="bg-bg-dark p-4 rounded-lg">
                             <h4 class="font-bold mb-2">Calculatrice</h4>
-                            <p class="text-sm">Un outil rapide pour calculer le risque, la taille de position maximale et le gain potentiel en fonction de votre capital et de votre stratégie.</p>
+                            <p class="text-sm">Un outil rapide pour calculer le risque, la taille de position maximale
+                                et le gain potentiel en fonction de votre capital et de votre stratégie.</p>
                         </div>
                         <div class="bg-bg-dark p-4 rounded-lg">
                             <h4 class="font-bold mb-2">Consistency</h4>
-                            <p class="text-sm">Suivez votre régularité. Cet analyseur avancé vous aide à respecter les règles des prop firms (drawdown, profit target, etc.).</p>
+                            <p class="text-sm">Suivez votre régularité. Cet analyseur avancé vous aide à respecter les
+                                règles des prop firms (drawdown, profit target, etc.).</p>
                         </div>
                     </div>
                 </div>
@@ -765,9 +812,13 @@
                     <div class="bg-bg-dark p-4 rounded-lg">
                         <p>Vos données sont précieuses. Utilisez les boutons en bas du formulaire pour les gérer :</p>
                         <ul class="list-disc pl-5 mt-2 text-text-secondary">
-                            <li><strong>Importer :</strong> Chargez un fichier de sauvegarde (format JSON) pour restaurer vos données.</li>
-                            <li><strong>Sauvegarder :</strong> Exportez toutes vos entrées dans un fichier JSON. Faites-le régulièrement !</li>
-                            <li><strong>Effacer :</strong> Supprimez toutes les données du journal. <span class="text-accent-red font-bold">Attention, cette action est irréversible.</span></li>
+                            <li><strong>Importer :</strong> Chargez un fichier de sauvegarde (format JSON) pour
+                                restaurer vos données.</li>
+                            <li><strong>Sauvegarder :</strong> Exportez toutes vos entrées dans un fichier JSON.
+                                Faites-le régulièrement !</li>
+                            <li><strong>Effacer :</strong> Supprimez toutes les données du journal. <span
+                                    class="text-accent-red font-bold">Attention, cette action est irréversible.</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -891,10 +942,10 @@
                                     </div>
                                     <div>
                                         <label class="block text-text-secondary mb-2">Capture H1 (URL)</label>
-                                        <input id="daily-captureH1" type="url" class="form-input w-full" placeholder="https://...">
-                                        <div class="image-preview hidden">
-                                            <img src="" alt="Preview">
-                                        </div>
+                                        <input id="daily-captureH1" type="text"
+                                            class="form-input w-full image-url-input"
+                                            placeholder="Coller un ou plusieurs liens d'image...">
+                                        <div class="image-preview hidden"></div>
                                     </div>
                                 </div>
                                 <div class="mt-4">
@@ -919,10 +970,10 @@
                                     </select>
                                     <div class="mt-4">
                                         <label class="block text-text-secondary mb-2">Capture C1 (URL)</label>
-                                        <input id="daily-cycleC1Capture" type="url" class="form-input w-full" placeholder="https://...">
-                                        <div class="image-preview hidden">
-                                            <img src="" alt="Preview">
-                                        </div>
+                                        <input id="daily-cycleC1Capture" type="text"
+                                            class="form-input w-full image-url-input"
+                                            placeholder="Coller un ou plusieurs liens d'image...">
+                                        <div class="image-preview hidden"></div>
                                     </div>
                                 </div>
 
@@ -940,10 +991,10 @@
                                     </select>
                                     <div class="mt-4">
                                         <label class="block text-text-secondary mb-2">Capture C2 (URL)</label>
-                                        <input id="daily-cycleC2Capture" type="url" class="form-input w-full" placeholder="https://...">
-                                        <div class="image-preview hidden">
-                                            <img src="" alt="Preview">
-                                        </div>
+                                        <input id="daily-cycleC2Capture" type="text"
+                                            class="form-input w-full image-url-input"
+                                            placeholder="Coller un ou plusieurs liens d'image...">
+                                        <div class="image-preview hidden"></div>
                                     </div>
                                 </div>
                             </div>
@@ -977,10 +1028,10 @@
                                     </div>
                                     <div>
                                         <label class="block text-text-secondary mb-2">Capture Setup (URL)</label>
-                                        <input id="daily-captureSetup" type="url" class="form-input w-full" placeholder="https://...">
-                                        <div class="image-preview hidden">
-                                            <img src="" alt="Preview">
-                                        </div>
+                                        <input id="daily-captureSetup" type="text"
+                                            class="form-input w-full image-url-input"
+                                            placeholder="Coller un ou plusieurs liens d'image...">
+                                        <div class="image-preview hidden"></div>
                                     </div>
                                 </div>
                             </div>
@@ -1047,7 +1098,7 @@
                         <div class="space-y-4">
                             <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Tendance du PWR
                                 (Previous Week Range)</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-text-secondary mb-2">PWR</label>
                                     <select class="form-select modern-select w-1/2">
@@ -1063,10 +1114,9 @@
                                 </div>
                                 <div>
                                     <label class="block text-text-secondary mb-2">Capture H4 (URL)</label>
-                                    <input type="url" class="form-input w-full" placeholder="https://...">
-                                    <div class="image-preview hidden">
-                                        <img src="" alt="Preview">
-                                    </div>
+                                    <input id="weekly-captureH4" type="text" class="form-input w-full image-url-input"
+                                        placeholder="Coller un ou plusieurs liens d'image...">
+                                    <div class="image-preview hidden"></div>
                                 </div>
                             </div>
                             <div>
@@ -2562,7 +2612,7 @@
                         } else {
                             console.error('Chart.js n\'a pas pu être chargé, l\'onglet Consistency ne peut pas être initialisé.');
                             const consistencyTab = document.getElementById('consistency-tab');
-                            if(consistencyTab) consistencyTab.innerHTML = '<p class="text-center text-accent-red">La librairie Chart.js n\'a pas pu être chargée. Le suivi de la consistance est indisponible.</p>';
+                            if (consistencyTab) consistencyTab.innerHTML = '<p class="text-center text-accent-red">La librairie Chart.js n\'a pas pu être chargée. Le suivi de la consistance est indisponible.</p>';
                         }
                     }
                 }
@@ -2647,7 +2697,7 @@
                         data.weekly = {
                             pwr: weeklyTab.querySelector('select')?.value || '',
                             weekNumber: document.getElementById('week-number')?.value || '',
-                            captureH4: weeklyTab.querySelector('input[type="url"]')?.value || '',
+                            captureH4: document.getElementById('weekly-captureH4')?.value || '',
                             observations: weeklyTab.querySelector('textarea')?.value || ''
                         };
                     }
@@ -2779,7 +2829,7 @@
                         const weeklyTab = document.getElementById('weekly-tab');
                         if (weeklyTab) {
                             const select = weeklyTab.querySelector('select');
-                            const urlInput = weeklyTab.querySelector('input[type="url"]');
+                            const urlInput = document.getElementById('weekly-captureH4');
                             const textarea = weeklyTab.querySelector('textarea');
                             const weekNumber = document.getElementById('week-number');
 
@@ -2833,7 +2883,7 @@
                     }
 
                     // Déclencher les prévisualisations d'images
-                    document.querySelectorAll('input[type="url"]').forEach(input => {
+                    document.querySelectorAll('.image-url-input').forEach(input => {
                         if (input.value) {
                             const event = new Event('input');
                             input.dispatchEvent(event);
@@ -2856,21 +2906,37 @@
             }
 
             setupImagePreviews() {
-                document.querySelectorAll('input[type="url"]').forEach(input => {
-                    const preview = input.nextElementSibling;
-                    if (preview && preview.classList.contains('image-preview')) {
+                document.querySelectorAll('.image-url-input').forEach(input => {
+                    const previewContainer = input.nextElementSibling;
+                    if (previewContainer && previewContainer.classList.contains('image-preview')) {
                         input.addEventListener('input', () => {
-                            const img = preview.querySelector('img');
-                            if (input.value && input.value.startsWith('http')) {
-                                img.src = input.value;
-                                img.onload = () => {
-                                    preview.classList.remove('hidden');
-                                };
-                                img.onerror = () => {
-                                    preview.classList.add('hidden');
-                                };
+                            // Vider le conteneur d'aperçus
+                            previewContainer.innerHTML = '';
+
+                            // Séparer les URLs par virgule, espace ou nouvelle ligne
+                            const urls = input.value.split(/[\s,]+/).filter(url => url.startsWith('http'));
+
+                            if (urls.length > 0) {
+                                previewContainer.classList.remove('hidden');
+                                urls.forEach(url => {
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.target = '_blank';
+                                    a.rel = 'noopener noreferrer';
+
+                                    const img = document.createElement('img');
+                                    img.src = url;
+                                    img.alt = "Aperçu de " + url;
+                                    img.onerror = () => {
+                                        // Optionnel: gérer les erreurs de chargement d'image
+                                        a.style.display = 'none';
+                                    };
+
+                                    a.appendChild(img);
+                                    previewContainer.appendChild(a);
+                                });
                             } else {
-                                preview.classList.add('hidden');
+                                previewContainer.classList.add('hidden');
                             }
                         });
                     }
