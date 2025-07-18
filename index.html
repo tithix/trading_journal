@@ -19,6 +19,25 @@
         rel="stylesheet">
 
     <style>
+        /* Amélioration de la réactivité pour s'adapter à différentes tailles d'écran */
+        @media (max-width: 1440px) {
+            html {
+                font-size: 15px;
+            }
+        }
+        @media (max-width: 1280px) {
+            html {
+                font-size: 14px;
+            }
+        }
+        @media (max-width: 1024px) {
+            html {
+                font-size: 13px;
+            }
+        }
+    </style>
+
+    <style>
         :root {
             --bg-dark: #131722;
             --bg-light: #1e222d;
@@ -285,7 +304,7 @@
         .event-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
             background-color: var(--bg-dark);
             padding: 0.5rem;
             border-radius: 0.5rem;
@@ -342,13 +361,113 @@
 
         /* Responsive design */
         @media (max-width: 768px) {
-            .calendar-grid {
-                gap: 0.125rem;
+            /* General Layout */
+            .container {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+            }
+            section.bg-bg-light {
+                padding: 1rem;
             }
 
+            /* Header */
+            header.bg-bg-light {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            header .flex-col.md\:flex-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            header h1 {
+                font-size: 1.5rem; /* 24px */
+            }
+            header nav {
+                margin-top: 1rem;
+            }
+
+            /* Calendar */
+            #calendar-container {
+                grid-template-columns: repeat(7, 1fr); /* Remove the 8th column */
+                gap: 0.25rem;
+            }
+            #calendar-container > div.text-center.font-bold {
+                padding: 0.25rem;
+                font-size: 0.75rem;
+            }
+            #calendar-container > div:nth-child(8) {
+                display: none; /* Hide "Résultats Hebdo" header */
+            }
+            #calendar-container > .weekly-summary-card {
+                display: none; /* Hide weekly summary cards */
+            }
             .calendar-day {
-                min-height: 60px;
-                font-size: 0.875rem;
+                min-height: 55px;
+                font-size: 0.8rem;
+                padding: 0.25rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+            }
+            .indicators-container {
+                position: static;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                gap: 0.3rem;
+                width: 100%;
+                padding: 0.1rem 0;
+                order: 1; /* Place indicators below the day number */
+            }
+            .indicator {
+                font-size: 0.65rem;
+            }
+            #currentMonthYear {
+                font-size: 1.25rem;
+            }
+
+            /* Form Tabs */
+            .tab-button {
+                padding: 0.5rem 0.5rem;
+                font-size: 0.8rem;
+            }
+            .tab-button .fas {
+                margin-right: 0.25rem;
+            }
+
+            /* Form Section */
+            #form-section {
+                padding: 1rem;
+            }
+            #journal-form .grid-cols-1.md\:grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+            #journal-form .form-input, #journal-form .form-select {
+                width: 100%;
+            }
+            #journal-form .w-1\/2 {
+                width: 100%;
+            }
+
+            /* Form Buttons at the bottom */
+            #journal-form > div:last-child {
+                flex-direction: column-reverse;
+                gap: 1rem;
+            }
+            #journal-form > div:last-child > div {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            #journal-form > div:last-child > div > button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Help Section */
+            #help-section .grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -595,37 +714,66 @@
                 <i class="fas fa-info-circle mr-2"></i>
                 Aide & Introduction
             </h2>
-            <p class="mb-4">Bienvenue dans le Journal de Trading AMED. Cette application vous permet d'enregistrer,
-                d'analyser et de suivre vos opérations de trading selon différents cycles (Intraday, Hebdomadaire,
-                etc.).</p>
+            <p class="mb-4">Bienvenue dans le <strong>Journal de Trading A.M.E.D</strong>. Cet outil est conçu pour vous aider à structurer votre routine de trading, à analyser vos performances et à maintenir une discipline rigoureuse en suivant les cycles de marché Intraday.</p>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-6">
+                <!-- Section Calendrier -->
                 <div class="bg-bg-dark p-4 rounded-lg">
-                    <h3 class="font-bold text-accent-blue mb-2 flex items-center">
-                        <i class="fas fa-calendar mr-2"></i>
-                        Calendrier
-                    </h3>
-                    <p>Cliquez sur un jour pour ajouter ou consulter une entrée de journal pour cette date. Les jours
-                        avec des entrées sont marqués d'un point orange.</p>
+                    <h3 class="font-bold text-accent-blue mb-2">Fonctionnement du Calendrier</h3>
+                    <p>Le calendrier est votre point d'entrée. Cliquez sur une date pour ouvrir le formulaire et enregistrer vos données pour ce jour. Les indicateurs sur chaque case vous renseignent sur les données déjà sauvegardées :</p>
+                    <ul class="list-disc pl-5 mt-2 text-text-secondary">
+                        <li><span class="text-accent-green font-bold">✅ Trade Gagnant</span> / <span class="text-accent-red font-bold">❌ Trade Perdant</span></li>
+                        <li><i class="fas fa-calendar-week text-accent-blue"></i> Entrée "Daily" enregistrée</li>
+                        <li><i class="fas fa-sticky-note text-accent-yellow"></i> Note ou événement enregistré</li>
+                    </ul>
                 </div>
 
-                <div class="bg-bg-dark p-4 rounded-lg">
-                    <h3 class="font-bold text-accent-blue mb-2 flex items-center">
-                        <i class="fas fa-folder mr-2"></i>
-                        Onglets
-                    </h3>
-                    <ul class="list-disc pl-5 space-y-1">
-                        <li><strong>Daily</strong>: Observations et tendances du jour</li>
-                        <li><strong>Trade</strong>: Détails d'un trade</li>
-                        <li><strong>Weekly</strong>: Analyse hebdomadaire</li>
-                        <li><strong>Notes</strong>: Pense-bêtes et événements</li>
-                        <li><strong>Calculatrice</strong>: Calculs de risque</li>
-                        <li><strong>Consistency</strong>: Suivi de la cohérence des performances</li>
-                    </ul>
+                <!-- Section Onglets -->
+                <div>
+                    <h3 class="text-lg font-bold text-accent-blue mb-3">Détail des Onglets</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Daily</h4>
+                            <p class="text-sm">Analysez le contexte du jour : tendance du jour précédent (PDR), et phases des cycles C1/C2/C3. Ajoutez des captures d'écran pour chaque étape.</p>
+                        </div>
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Trade</h4>
+                            <p class="text-sm">Enregistrez les détails précis de votre trade : actif, taille, SL/TP, et résultat. Le P&L et le ratio R/R sont calculés automatiquement.</p>
+                        </div>
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Weekly</h4>
+                            <p class="text-sm">Prenez du recul avec l'analyse hebdomadaire. Notez la tendance de la semaine précédente (PWR) et vos observations générales.</p>
+                        </div>
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Notes</h4>
+                            <p class="text-sm">Utilisez cet espace pour vos pense-bêtes, listes de tâches (avec priorités) et pour noter les événements économiques importants de la journée.</p>
+                        </div>
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Calculatrice</h4>
+                            <p class="text-sm">Un outil rapide pour calculer le risque, la taille de position maximale et le gain potentiel en fonction de votre capital et de votre stratégie.</p>
+                        </div>
+                        <div class="bg-bg-dark p-4 rounded-lg">
+                            <h4 class="font-bold mb-2">Consistency</h4>
+                            <p class="text-sm">Suivez votre régularité. Cet analyseur avancé vous aide à respecter les règles des prop firms (drawdown, profit target, etc.).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Gestion des Données -->
+                <div>
+                    <h3 class="text-lg font-bold text-accent-blue mb-3">Gestion de vos Données</h3>
+                    <div class="bg-bg-dark p-4 rounded-lg">
+                        <p>Vos données sont précieuses. Utilisez les boutons en bas du formulaire pour les gérer :</p>
+                        <ul class="list-disc pl-5 mt-2 text-text-secondary">
+                            <li><strong>Importer :</strong> Chargez un fichier de sauvegarde (format JSON) pour restaurer vos données.</li>
+                            <li><strong>Sauvegarder :</strong> Exportez toutes vos entrées dans un fichier JSON. Faites-le régulièrement !</li>
+                            <li><strong>Effacer :</strong> Supprimez toutes les données du journal. <span class="text-accent-red font-bold">Attention, cette action est irréversible.</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
-            <div class="mt-6">
+            <div class="mt-6 text-center">
                 <p class="text-text-secondary">Cliquez à nouveau sur le bouton "Aide" pour masquer cette section.</p>
             </div>
         </div>
@@ -670,7 +818,7 @@
                     <i class="fas fa-lightbulb mr-2"></i>
                     Conseil du jour
                 </h3>
-                <p class="text-sm text-center">La patience est la clé. Attendez que votre setup se présente, ne le
+                <p class="text-base text-center">La patience est la clé. Attendez que votre setup se présente, ne le
                     forcez pas.</p>
             </section>
 
@@ -1120,10 +1268,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-        const { jsPDF } = window.jspdf;
-
         // Traductions
         const translations = {
             en: {
@@ -2245,7 +2390,14 @@
                         }
 
                         // 3. Note Icon (Bottom)
-                        const hasNoteEntry = entryData?.notes?.general?.trim() !== '' || (entryData?.notes?.todoList?.length > 0) || (entryData?.notes?.eventList?.length > 0);
+                        const hasNoteEntry = (entryData?.notes?.general && entryData.notes.general.trim() !== '') ||
+                            (entryData?.notes?.todoList && entryData.notes.todoList.length > 0) ||
+                            (entryData?.notes?.eventList && entryData.notes.eventList.length > 0);
+
+                        if (entryData?.notes?.eventList && entryData.notes.eventList.length > 0) {
+                            console.log(`[ICON] Date: ${formattedDate}, hasEvent: true, eventList:`, entryData.notes.eventList);
+                        }
+
                         if (hasNoteEntry) {
                             const noteIndicator = document.createElement('i');
                             noteIndicator.className = 'fas fa-sticky-note indicator note-indicator';
@@ -2399,7 +2551,13 @@
 
                     // Initialiser l'application de l'onglet "Consistency" si c'est la première fois
                     if (tabId === 'consistency' && !window.consistencyAppInstance) {
-                        window.consistencyAppInstance = new ConsistencyApp();
+                        if (typeof Chart !== 'undefined') {
+                            window.consistencyAppInstance = new ConsistencyApp();
+                        } else {
+                            console.error('Chart.js n\'a pas pu être chargé, l\'onglet Consistency ne peut pas être initialisé.');
+                            const consistencyTab = document.getElementById('consistency-tab');
+                            if(consistencyTab) consistencyTab.innerHTML = '<p class="text-center text-accent-red">La librairie Chart.js n\'a pas pu être chargée. Le suivi de la consistance est indisponible.</p>';
+                        }
                     }
                 }
             }
@@ -2412,6 +2570,8 @@
 
                 const formattedDate = this.formatDate(this.selectedDateForEntry);
                 const formData = this.collectFormData();
+
+                console.log(`[SAVE] Saving data for ${formattedDate}:`, JSON.parse(JSON.stringify(formData)));
 
                 // Sauvegarder dans le localStorage
                 localStorage.setItem(`journal_entry_${formattedDate}`, JSON.stringify(formData));
@@ -2507,11 +2667,13 @@
                         // Collecter les événements
                         const eventItems = document.querySelectorAll('#eventList li');
                         eventItems.forEach(item => {
+                            const checkbox = item.querySelector('input[type="checkbox"]');
                             const time = item.querySelector('.event-time')?.textContent || '';
                             const description = item.querySelector('.event-desc')?.textContent || '';
                             data.notes.eventList.push({
                                 time: time,
-                                description: description
+                                description: description,
+                                completed: checkbox?.checked || false
                             });
                         });
                     }
@@ -2550,6 +2712,8 @@
                 const formattedDate = this.formatDate(date);
                 const savedData = localStorage.getItem(`journal_entry_${formattedDate}`);
 
+                console.log(`[LOAD] Checking for data for ${formattedDate}. Found:`, !!savedData);
+
                 if (savedData) {
                     try {
                         const data = JSON.parse(savedData);
@@ -2566,6 +2730,7 @@
                 if (!data) return;
 
                 try {
+                    console.log('[LOAD] Populating form with data:', JSON.parse(JSON.stringify(data)));
                     // La réinitialisation se fait maintenant dans loadEntryData
 
                     // Peupler les données Daily
@@ -2644,7 +2809,7 @@
                         // Recréer les événements
                         if (data.notes.eventList && data.notes.eventList.length > 0) {
                             data.notes.eventList.forEach(event => {
-                                this.addEventItem(event.time, event.description);
+                                this.addEventItem(event.time, event.description, event.completed);
                             });
                         }
                     }
@@ -2758,7 +2923,7 @@
                     const description = eventDesc.value.trim();
 
                     if (time && description) {
-                        this.addEventItem(time, description);
+                        this.addEventItem(time, description, false);
                         eventTime.value = '';
                         eventDesc.value = '';
                     }
@@ -2820,10 +2985,15 @@
                 todoList.appendChild(li);
             }
 
-            addEventItem(time, description) {
+            addEventItem(time, description, completed = false) {
                 const eventList = document.getElementById('eventList');
                 const li = document.createElement('li');
                 li.className = 'event-item';
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = completed;
+                checkbox.className = 'form-checkbox h-5 w-5 text-accent-blue';
 
                 const timeSpan = document.createElement('span');
                 timeSpan.className = 'event-time font-bold text-accent-blue';
@@ -2833,6 +3003,10 @@
                 descSpan.className = 'event-desc flex-1';
                 descSpan.textContent = description;
 
+                if (completed) {
+                    descSpan.classList.add('line-through', 'text-text-secondary');
+                }
+
                 const deleteBtn = document.createElement('button');
                 deleteBtn.className = 'text-accent-red hover:bg-accent-red hover:text-white p-1 rounded';
                 deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
@@ -2840,6 +3014,15 @@
                     li.remove();
                 });
 
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        descSpan.classList.add('line-through', 'text-text-secondary');
+                    } else {
+                        descSpan.classList.remove('line-through', 'text-text-secondary');
+                    }
+                });
+
+                li.appendChild(checkbox);
                 li.appendChild(timeSpan);
                 li.appendChild(descSpan);
                 li.appendChild(deleteBtn);
