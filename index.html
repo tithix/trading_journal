@@ -326,8 +326,8 @@
         }
 
         .image-preview>a {
-            width: calc((100% - 1rem) / 3);
-            /* (100% - 2 * gap) / 3 */
+            width: calc((100% - 0.5rem) / 2);
+            /* (100% - 1 * gap) / 2 */
         }
 
         .image-preview img {
@@ -2913,8 +2913,9 @@
                             // Vider le conteneur d'aperçus
                             previewContainer.innerHTML = '';
 
-                            // Séparer les URLs par virgule, espace ou nouvelle ligne
-                            const urls = input.value.split(/[\s,]+/).filter(url => url.startsWith('http'));
+                            // Séparer les URLs par virgule, espace ou nouvelle ligne et limiter à 2
+                            let urls = input.value.split(/[\s,]+/).filter(url => url.startsWith('http'));
+                            urls = urls.slice(0, 2);
 
                             if (urls.length > 0) {
                                 previewContainer.classList.remove('hidden');
