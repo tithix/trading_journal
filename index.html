@@ -790,6 +790,50 @@
             color: var(--accent-red);
             font-weight: bold;
         }
+
+        /* Styles for Modal */
+        .modal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: var(--bg-light);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border: none;
+            background: none;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
     </style>
 </head>
 
@@ -959,6 +1003,12 @@
                 <div class="flex flex-wrap mb-6 border-b border-border-color">
                     <button
                         class="tab-button px-4 py-2 font-medium rounded-t-lg mr-2 bg-accent-blue text-white flex items-center border border-accent-blue"
+                        data-tab="weekly">
+                        <i class="fas fa-calendar-week mr-2"></i>
+                        Weekly
+                    </button>
+                    <button
+                        class="tab-button px-4 py-2 font-medium rounded-t-lg mr-2 bg-bg-dark hover:bg-bg-light transition flex items-center border border-accent-blue"
                         data-tab="daily">
                         <i class="fas fa-sun mr-2"></i>
                         Daily
@@ -968,12 +1018,6 @@
                         data-tab="trade">
                         <i class="fas fa-dollar-sign mr-2"></i>
                         Trade
-                    </button>
-                    <button
-                        class="tab-button px-4 py-2 font-medium rounded-t-lg mr-2 bg-bg-dark hover:bg-bg-light transition flex items-center border border-accent-blue"
-                        data-tab="weekly">
-                        <i class="fas fa-calendar-week mr-2"></i>
-                        Weekly
                     </button>
                     <button
                         class="tab-button px-4 py-2 font-medium rounded-t-lg mr-2 bg-bg-dark hover:bg-bg-light transition flex items-center border border-accent-blue"
@@ -1003,7 +1047,7 @@
 
                 <form id="journal-form" class="space-y-6">
                     <!-- Daily Tab -->
-                    <div id="daily-tab" class="tab-content block">
+                    <div id="daily-tab" class="tab-content hidden">
                         <div class="space-y-4">
                             <div>
                                 <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Tendance du PDR
@@ -1111,19 +1155,33 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-text-secondary mb-2">Type de Setup</label>
-                                        <select id="daily-setupType" class="form-select modern-select w-1/2">
-                                            <option value="">-- Sélectionner --</option>
-                                            <option value="long">Long</option>
-                                            <option value="short">Short</option>
-                                        </select>
+                                        <div class="flex items-center">
+                                            <select id="daily-setupType" class="form-select modern-select w-1/2">
+                                                <option value="">-- Sélectionner --</option>
+                                                <option value="long">Long</option>
+                                                <option value="short">Short</option>
+                                            </select>
+                                            <div class="tooltip ml-2">
+                                                <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                                <span class="tooltiptext">Le Setup affiché, est pour un trade Long ou
+                                                    Short?</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
                                         <label class="block text-text-secondary mb-2">Manipulation</label>
-                                        <select id="daily-manipulation" class="form-select modern-select w-1/2">
-                                            <option value="">-- Sélectionner --</option>
-                                            <option value="bullish_shorts">Bullish (for Shorts)</option>
-                                            <option value="bearish_longs">Bearish (for Longs)</option>
-                                        </select>
+                                        <div class="flex items-center">
+                                            <select id="daily-manipulation" class="form-select modern-select w-1/2">
+                                                <option value="">-- Sélectionner --</option>
+                                                <option value="bullish_shorts">Bullish (for Shorts)</option>
+                                                <option value="bearish_longs">Bearish (for Longs)</option>
+                                            </select>
+                                            <div class="tooltip ml-2">
+                                                <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                                <span class="tooltiptext">Type de manipulation, on vient prendre un (L)
+                                                    pour aller Long ou un (H) pour un Short</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -1140,6 +1198,47 @@
                                         <div class="image-preview hidden"></div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Tab -->
+                    <div id="weekly-tab" class="tab-content block">
+                        <div class="space-y-4">
+                            <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Tendance du PWR
+                                (Previous Week Range)</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-text-secondary mb-2">PWR</label>
+                                    <div class="flex items-center">
+                                        <select class="form-select modern-select w-1/2">
+                                            <option value="">-- Sélectionner --</option>
+                                            <option value="bullish">Bullish</option>
+                                            <option value="bearish">Bearish</option>
+                                            <option value="consolidation">Consolidation</option>
+                                        </select>
+                                        <div class="tooltip ml-2">
+                                            <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                            <span class="tooltiptext">Quel était le range de la bougie weekly de la
+                                                semaine précédente</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <label class="block text-text-secondary mb-2">Semaine #</label>
+                                        <input type="text" id="week-number" class="form-input w-1/4" readonly>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-text-secondary mb-2">Capture H4 (URL)</label>
+                                    <input id="weekly-captureH4" type="text" class="form-input w-full image-url-input"
+                                        placeholder="Coller un ou plusieurs liens d'image...">
+                                    <div class="image-preview hidden"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-text-secondary mb-2">Obs/Notes</label>
+                                <textarea class="form-input w-full auto-resize"
+                                    placeholder="Observations et notes..."></textarea>
                             </div>
                         </div>
                     </div>
@@ -1195,40 +1294,6 @@
                                 <label class="block text-text-secondary mb-2">Revue du Trade</label>
                                 <textarea class="form-input w-full auto-resize"
                                     placeholder="Ai-je respecté le plan ? Leçons..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Weekly Tab -->
-                    <div id="weekly-tab" class="tab-content hidden">
-                        <div class="space-y-4">
-                            <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Tendance du PWR
-                                (Previous Week Range)</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block text-text-secondary mb-2">PWR</label>
-                                    <select class="form-select modern-select w-1/2">
-                                        <option value="">-- Sélectionner --</option>
-                                        <option value="bullish">Bullish</option>
-                                        <option value="bearish">Bearish</option>
-                                        <option value="consolidation">Consolidation</option>
-                                    </select>
-                                    <div class="mt-4">
-                                        <label class="block text-text-secondary mb-2">Semaine #</label>
-                                        <input type="text" id="week-number" class="form-input w-full" readonly>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="block text-text-secondary mb-2">Capture H4 (URL)</label>
-                                    <input id="weekly-captureH4" type="text" class="form-input w-full image-url-input"
-                                        placeholder="Coller un ou plusieurs liens d'image...">
-                                    <div class="image-preview hidden"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-text-secondary mb-2">Obs/Notes</label>
-                                <textarea class="form-input w-full auto-resize"
-                                    placeholder="Observations et notes..."></textarea>
                             </div>
                         </div>
                     </div>
@@ -1306,25 +1371,24 @@
                                     <div>
                                         <label class="block text-sm font-medium text-text-secondary mb-1">Capital
                                             ($)</label>
-                                        <input type="number" id="calc-capital" class="form-input w-full"
-                                            placeholder="10000">
+                                        <input type="number" id="calc-capital" class="form-input w-full" placeholder="">
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-text-secondary mb-1">Risk
                                             (%)</label>
-                                        <input type="number" id="calc-risk" class="form-input w-full" placeholder="1">
+                                        <input type="number" id="calc-risk" class="form-input w-full" placeholder="">
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-text-secondary mb-1"
                                             id="calc-sl-label">Stop Loss
                                             (ticks)</label>
-                                        <input type="number" id="calc-sl" class="form-input w-full" placeholder="10">
+                                        <input type="number" id="calc-sl" class="form-input w-full" placeholder="">
                                     </div>
                                     <div>
                                         <label class="block text-sm font-medium text-text-secondary mb-1"
                                             id="calc-tp-label">Take Profit
                                             (ticks)</label>
-                                        <input type="number" id="calc-tp" class="form-input w-full" placeholder="20">
+                                        <input type="number" id="calc-tp" class="form-input w-full" placeholder="">
                                     </div>
                                 </div>
 
@@ -1379,11 +1443,46 @@
                     <!-- Consistency Tab -->
                     <div id="consistency-tab" class="tab-content hidden">
                         <div id="consistency-app" class="container mx-auto px-2 sm:px-4 py-8 max-w-6xl"></div>
-                        <div id="helpModal" class="modal-bg" style="display:none;">
+
+                        <!-- Modal d'aide pour l'onglet Consistency -->
+                        <div id="consistencyHelpModal" class="modal-bg">
                             <div class="modal-content">
-                                <button class="modal-close" id="closeHelpModal" title="Close">&times;</button>
-                                <h2>Instructions</h2>
-                                <div id="helpModalContent"></div>
+                                <button class="modal-close" id="closeConsistencyHelpModal"
+                                    title="Fermer">&times;</button>
+                                <h2 class="text-xl font-bold text-accent-blue mb-4">Aide - Analyseur de Performance</h2>
+                                <div class="space-y-4 text-text-secondary">
+                                    <p>Cet outil vous aide à suivre votre performance par rapport aux règles des
+                                        challenges des <strong>prop firms</strong>.</p>
+                                    <div>
+                                        <h4 class="font-bold text-text-primary mb-2">Paramètres du Challenge</h4>
+                                        <ul class="list-disc pl-5 space-y-1">
+                                            <li><strong>Capital Initial :</strong> Le capital de départ de votre compte
+                                                de challenge.</li>
+                                            <li><strong>Objectif de Profit :</strong> Le montant de profit que vous
+                                                devez atteindre.</li>
+                                            <li><strong>Règle de Cohérence (%) :</strong> Le pourcentage maximum du
+                                                profit total que votre meilleur jour de trading peut représenter. (Ex:
+                                                40%)</li>
+                                            <li><strong>Min % du Meilleur Jour :</strong> Le profit de vos autres jours
+                                                de gains doit être au minimum ce pourcentage de votre meilleur jour.
+                                            </li>
+                                            <li><strong>Profit Min/Jour ($) :</strong> Le profit minimum requis pour
+                                                chaque jour de trading positif.</li>
+                                            <li><strong>Jours de Trading Min :</strong> Le nombre minimum de jours où
+                                                vous devez trader.</li>
+                                            <li><strong>Drawdown Max ($) :</strong> La perte maximale autorisée sur
+                                                votre capital initial.</li>
+                                            <li><strong>Limite de Perte Quotidienne ($) :</strong> La perte maximale
+                                                autorisée pour une seule journée.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-text-primary mb-2">Comment l'utiliser</h4>
+                                        <p>Entrez votre P&L (Profit & Loss) pour chaque jour de trading et cliquez sur
+                                            "Ajouter". L'analyseur mettra à jour vos statistiques et vous indiquera si
+                                            vous respectez les règles.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1900,6 +1999,29 @@
                 if (addBtn) addBtn.onclick = () => this.addPnL();
                 if (clearBtn) clearBtn.onclick = () => this.clearAllData();
                 if (langSelect) langSelect.onchange = (e) => this.setState({ language: e.target.value });
+
+                const consistencyHelpBtn = document.getElementById('consistencyHelpBtn');
+                const consistencyHelpModal = document.getElementById('consistencyHelpModal');
+                const closeConsistencyHelpModalBtn = document.getElementById('closeConsistencyHelpModal');
+
+                if (consistencyHelpBtn && consistencyHelpModal) {
+                    consistencyHelpBtn.onclick = () => {
+                        consistencyHelpModal.style.display = 'flex';
+                    };
+                }
+                if (closeConsistencyHelpModalBtn && consistencyHelpModal) {
+                    closeConsistencyHelpModalBtn.onclick = () => {
+                        consistencyHelpModal.style.display = 'none';
+                    };
+                }
+                if (consistencyHelpModal) {
+                    consistencyHelpModal.onclick = (e) => {
+                        if (e.target === consistencyHelpModal) {
+                            consistencyHelpModal.style.display = 'none';
+                        }
+                    };
+                }
+
                 if (helpBtn && helpModal) {
                     helpBtn.onclick = () => {
                         const content = this.state.language === 'fr' ? `
@@ -2053,12 +2175,16 @@
               <div class="space-y-8">
                 <!-- Header -->
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <div class="flex flex-col">
-                    <h1 class="text-3xl font-bold text-accent-blue">
-                      <i class="fas fa-chart-line mr-2"></i>${t.title}
-                    </h1>
-                    <p class="subtitle-artistic">${this.state.language === 'fr' ? 'Simulez et analysez vos performances de trading pour réussir n’importe quel challenge prop firm.' : 'Simulate and analyze your trading performance to pass any prop firm challenge.'}</p>
-                  </div>
+                    <div class="flex-grow">
+                        <h1 class="text-3xl font-bold text-accent-blue">
+                            <i class="fas fa-chart-line mr-2"></i>${t.title}
+                        </h1>
+                        <p class="subtitle-artistic">${this.state.language === 'fr' ? 'Simulez et analysez vos performances de trading pour réussir n’importe quel challenge prop firm.' : 'Simulate and analyze your trading performance to pass any prop firm challenge.'}</p>
+                    </div>
+                    <button id="consistencyHelpBtn" class="btn-primary flex items-center text-sm py-1 px-3">
+                        <i class="fas fa-question-circle mr-2"></i>
+                        Aide
+                    </button>
                 </div>
                 
                 ${this.state.error ? `
@@ -2741,11 +2867,6 @@
                     day: 'numeric'
                 });
 
-                // Mettre à jour le numéro de semaine
-                if (this.weekNumberInput) {
-                    this.weekNumberInput.value = this.getWeekNumber(date);
-                }
-
                 this.formSection.classList.remove('hidden');
                 this.formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
@@ -2756,6 +2877,11 @@
 
                 // Charger les données existantes
                 this.loadEntryData(date);
+
+                // Mettre à jour le numéro de semaine après le chargement/réinitialisation
+                if (this.weekNumberInput) {
+                    this.weekNumberInput.value = this.getWeekNumber(date);
+                }
             }
 
             hideEntryForm() {
@@ -2888,7 +3014,6 @@
                     if (weeklyTab) {
                         data.weekly = {
                             pwr: weeklyTab.querySelector('select')?.value || '',
-                            weekNumber: document.getElementById('week-number')?.value || '',
                             captureH4: document.getElementById('weekly-captureH4')?.value || '',
                             observations: weeklyTab.querySelector('textarea')?.value || ''
                         };
@@ -3023,10 +3148,8 @@
                             const select = weeklyTab.querySelector('select');
                             const urlInput = document.getElementById('weekly-captureH4');
                             const textarea = weeklyTab.querySelector('textarea');
-                            const weekNumber = document.getElementById('week-number');
 
                             if (select) select.value = data.weekly.pwr || '';
-                            if (weekNumber) weekNumber.value = data.weekly.weekNumber || '';
                             if (urlInput) urlInput.value = data.weekly.captureH4 || '';
                             if (textarea) textarea.value = data.weekly.observations || '';
                         }
