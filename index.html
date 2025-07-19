@@ -718,6 +718,46 @@
         #consistency-tab .bg-gradient-to-r.from-blue-500.to-emerald-400 {
             background-image: linear-gradient(to right, var(--accent-blue), var(--accent-green));
         }
+
+        /* Styles for Cal-Eco Tab */
+        #cal-eco-tab h1 {
+            font-size: 1.5rem;
+            /* 24px */
+            font-weight: 700;
+            /* bold */
+            margin-bottom: 1rem;
+            /* 16px */
+        }
+
+        #cal-eco-tab p {
+            margin-bottom: 1rem;
+            /* 16px */
+        }
+
+        #cal-eco-tab table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--text-primary);
+        }
+
+        #cal-eco-tab th,
+        #cal-eco-tab td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            /* 12px */
+            text-align: left;
+        }
+
+        #cal-eco-tab th {
+            background-color: var(--bg-dark);
+            font-weight: 600;
+            /* semibold */
+        }
+
+        #cal-eco-tab .impact-high {
+            color: var(--accent-red);
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -920,6 +960,12 @@
                         data-tab="consistency">
                         <i class="fas fa-chart-line mr-2"></i>
                         Consistency
+                    </button>
+                    <button
+                        class="tab-button px-4 py-2 font-medium rounded-t-lg bg-bg-dark hover:bg-bg-light transition flex items-center border border-accent-blue"
+                        data-tab="cal-eco">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        Cal-Éco
                     </button>
                 </div>
 
@@ -1282,6 +1328,26 @@
                         </div>
                     </div>
 
+                    <!-- Cal-Eco Tab -->
+                    <div id="cal-eco-tab" class="tab-content hidden">
+                        <h1>Calendrier Économique - USD <i class="fas fa-folder" style="color: red;"></i></h1>
+                        <p id="week-dates">Données pour la semaine du: jj/mm au jj/mm/aa</p>
+                        <table id="calendar-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Heure (EST | Paris)</th>
+                                    <th>Devise</th>
+                                    <th>Importance</th>
+                                    <th>Événement</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Les données seront insérées ici par JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
                     <div class="pt-6 flex justify-between items-center">
                         <div class="flex gap-4">
                             <input type="file" id="importDataInput" accept="application/json" class="hidden" />
@@ -1325,6 +1391,63 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Data and functions for Economic Calendar
+        const economicCalendarJsonData = [{ "title": "BusinessNZ Services Index", "country": "NZD", "date": "2025-07-13T18:30:00-04:00", "impact": "Low", "forecast": "", "previous": "44.0" }, { "title": "Core Machinery Orders m/m", "country": "JPY", "date": "2025-07-13T19:50:00-04:00", "impact": "Low", "forecast": "-1.4%", "previous": "-9.1%" }, { "title": "USD-Denominated Trade Balance", "country": "CNY", "date": "2025-07-13T23:00:00-04:00", "impact": "Low", "forecast": "113.2B", "previous": "103.2B" }, { "title": "Trade Balance", "country": "CNY", "date": "2025-07-13T23:07:00-04:00", "impact": "Low", "forecast": "785B", "previous": "744B" }, { "title": "Revised Industrial Production m/m", "country": "JPY", "date": "2025-07-14T00:30:00-04:00", "impact": "Low", "forecast": "0.5%", "previous": "0.5%" }, { "title": "Tertiary Industry Activity m/m", "country": "JPY", "date": "2025-07-14T00:30:00-04:00", "impact": "Low", "forecast": "0.1%", "previous": "0.3%" }, { "title": "French Bank Holiday", "country": "EUR", "date": "2025-07-14T02:01:00-04:00", "impact": "Holiday", "forecast": "", "previous": "" }, { "title": "PPI m/m", "country": "CHF", "date": "2025-07-14T02:30:00-04:00", "impact": "Low", "forecast": "0.2%", "previous": "-0.5%" }, { "title": "M2 Money Supply y/y", "country": "CNY", "date": "2025-07-14T03:02:00-04:00", "impact": "Low", "forecast": "8.2%", "previous": "7.9%" }, { "title": "New Loans", "country": "CNY", "date": "2025-07-14T03:03:00-04:00", "impact": "Medium", "forecast": "1960B", "previous": "620B" }, { "title": "Eurogroup Meetings", "country": "EUR", "date": "2025-07-14T05:15:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "Wholesale Sales m/m", "country": "CAD", "date": "2025-07-14T08:30:00-04:00", "impact": "Low", "forecast": "-0.4%", "previous": "-2.3%" }, { "title": "BRC Retail Sales Monitor y/y", "country": "GBP", "date": "2025-07-14T19:01:00-04:00", "impact": "Low", "forecast": "1.2%", "previous": "0.6%" }, { "title": "Westpac Consumer Sentiment", "country": "AUD", "date": "2025-07-14T20:30:00-04:00", "impact": "Low", "forecast": "", "previous": "0.5%" }, { "title": "New Home Prices m/m", "country": "CNY", "date": "2025-07-14T21:30:00-04:00", "impact": "Low", "forecast": "", "previous": "-0.22%" }, { "title": "GDP q/y", "country": "CNY", "date": "2025-07-14T22:00:00-04:00", "impact": "Medium", "forecast": "5.1%", "previous": "5.4%" }, { "title": "Industrial Production y/y", "country": "CNY", "date": "2025-07-14T22:00:00-04:00", "impact": "Medium", "forecast": "5.6%", "previous": "5.8%" }, { "title": "Retail Sales y/y", "country": "CNY", "date": "2025-07-14T22:00:00-04:00", "impact": "Medium", "forecast": "5.2%", "previous": "6.4%" }, { "title": "Fixed Asset Investment ytd/y", "country": "CNY", "date": "2025-07-14T22:00:00-04:00", "impact": "Low", "forecast": "3.6%", "previous": "3.7%" }, { "title": "NBS Press Conference", "country": "CNY", "date": "2025-07-14T22:00:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "Unemployment Rate", "country": "CNY", "date": "2025-07-14T22:00:00-04:00", "impact": "Low", "forecast": "5.0%", "previous": "5.0%" }, { "title": "German ZEW Economic Sentiment", "country": "EUR", "date": "2025-07-15T05:00:00-04:00", "impact": "Medium", "forecast": "50.8", "previous": "47.5" }, { "title": "Industrial Production m/m", "country": "EUR", "date": "2025-07-15T05:00:00-04:00", "impact": "Low", "forecast": "1.1%", "previous": "-2.4%" }, { "title": "ZEW Economic Sentiment", "country": "EUR", "date": "2025-07-15T05:00:00-04:00", "impact": "Low", "forecast": "37.8", "previous": "35.3" }, { "title": "ECOFIN Meetings", "country": "EUR", "date": "2025-07-15T05:15:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "CPI m/m", "country": "CAD", "date": "2025-07-15T08:30:00-04:00", "impact": "High", "forecast": "0.1%", "previous": "0.6%" }, { "title": "Median CPI y/y", "country": "CAD", "date": "2025-07-15T08:30:00-04:00", "impact": "High", "forecast": "3.0%", "previous": "3.0%" }, { "title": "Trimmed CPI y/y", "country": "CAD", "date": "2025-07-15T08:30:00-04:00", "impact": "High", "forecast": "3.0%", "previous": "3.0%" }, { "title": "Common CPI y/y", "country": "CAD", "date": "2025-07-15T08:30:00-04:00", "impact": "Medium", "forecast": "2.7%", "previous": "2.6%" }, { "title": "Core CPI m/m", "country": "CAD", "date": "2025-07-15T08:30:00-04:00", "impact": "Low", "forecast": "", "previous": "0.6%" }, { "title": "Manufacturing Sales m/m", "country": "CAD", "date": "2025-07-15T08:30:00-04:00", "impact": "Low", "forecast": "-1.2%", "previous": "-2.8%" }, { "title": "Core CPI m/m", "country": "USD", "date": "2025-07-15T08:30:00-04:00", "impact": "High", "forecast": "0.3%", "previous": "0.1%" }, { "title": "CPI m/m", "country": "USD", "date": "2025-07-15T08:30:00-04:00", "impact": "High", "forecast": "0.3%", "previous": "0.1%" }, { "title": "CPI y/y", "country": "USD", "date": "2025-07-15T08:30:00-04:00", "impact": "High", "forecast": "2.6%", "previous": "2.4%" }, { "title": "Empire State Manufacturing Index", "country": "USD", "date": "2025-07-15T08:30:00-04:00", "impact": "Medium", "forecast": "-8.3", "previous": "-16.0" }, { "title": "FOMC Member Bowman Speaks", "country": "USD", "date": "2025-07-15T09:15:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "CB Leading Index m/m", "country": "AUD", "date": "2025-07-15T10:30:00-04:00", "impact": "Low", "forecast": "", "previous": "0.7%" }, { "title": "GDT Price Index", "country": "NZD", "date": "2025-07-15T10:49:00-04:00", "impact": "Low", "forecast": "", "previous": "-4.1%" }, { "title": "FOMC Member Barr Speaks", "country": "USD", "date": "2025-07-15T12:45:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "FOMC Member Barkin Speaks", "country": "USD", "date": "2025-07-15T13:00:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "FOMC Member Collins Speaks", "country": "USD", "date": "2025-07-15T14:45:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "BOE Gov Bailey Speaks", "country": "GBP", "date": "2025-07-15T16:00:00-04:00", "impact": "High", "forecast": "", "previous": "" }, { "title": "API Weekly Statistical Bulletin", "country": "USD", "date": "2025-07-15T16:30:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "FOMC Member Logan Speaks", "country": "USD", "date": "2025-07-15T19:45:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "CPI y/y", "country": "GBP", "date": "2025-07-16T02:00:00-04:00", "impact": "High", "forecast": "3.4%", "previous": "3.4%" }, { "title": "Core CPI y/y", "country": "GBP", "date": "2025-07-16T02:00:00-04:00", "impact": "Low", "forecast": "3.5%", "previous": "3.5%" }, { "title": "RPI y/y", "country": "GBP", "date": "2025-07-16T02:00:00-04:00", "impact": "Low", "forecast": "4.3%", "previous": "4.3%" }, { "title": "HPI y/y", "country": "GBP", "date": "2025-07-16T04:30:00-04:00", "impact": "Low", "forecast": "3.2%", "previous": "3.5%" }, { "title": "Italian Trade Balance", "country": "EUR", "date": "2025-07-16T05:00:00-04:00", "impact": "Low", "forecast": "2.87B", "previous": "2.48B" }, { "title": "Trade Balance", "country": "EUR", "date": "2025-07-16T05:00:00-04:00", "impact": "Low", "forecast": "13.9B", "previous": "14.0B" }, { "title": "German 30-y Bond Auction", "country": "EUR", "date": "2025-07-16T05:33:00-04:00", "impact": "Low", "forecast": "", "previous": "2.99|2.2" }, { "title": "German Buba Monthly Report", "country": "EUR", "date": "2025-07-16T06:00:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "FOMC Member Barkin Speaks", "country": "USD", "date": "2025-07-16T08:00:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "Housing Starts", "country": "CAD", "date": "2025-07-16T08:15:00-04:00", "impact": "Low", "forecast": "262K", "previous": "280K" }, { "title": "Core PPI m/m", "country": "USD", "date": "2025-07-16T08:30:00-04:00", "impact": "High", "forecast": "0.2%", "previous": "0.1%" }, { "title": "PPI m/m", "country": "USD", "date": "2025-07-16T08:30:00-04:00", "impact": "High", "forecast": "0.2%", "previous": "0.1%" }, { "title": "Capacity Utilization Rate", "country": "USD", "date": "2025-07-16T09:15:00-04:00", "impact": "Low", "forecast": "77.4%", "previous": "77.4%" }, { "title": "FOMC Member Hammack Speaks", "country": "USD", "date": "2025-07-16T09:15:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "Industrial Production m/m", "country": "USD", "date": "2025-07-16T09:15:00-04:00", "impact": "Low", "forecast": "0.1%", "previous": "-0.2%" }, { "title": "CB Leading Index m/m", "country": "GBP", "date": "2025-07-16T09:30:00-04:00", "impact": "Low", "forecast": "", "previous": "-0.4%" }, { "title": "FOMC Member Barr Speaks", "country": "USD", "date": "2025-07-16T10:00:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "Crude Oil Inventories", "country": "USD", "date": "2025-07-16T10:30:00-04:00", "impact": "Low", "forecast": "-1.8M", "previous": "7.1M" }, { "title": "Beige Book", "country": "USD", "date": "2025-07-16T14:00:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "FOMC Member Bostic Speaks", "country": "USD", "date": "2025-07-16T15:30:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "FOMC Member Williams Speaks", "country": "USD", "date": "2025-07-16T18:30:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "FPI m/m", "country": "NZD", "date": "2025-07-16T18:45:00-04:00", "impact": "Low", "forecast": "", "previous": "0.5%" }, { "title": "Trade Balance", "country": "JPY", "date": "2025-07-16T19:50:00-04:00", "impact": "Low", "forecast": "-0.26T", "previous": "-0.31T" }, { "title": "MI Inflation Expectations", "country": "AUD", "date": "2025-07-16T21:00:00-04:00", "impact": "Low", "forecast": "", "previous": "5.0%" }, { "title": "Employment Change", "country": "AUD", "date": "2025-07-16T21:30:00-04:00", "impact": "High", "forecast": "21.0K", "previous": "-2.5K" }, { "title": "Unemployment Rate", "country": "AUD", "date": "2025-07-16T21:30:00-04:00", "impact": "High", "forecast": "4.1%", "previous": "4.1%" }, { "title": "NAB Quarterly Business Confidence", "country": "AUD", "date": "2025-07-16T22:37:00-04:00", "impact": "Low", "forecast": "", "previous": "-4" }, { "title": "Trade Balance", "country": "CHF", "date": "2025-07-17T02:00:00-04:00", "impact": "Low", "forecast": "4.22B", "previous": "3.83B" }, { "title": "Average Earnings Index 3m/y", "country": "GBP", "date": "2025-07-17T02:00:00-04:00", "impact": "Medium", "forecast": "5.0%", "previous": "5.3%" }, { "title": "Claimant Count Change", "country": "GBP", "date": "2025-07-17T02:00:00-04:00", "impact": "Medium", "forecast": "17.9K", "previous": "33.1K" }, { "title": "Unemployment Rate", "country": "GBP", "date": "2025-07-17T02:00:00-04:00", "impact": "Low", "forecast": "4.6%", "previous": "4.6%" }, { "title": "Spanish 10-y Bond Auction", "country": "EUR", "date": "2025-07-17T04:42:00-04:00", "impact": "Low", "forecast": "", "previous": "3.16|1.9" }, { "title": "Final Core CPI y/y", "country": "EUR", "date": "2025-07-17T05:00:00-04:00", "impact": "Low", "forecast": "2.3%", "previous": "2.3%" }, { "title": "Final CPI y/y", "country": "EUR", "date": "2025-07-17T05:00:00-04:00", "impact": "Low", "forecast": "2.0%", "previous": "2.0%" }, { "title": "Foreign Securities Purchases", "country": "CAD", "date": "2025-07-17T08:30:00-04:00", "impact": "Low", "forecast": "-7.32B", "previous": "-9.36B" }, { "title": "Core Retail Sales m/m", "country": "USD", "date": "2025-07-17T08:30:00-04:00", "impact": "High", "forecast": "0.3%", "previous": "-0.3%" }, { "title": "Retail Sales m/m", "country": "USD", "date": "2025-07-17T08:30:00-04:00", "impact": "High", "forecast": "0.1%", "previous": "-0.9%" }, { "title": "Unemployment Claims", "country": "USD", "date": "2025-07-17T08:30:00-04:00", "impact": "High", "forecast": "233K", "previous": "227K" }, { "title": "Philly Fed Manufacturing Index", "country": "USD", "date": "2025-07-17T08:30:00-04:00", "impact": "Medium", "forecast": "-1.2", "previous": "-4.0" }, { "title": "Import Prices m/m", "country": "USD", "date": "2025-07-17T08:30:00-04:00", "impact": "Low", "forecast": "0.3%", "previous": "0.0%" }, { "title": "FOMC Member Kugler Speaks", "country": "USD", "date": "2025-07-17T09:15:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "Business Inventories m/m", "country": "USD", "date": "2025-07-17T10:00:00-04:00", "impact": "Low", "forecast": "0.0%", "previous": "0.0%" }, { "title": "NAHB Housing Market Index", "country": "USD", "date": "2025-07-17T10:00:00-04:00", "impact": "Low", "forecast": "33", "previous": "32" }, { "title": "Natural Gas Storage", "country": "USD", "date": "2025-07-17T10:30:00-04:00", "impact": "Low", "forecast": "44B", "previous": "53B" }, { "title": "G20 Meetings", "country": "All", "date": "2025-07-17T11:15:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "FOMC Member Daly Speaks", "country": "USD", "date": "2025-07-17T12:45:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "FOMC Member Cook Speaks", "country": "USD", "date": "2025-07-17T13:30:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "TIC Long-Term Purchases", "country": "USD", "date": "2025-07-17T16:00:00-04:00", "impact": "Low", "forecast": "48.3B", "previous": "-7.8B" }, { "title": "FOMC Member Waller Speaks", "country": "USD", "date": "2025-07-17T18:30:00-04:00", "impact": "Medium", "forecast": "", "previous": "" }, { "title": "National Core CPI y/y", "country": "JPY", "date": "2025-07-17T19:30:00-04:00", "impact": "Low", "forecast": "3.4%", "previous": "3.7%" }, { "title": "Credit Card Spending y/y", "country": "NZD", "date": "2025-07-17T23:00:00-04:00", "impact": "Low", "forecast": "", "previous": "2.2%" }, { "title": "German PPI m/m", "country": "EUR", "date": "2025-07-18T02:00:00-04:00", "impact": "Low", "forecast": "0.1%", "previous": "-0.2%" }, { "title": "Current Account", "country": "EUR", "date": "2025-07-18T04:00:00-04:00", "impact": "Low", "forecast": "34.8B", "previous": "19.8B" }, { "title": "German Buba President Nagel Speaks", "country": "EUR", "date": "2025-07-18T04:15:00-04:00", "impact": "Low", "forecast": "", "previous": "" }, { "title": "Building Permits", "country": "USD", "date": "2025-07-18T08:30:00-04:00", "impact": "Low", "forecast": "1.39M", "previous": "1.39M" }, { "title": "Housing Starts", "country": "USD", "date": "2025-07-18T08:30:00-04:00", "impact": "Low", "forecast": "1.29M", "previous": "1.26M" }, { "title": "Prelim UoM Consumer Sentiment", "country": "USD", "date": "2025-07-18T10:00:00-04:00", "impact": "Medium", "forecast": "61.4", "previous": "60.5" }, { "title": "Prelim UoM Inflation Expectations", "country": "USD", "date": "2025-07-18T10:00:00-04:00", "impact": "Medium", "forecast": "", "previous": "5.1%" }, { "title": "G20 Meetings", "country": "All", "date": "2025-07-18T11:15:00-04:00", "impact": "Low", "forecast": "", "previous": "" }];
+
+        function processAndDisplayEconomicCalendarData(data) {
+            const tableBody = document.getElementById('calendar-table').getElementsByTagName('tbody')[0];
+            if (!tableBody) return;
+            tableBody.innerHTML = '';
+
+            const filteredData = data.filter(event => event.country === 'USD' && event.impact === 'High');
+            const eventsByDate = filteredData.reduce((acc, event) => {
+                const eventDate = new Date(event.date);
+                const dateString = eventDate.toLocaleDateString('fr-FR');
+                if (!acc[dateString]) acc[dateString] = [];
+                acc[dateString].push(event);
+                return acc;
+            }, {});
+
+            for (const dateString in eventsByDate) {
+                eventsByDate[dateString].forEach((event, index) => {
+                    const eventDate = new Date(event.date);
+                    const row = tableBody.insertRow();
+                    if (index === 0) {
+                        const dateCell = row.insertCell();
+                        dateCell.textContent = dateString;
+                        dateCell.rowSpan = eventsByDate[dateString].length;
+                    }
+                    row.insertCell().textContent = `${eventDate.toLocaleTimeString('en-US', { timeZone: 'America/New_York' })} | ${eventDate.toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris' })}`;
+                    row.insertCell().textContent = event.country;
+                    const impactCell = row.insertCell();
+                    if (event.impact === 'High') {
+                        impactCell.innerHTML = `<span class="impact-high"><i class="fas fa-folder" style="color: red;"></i></span>`;
+                    } else {
+                        impactCell.textContent = event.impact;
+                    }
+                    row.insertCell().textContent = event.title;
+                });
+            }
+        }
+
+        function setEconomicCalendarWeekDates() {
+            const weekDatesEl = document.getElementById('week-dates');
+            if (!weekDatesEl) return;
+
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+            const options = { day: '2-digit', month: '2-digit', year: '2-digit' };
+            const startDateStr = startOfWeek.toLocaleDateString('fr-FR', options);
+            const endDateStr = endOfWeek.toLocaleDateString('fr-FR', options);
+
+            weekDatesEl.textContent = `Données pour la semaine du: ${startDateStr} au ${endDateStr}`;
+        }
+
         // Traductions
         const translations = {
             en: {
@@ -2615,6 +2738,15 @@
                             if (consistencyTab) consistencyTab.innerHTML = '<p class="text-center text-accent-red">La librairie Chart.js n\'a pas pu être chargée. Le suivi de la consistance est indisponible.</p>';
                         }
                     }
+
+                    if (tabId === 'cal-eco') {
+                        const tabContent = document.getElementById('cal-eco-tab');
+                        if (tabContent && !tabContent.dataset.initialized) {
+                            processAndDisplayEconomicCalendarData(economicCalendarJsonData);
+                            setEconomicCalendarWeekDates();
+                            tabContent.dataset.initialized = 'true';
+                        }
+                    }
                 }
             }
 
@@ -3321,9 +3453,15 @@
 
                 const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
+                const now = new Date();
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const year = String(now.getFullYear()).slice(-2);
+                const formattedDate = `${day}.${month}.${year}`;
+
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'journal_trading_data.json';
+                a.download = `journal_data_${formattedDate}.json`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
