@@ -719,6 +719,38 @@
             background-image: linear-gradient(to right, var(--accent-blue), var(--accent-green));
         }
 
+        /* Tooltip Styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            text-align: center;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            position: absolute;
+            z-index: 10;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-weight: 400;
+            font-size: 0.875rem;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
         /* Styles for Cal-Eco Tab */
         #cal-eco-tab h1 {
             font-size: 1.5rem;
@@ -979,15 +1011,29 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-text-secondary mb-2">PDR</label>
-                                        <select id="daily-pdr" class="form-select modern-select w-1/2">
-                                            <option value="">-- Sélectionner --</option>
-                                            <option value="bullish">Bullish</option>
-                                            <option value="bearish">Bearish</option>
-                                            <option value="consolidation">Consolidation</option>
-                                        </select>
+                                        <div class="flex items-center">
+                                            <select id="daily-pdr" class="form-select modern-select w-1/2">
+                                                <option value="">-- Sélectionner --</option>
+                                                <option value="bullish">Bullish</option>
+                                                <option value="bearish">Bearish</option>
+                                                <option value="consolidation">Consolidation</option>
+                                            </select>
+                                            <div class="tooltip ml-2">
+                                                <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                                <span class="tooltiptext">Quel était le range de la bougie daily du jour
+                                                    précédent?</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
-                                        <label class="block text-text-secondary mb-2">Capture H1 (URL)</label>
+                                        <div class="flex items-center mb-2">
+                                            <label class="block text-text-secondary">Capture H1 (URL)</label>
+                                            <div class="tooltip ml-2">
+                                                <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                                <span class="tooltiptext">Lien(s) de capture d’écran TradingView
+                                                    (maximum 3 URL séparées par un espace)</span>
+                                            </div>
+                                        </div>
                                         <input id="daily-captureH1" type="text"
                                             class="form-input w-full image-url-input"
                                             placeholder="Coller un ou plusieurs liens d'image...">
@@ -1005,15 +1051,22 @@
                                 <div>
                                     <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Cycle C1</h3>
                                     <label class="block text-text-secondary mb-2">Phase C1</label>
-                                    <select id="daily-cycleC1Phase" class="form-select modern-select w-1/2">
-                                        <option value="">-- Sélectionner --</option>
-                                        <option value="accumulation">Accumulation</option>
-                                        <option value="re-accumulation">Ré-Accumulation</option>
-                                        <option value="distribution">Distribution</option>
-                                        <option value="re-distribution">Re-Distribution</option>
-                                        <option value="continuation">Continuation</option>
-                                        <option value="reversal">Renversement</option>
-                                    </select>
+                                    <div class="flex items-center">
+                                        <select id="daily-cycleC1Phase" class="form-select modern-select w-1/2">
+                                            <option value="">-- Sélectionner --</option>
+                                            <option value="accumulation">Accumulation</option>
+                                            <option value="re-accumulation">Ré-Accumulation</option>
+                                            <option value="distribution">Distribution</option>
+                                            <option value="re-distribution">Re-Distribution</option>
+                                            <option value="continuation">Continuation</option>
+                                            <option value="reversal">Renversement</option>
+                                        </select>
+                                        <div class="tooltip ml-2">
+                                            <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                            <span class="tooltiptext">Cycle C1: Session Asie de 6h (18h-12am EST). La
+                                                Phase C1 est définie en relation avec le PDR</span>
+                                        </div>
+                                    </div>
                                     <div class="mt-4">
                                         <label class="block text-text-secondary mb-2">Capture C1 (URL)</label>
                                         <input id="daily-cycleC1Capture" type="text"
@@ -1026,15 +1079,22 @@
                                 <div>
                                     <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Cycle C2</h3>
                                     <label class="block text-text-secondary mb-2">Phase C2</label>
-                                    <select id="daily-cycleC2Phase" class="form-select modern-select w-1/2">
-                                        <option value="">-- Sélectionner --</option>
-                                        <option value="accumulation">Accumulation</option>
-                                        <option value="re-accumulation">Ré-Accumulation</option>
-                                        <option value="distribution">Distribution</option>
-                                        <option value="re-distribution">Re-Distribution</option>
-                                        <option value="continuation">Continuation</option>
-                                        <option value="reversal">Renversement</option>
-                                    </select>
+                                    <div class="flex items-center">
+                                        <select id="daily-cycleC2Phase" class="form-select modern-select w-1/2">
+                                            <option value="">-- Sélectionner --</option>
+                                            <option value="accumulation">Accumulation</option>
+                                            <option value="re-accumulation">Ré-Accumulation</option>
+                                            <option value="distribution">Distribution</option>
+                                            <option value="re-distribution">Re-Distribution</option>
+                                            <option value="continuation">Continuation</option>
+                                            <option value="reversal">Renversement</option>
+                                        </select>
+                                        <div class="tooltip ml-2">
+                                            <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                            <span class="tooltiptext">Cycle C2: Session Londres de 6h (12am-06am EST).
+                                                La Phase C2 est définie en relation avec le Cycle C1.</span>
+                                        </div>
+                                    </div>
                                     <div class="mt-4">
                                         <label class="block text-text-secondary mb-2">Capture C2 (URL)</label>
                                         <input id="daily-cycleC2Capture" type="text"
