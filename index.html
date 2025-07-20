@@ -1072,11 +1072,10 @@
                                     <div>
                                         <div class="flex items-center mb-2">
                                             <label class="block text-text-secondary">Capture H1 (URL)</label>
-                                            <div class="tooltip ml-2">
-                                                <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
-                                                <span class="tooltiptext">Lien(s) de capture d’écran TradingView
-                                                    (maximum 3 URL séparées par un espace)</span>
-                                            </div>
+                                        <div class="tooltip ml-2">
+                                            <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                            <span class="tooltiptext">Liens Tradingview de la capture du chart H1, max 2 liens, séparés par un espace.</span>
+                                        </div>
                                         </div>
                                         <input id="daily-captureH1" type="text"
                                             class="form-input w-full image-url-input"
@@ -1229,7 +1228,13 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-text-secondary mb-2">Capture H4 (URL)</label>
+                                    <div class="flex items-center mb-2">
+                                        <label class="block text-text-secondary">Capture H4 (URL)</label>
+                                        <div class="tooltip ml-2">
+                                            <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                            <span class="tooltiptext">Liens Tradingview de la Capture du chart H4, max 2 liens séparés par un espace</span>
+                                        </div>
+                                    </div>
                                     <input id="weekly-captureH4" type="text" class="form-input w-full image-url-input"
                                         placeholder="Coller un ou plusieurs liens d'image...">
                                     <div class="image-preview hidden"></div>
@@ -1759,14 +1764,14 @@
                 this.state = {
                     language: 'fr',
                     error: null,
-                    initialCapital: localStorage.getItem('initialCapital') || 50000,
-                    targetProfit: localStorage.getItem('targetProfit') || 10000,
-                    consistencyPercent: localStorage.getItem('consistencyPercent') || 40,
-                    minDayPercent: localStorage.getItem('minDayPercent') || 23,
-                    minProfitPerDay: localStorage.getItem('minProfitPerDay') || 200,
-                    minTradingDays: localStorage.getItem('minTradingDays') || 10,
-                    maxDrawdown: localStorage.getItem('maxDrawdown') || 2000,
-                    dailyLossLimit: localStorage.getItem('dailyLossLimit') || 1000,
+                    initialCapital: localStorage.getItem('initialCapital') || 0,
+                    targetProfit: localStorage.getItem('targetProfit') || 0,
+                    consistencyPercent: localStorage.getItem('consistencyPercent') || 0,
+                    minDayPercent: localStorage.getItem('minDayPercent') || 0,
+                    minProfitPerDay: localStorage.getItem('minProfitPerDay') || 0,
+                    minTradingDays: localStorage.getItem('minTradingDays') || 0,
+                    maxDrawdown: localStorage.getItem('maxDrawdown') || 0,
+                    dailyLossLimit: localStorage.getItem('dailyLossLimit') || 0,
                     dailyPnLs: JSON.parse(localStorage.getItem('dailyPnLs')) || [],
                     newPnL: ''
                 };
