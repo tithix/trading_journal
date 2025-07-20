@@ -18,6 +18,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;400;500;600;700&display=swap"
         rel="stylesheet">
 
+    <!-- Marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
     <style>
         /* Amélioration de la réactivité pour s'adapter à différentes tailles d'écran */
         @media (max-width: 1440px) {
@@ -834,6 +837,76 @@
         .modal-close:hover {
             color: var(--text-primary);
         }
+
+        /* Styles for Markdown preview */
+        .prose {
+            max-width: none;
+        }
+
+        .prose-invert {
+            color: var(--text-primary);
+        }
+
+        .prose-invert h1,
+        .prose-invert h2,
+        .prose-invert h3,
+        .prose-invert h4,
+        .prose-invert h5,
+        .prose-invert h6 {
+            color: var(--text-primary);
+            margin-top: 1.25em;
+            margin-bottom: 0.5em;
+        }
+
+        .prose-invert a {
+            color: var(--accent-blue);
+            text-decoration: underline;
+        }
+
+        .prose-invert strong {
+            color: var(--text-primary);
+        }
+
+        .prose-invert blockquote {
+            border-left-color: var(--border-color);
+            color: var(--text-secondary);
+            padding-left: 1em;
+            margin-left: 0;
+        }
+
+        .prose-invert code {
+            color: var(--accent-yellow);
+            background-color: var(--bg-dark);
+            padding: .2em .4em;
+            margin: 0;
+            font-size: 85%;
+            border-radius: 3px;
+        }
+
+        .prose-invert pre {
+            background-color: var(--bg-dark);
+            padding: 1em;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .prose-invert pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        .prose-invert ul,
+        .prose-invert ol {
+            padding-left: 1.5em;
+        }
+
+        .prose-invert ul>li {
+            padding-left: 0.5em;
+        }
+
+        .prose-invert ul>li::marker {
+            color: var(--accent-blue);
+        }
     </style>
 </head>
 
@@ -880,7 +953,8 @@
                     <ul class="list-disc pl-5 mt-2 text-text-secondary">
                         <li><span class="text-accent-green font-bold">✅ Trade Gagnant</span> / <span
                                 class="text-accent-red font-bold">❌ Trade Perdant</span></li>
-                        <li><i class="fas fa-calendar-week text-accent-blue"></i> Entrée "Daily" enregistrée</li>
+                        <li><i class="fas fa-calendar-day text-accent-blue"></i> Entrée "Daily" enregistrée</li>
+                        <li><i class="fas fa-calendar-week text-accent-blue"></i> Entrée "Weekly" enregistrée</li>
                         <li><i class="fas fa-sticky-note text-accent-yellow"></i> Note ou événement enregistré</li>
                     </ul>
                 </div>
@@ -1072,10 +1146,11 @@
                                     <div>
                                         <div class="flex items-center mb-2">
                                             <label class="block text-text-secondary">Capture H1 (URL)</label>
-                                        <div class="tooltip ml-2">
-                                            <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
-                                            <span class="tooltiptext">Liens Tradingview de la capture du chart H1, max 2 liens, séparés par un espace.</span>
-                                        </div>
+                                            <div class="tooltip ml-2">
+                                                <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                                <span class="tooltiptext">Liens Tradingview de la capture du chart H1,
+                                                    max 2 liens, séparés par un espace.</span>
+                                            </div>
                                         </div>
                                         <input id="daily-captureH1" type="text"
                                             class="form-input w-full image-url-input"
@@ -1084,9 +1159,21 @@
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <label class="block text-text-secondary mb-2">Observations</label>
-                                    <textarea id="daily-observations" class="form-input w-full auto-resize"
-                                        placeholder="Ex: Attente d'un retour sur le FVG..."></textarea>
+                                    <div class="flex items-center mb-2">
+                                        <label class="block text-text-secondary">Observations</label>
+                                        <div class="tooltip ml-2">
+                                            <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                            <span class="tooltiptext">(Markdown) - Cliquez pour éditer</span>
+                                        </div>
+                                    </div>
+                                    <div id="daily-obs-container" class="relative">
+                                        <div id="daily-obs-preview"
+                                            class="prose prose-invert p-3 rounded-lg min-h-[100px] cursor-pointer form-input">
+                                            <p class="text-text-secondary">Cliquez pour ajouter des observations...</p>
+                                        </div>
+                                        <textarea id="daily-observations" class="form-input w-full auto-resize hidden"
+                                            placeholder="Saisissez votre texte en Markdown..."></textarea>
+                                    </div>
                                 </div>
                             </div>
 
@@ -1232,7 +1319,8 @@
                                         <label class="block text-text-secondary">Capture H4 (URL)</label>
                                         <div class="tooltip ml-2">
                                             <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
-                                            <span class="tooltiptext">Liens Tradingview de la Capture du chart H4, max 2 liens séparés par un espace</span>
+                                            <span class="tooltiptext">Liens Tradingview de la Capture du chart H4, max 2
+                                                liens séparés par un espace</span>
                                         </div>
                                     </div>
                                     <input id="weekly-captureH4" type="text" class="form-input w-full image-url-input"
@@ -1241,9 +1329,21 @@
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-text-secondary mb-2">Obs/Notes</label>
-                                <textarea class="form-input w-full auto-resize"
-                                    placeholder="Observations et notes..."></textarea>
+                                <div class="flex items-center mb-2">
+                                    <label class="block text-text-secondary">Obs/Notes</label>
+                                    <div class="tooltip ml-2">
+                                        <i class="far fa-info-circle text-text-secondary cursor-pointer"></i>
+                                        <span class="tooltiptext">(Markdown) - Cliquez pour éditer</span>
+                                    </div>
+                                </div>
+                                <div id="weekly-obs-container" class="relative">
+                                    <div id="weekly-obs-preview"
+                                        class="prose prose-invert p-3 rounded-lg min-h-[100px] cursor-pointer form-input">
+                                        <p class="text-text-secondary">Cliquez pour ajouter des notes...</p>
+                                    </div>
+                                    <textarea id="weekly-obs-markdown" class="form-input w-full auto-resize hidden"
+                                        placeholder="Saisissez votre texte en Markdown..."></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2605,6 +2705,83 @@
                 document.getElementById('clearDataBtn')?.addEventListener('click', () => {
                     this.clearAllData();
                 });
+
+                // Markdown rendering for weekly notes with edit/view toggle
+                const weeklyObsPreview = document.getElementById('weekly-obs-preview');
+                const weeklyObsMarkdown = document.getElementById('weekly-obs-markdown');
+
+                if (weeklyObsPreview && weeklyObsMarkdown) {
+                    // When clicking the preview, switch to edit mode
+                    weeklyObsPreview.addEventListener('click', () => {
+                        weeklyObsPreview.classList.add('hidden');
+                        weeklyObsMarkdown.classList.remove('hidden');
+                        weeklyObsMarkdown.focus();
+                        // Adjust height to match content
+                        weeklyObsMarkdown.style.height = 'auto';
+                        weeklyObsMarkdown.style.height = (weeklyObsMarkdown.scrollHeight) + 'px';
+                    });
+
+                    // When the textarea loses focus, switch to view mode
+                    weeklyObsMarkdown.addEventListener('blur', () => {
+                        try {
+                            const newContent = marked.parse(weeklyObsMarkdown.value);
+                            if (newContent.trim() === '') {
+                                weeklyObsPreview.innerHTML = '<p class="text-text-secondary">Cliquez pour ajouter des notes...</p>';
+                            } else {
+                                weeklyObsPreview.innerHTML = newContent;
+                            }
+                        } catch (e) {
+                            weeklyObsPreview.innerText = "Erreur de rendu Markdown.";
+                            console.error("Markdown parsing error:", e);
+                        }
+                        weeklyObsMarkdown.classList.add('hidden');
+                        weeklyObsPreview.classList.remove('hidden');
+                    });
+
+                    // Auto-resize textarea on input
+                    weeklyObsMarkdown.addEventListener('input', function () {
+                        this.style.height = 'auto';
+                        this.style.height = (this.scrollHeight) + 'px';
+                    });
+                }
+
+                // Markdown rendering for daily observations with edit/view toggle
+                const dailyObsPreview = document.getElementById('daily-obs-preview');
+                const dailyObsMarkdown = document.getElementById('daily-observations');
+
+                if (dailyObsPreview && dailyObsMarkdown) {
+                    // When clicking the preview, switch to edit mode
+                    dailyObsPreview.addEventListener('click', () => {
+                        dailyObsPreview.classList.add('hidden');
+                        dailyObsMarkdown.classList.remove('hidden');
+                        dailyObsMarkdown.focus();
+                        dailyObsMarkdown.style.height = 'auto';
+                        dailyObsMarkdown.style.height = (dailyObsMarkdown.scrollHeight) + 'px';
+                    });
+
+                    // When the textarea loses focus, switch to view mode
+                    dailyObsMarkdown.addEventListener('blur', () => {
+                        try {
+                            const newContent = marked.parse(dailyObsMarkdown.value);
+                            if (newContent.trim() === '') {
+                                dailyObsPreview.innerHTML = '<p class="text-text-secondary">Cliquez pour ajouter des observations...</p>';
+                            } else {
+                                dailyObsPreview.innerHTML = newContent;
+                            }
+                        } catch (e) {
+                            dailyObsPreview.innerText = "Erreur de rendu Markdown.";
+                            console.error("Markdown parsing error:", e);
+                        }
+                        dailyObsMarkdown.classList.add('hidden');
+                        dailyObsPreview.classList.remove('hidden');
+                    });
+
+                    // Auto-resize textarea on input
+                    dailyObsMarkdown.addEventListener('input', function () {
+                        this.style.height = 'auto';
+                        this.style.height = (this.scrollHeight) + 'px';
+                    });
+                }
             }
 
             calculatePnl(tradeData) {
@@ -2750,16 +2927,31 @@
                             indicatorsContainer.appendChild(tradeIndicator);
                         }
 
-                        // 2. Daily Icon (Middle)
+                        // 2. Weekly Icon
+                        const weeklyData = entryData?.weekly;
+                        const hasWeeklyEntry = weeklyData && Object.values(weeklyData).some(value => {
+                            if (typeof value === 'string') return value.trim() !== '';
+                            return value !== null && value !== undefined;
+                        });
+                        if (hasWeeklyEntry) {
+                            const weeklyIndicator = document.createElement('i');
+                            weeklyIndicator.className = 'fas fa-calendar-week indicator daily-indicator';
+                            indicatorsContainer.appendChild(weeklyIndicator);
+                        }
+
+                        // 3. Daily Icon
                         const dailyData = entryData?.daily;
-                        const hasDailyEntry = dailyData && Object.values(dailyData).some(value => value !== '');
+                        const hasDailyEntry = dailyData && Object.values(dailyData).some(value => {
+                            if (typeof value === 'string') return value.trim() !== '';
+                            return value !== null && value !== undefined;
+                        });
                         if (hasDailyEntry) {
                             const dailyIndicator = document.createElement('i');
-                            dailyIndicator.className = 'fas fa-calendar-week indicator daily-indicator';
+                            dailyIndicator.className = 'fas fa-calendar-day indicator daily-indicator';
                             indicatorsContainer.appendChild(dailyIndicator);
                         }
 
-                        // 3. Note Icon (Bottom)
+                        // 4. Note Icon (Bottom)
                         const hasNoteEntry = (entryData?.notes?.general && entryData.notes.general.trim() !== '') ||
                             (entryData?.notes?.todoList && entryData.notes.todoList.length > 0) ||
                             (entryData?.notes?.eventList && entryData.notes.eventList.length > 0);
@@ -2987,7 +3179,7 @@
                         data.daily = {
                             pdr: document.getElementById('daily-pdr')?.value || '',
                             captureH1: document.getElementById('daily-captureH1')?.value || '',
-                            observations: document.getElementById('daily-observations')?.value || '',
+                            observations: document.getElementById('daily-observations')?.value || '', // This ID is now the textarea
                             cycleC1Phase: document.getElementById('daily-cycleC1Phase')?.value || '',
                             cycleC1Capture: document.getElementById('daily-cycleC1Capture')?.value || '',
                             cycleC2Phase: document.getElementById('daily-cycleC2Phase')?.value || '',
@@ -3020,7 +3212,7 @@
                         data.weekly = {
                             pwr: weeklyTab.querySelector('select')?.value || '',
                             captureH4: document.getElementById('weekly-captureH4')?.value || '',
-                            observations: weeklyTab.querySelector('textarea')?.value || ''
+                            observations: document.getElementById('weekly-obs-markdown')?.value || ''
                         };
                     }
 
@@ -3115,7 +3307,22 @@
                     if (data.daily) {
                         document.getElementById('daily-pdr').value = data.daily.pdr || '';
                         document.getElementById('daily-captureH1').value = data.daily.captureH1 || '';
-                        document.getElementById('daily-observations').value = data.daily.observations || '';
+                        // Handle markdown field for daily observations
+                        const dailyObsTextarea = document.getElementById('daily-observations');
+                        const dailyObsPreview = document.getElementById('daily-obs-preview');
+                        if (dailyObsTextarea && dailyObsPreview) {
+                            const markdownContent = data.daily.observations || '';
+                            dailyObsTextarea.value = markdownContent;
+                            try {
+                                if (markdownContent) {
+                                    dailyObsPreview.innerHTML = marked.parse(markdownContent);
+                                } else {
+                                    dailyObsPreview.innerHTML = '<p class="text-text-secondary">Cliquez pour ajouter des observations...</p>';
+                                }
+                            } catch (e) {
+                                dailyObsPreview.innerText = "Erreur de rendu Markdown.";
+                            }
+                        }
                         document.getElementById('daily-cycleC1Phase').value = data.daily.cycleC1Phase || '';
                         document.getElementById('daily-cycleC1Capture').value = data.daily.cycleC1Capture || '';
                         document.getElementById('daily-cycleC2Phase').value = data.daily.cycleC2Phase || '';
@@ -3152,11 +3359,24 @@
                         if (weeklyTab) {
                             const select = weeklyTab.querySelector('select');
                             const urlInput = document.getElementById('weekly-captureH4');
-                            const textarea = weeklyTab.querySelector('textarea');
+                            const textarea = document.getElementById('weekly-obs-markdown');
+                            const preview = document.getElementById('weekly-obs-preview');
 
                             if (select) select.value = data.weekly.pwr || '';
                             if (urlInput) urlInput.value = data.weekly.captureH4 || '';
-                            if (textarea) textarea.value = data.weekly.observations || '';
+                            if (textarea && preview) {
+                                const markdownContent = data.weekly.observations || '';
+                                textarea.value = markdownContent;
+                                try {
+                                    if (markdownContent) {
+                                        preview.innerHTML = marked.parse(markdownContent);
+                                    } else {
+                                        preview.innerHTML = '<p class="text-text-secondary">Cliquez pour ajouter des notes...</p>';
+                                    }
+                                } catch (e) {
+                                    preview.innerText = "Erreur de rendu Markdown.";
+                                }
+                            }
                         }
                     }
 
