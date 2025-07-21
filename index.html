@@ -1083,6 +1083,12 @@
                 <div class="flex flex-wrap mb-6 border-b border-border-color">
                     <button
                         class="tab-button px-4 py-2 font-medium rounded-t-lg mr-2 bg-accent-blue text-white flex items-center border border-accent-blue"
+                        data-tab="cal-eco">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        Cal-Éco
+                    </button>
+                    <button
+                        class="tab-button px-4 py-2 font-medium rounded-t-lg mr-2 bg-bg-dark hover:bg-bg-light transition flex items-center border border-accent-blue"
                         data-tab="weekly">
                         <i class="fas fa-calendar-week mr-2"></i>
                         Weekly
@@ -1117,15 +1123,28 @@
                         <i class="fas fa-chart-line mr-2"></i>
                         Consistency
                     </button>
-                    <button
-                        class="tab-button px-4 py-2 font-medium rounded-t-lg bg-bg-dark hover:bg-bg-light transition flex items-center border border-accent-blue"
-                        data-tab="cal-eco">
-                        <i class="fas fa-calendar-alt mr-2"></i>
-                        Cal-Éco
-                    </button>
                 </div>
 
                 <form id="journal-form" class="space-y-6">
+                    <!-- Cal-Eco Tab -->
+                    <div id="cal-eco-tab" class="tab-content block">
+                        <h1>Calendrier Économique - USD <i class="fas fa-folder" style="color: red;"></i></h1>
+                        <p id="week-dates">Données pour la semaine du: jj/mm au jj/mm/aa</p>
+                        <table id="calendar-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Heure (EST | Paris)</th>
+                                    <th>Devise</th>
+                                    <th>Importance</th>
+                                    <th>Événement</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Les données seront insérées ici par JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- Daily Tab -->
                     <div id="daily-tab" class="tab-content hidden">
                         <div class="space-y-4">
@@ -1295,7 +1314,7 @@
                     </div>
 
                     <!-- Weekly Tab -->
-                    <div id="weekly-tab" class="tab-content block">
+                    <div id="weekly-tab" class="tab-content hidden">
                         <div class="space-y-4">
                             <h3 class="text-lg font-bold mb-3 border-l-4 border-accent-blue pl-2">Tendance du PWR
                                 (Previous Week Range)</h3>
@@ -1596,26 +1615,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Cal-Eco Tab -->
-                    <div id="cal-eco-tab" class="tab-content hidden">
-                        <h1>Calendrier Économique - USD <i class="fas fa-folder" style="color: red;"></i></h1>
-                        <p id="week-dates">Données pour la semaine du: jj/mm au jj/mm/aa</p>
-                        <table id="calendar-table">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Heure (EST | Paris)</th>
-                                    <th>Devise</th>
-                                    <th>Importance</th>
-                                    <th>Événement</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Les données seront insérées ici par JavaScript -->
-                            </tbody>
-                        </table>
                     </div>
 
                     <div class="pt-6 flex justify-between items-center">
@@ -3085,6 +3084,8 @@
                 if (this.weekNumberInput) {
                     this.weekNumberInput.value = this.getWeekNumber(date);
                 }
+
+                this.switchTab('cal-eco');
             }
 
             hideEntryForm() {
