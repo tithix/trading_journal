@@ -27,19 +27,19 @@ def update_html_file(data):
         print("Aucune donnée à mettre à jour.")
         return
 
-    html_path = 'economic_calendar.html'
+    html_path = 'webapp/journal_v2.html'
     try:
         with open(html_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
         # Formater les données en une chaîne JSON pour JavaScript
-        json_string = json.dumps(data, indent=None, ensure_ascii=False)
+        json_string = json.dumps(data)
         
-        # Remplacer l'ancienne variable jsonData par la nouvelle
+        # Remplacer l'ancienne variable economicCalendarJsonData par la nouvelle
         # Utilisation d'une expression régulière pour être robuste
         new_content = re.sub(
-            r'const jsonData = .*?;',
-            f'const jsonData = {json_string};',
+            r'const economicCalendarJsonData = .*?;',
+            f'const economicCalendarJsonData = {json_string};',
             content,
             flags=re.DOTALL
         )
@@ -69,23 +69,4 @@ def run_threaded(job_func):
     job_thread.start()
 
 if __name__ == '__main__':
-    # Planifier la tâche pour s'exécuter tous les lundis à 01:00 EST
-    est = pytz.timezone('US/Eastern')
-    
-    # Note: `schedule` utilise l'heure locale du serveur. 
-    # Pour une exécution précise basée sur EST, il faudrait une logique plus complexe
-    # ou un service comme cron qui gère mieux les fuseaux horaires.
-    # Pour cet exemple, nous planifions à une heure fixe.
-    # L'utilisateur devra s'assurer que le serveur est synchronisé.
-    
-    schedule.every().monday.at("01:00").do(run_threaded, job)
-    
-    print("Le script de mise à jour est en cours d'exécution.")
-    print("La mise à jour est planifiée pour chaque lundi à 01:00 EST.")
-    
-    # Exécuter la tâche une fois au démarrage
-    run_threaded(job)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    job()
