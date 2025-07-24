@@ -3339,22 +3339,24 @@
 
                     // Peupler les données Trade
                     if (data.trade) {
-                        const elements = {
-                            assetSelect: document.getElementById('asset-select'),
-                            positionSize: document.getElementById('position-size'),
-                            stopLoss: document.getElementById('stop-loss'),
-                            takeProfit: document.getElementById('take-profit'),
-                            resultSelect: document.getElementById('result-select'),
-                            pnlResult: document.getElementById('pnl-result'),
-                            rrResult: document.getElementById('rr-result'),
-                            review: document.querySelector('#trade-tab textarea')
-                        };
+                        const tradeData = data.trade;
+                        document.getElementById('asset-select').value = tradeData.asset || '';
+                        document.getElementById('position-size').value = tradeData.positionSize || '';
+                        document.getElementById('stop-loss').value = tradeData.stopLoss || '';
+                        document.getElementById('take-profit').value = tradeData.takeProfit || '';
+                        document.getElementById('result-select').value = tradeData.result || '';
+                        document.getElementById('pnl-result').value = tradeData.pnl || '';
+                        document.getElementById('rr-result').value = tradeData.riskReward || '';
+                        const reviewTextarea = document.querySelector('#trade-tab textarea');
+                        if (reviewTextarea) {
+                            reviewTextarea.value = tradeData.review || '';
+                        }
 
-                        Object.entries(elements).forEach(([key, element]) => {
-                            if (element && data.trade[key]) {
-                                element.value = data.trade[key];
-                            }
-                        });
+                        // Déclencher la mise à jour des champs calculés
+                        const assetSelect = document.getElementById('asset-select');
+                        if (assetSelect) {
+                            assetSelect.dispatchEvent(new Event('change'));
+                        }
                     }
 
                     // Peupler les données Weekly
