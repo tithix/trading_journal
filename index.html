@@ -569,6 +569,16 @@
             color: var(--accent-red);
         }
 
+        .pnl-display {
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
         .neutral-color {
             color: var(--text-primary);
         }
@@ -2917,16 +2927,21 @@
                         const indicatorsContainer = document.createElement('div');
                         indicatorsContainer.className = 'indicators-container';
 
-                        // 1. Trade Icon (Top)
-                        const tradeResult = entryData?.trade?.result;
-                        const tradeIndicator = document.createElement('span');
-                        tradeIndicator.className = 'indicator trade-indicator';
-                        if (tradeResult === 'win') {
-                            tradeIndicator.textContent = '✅';
-                            indicatorsContainer.appendChild(tradeIndicator);
-                        } else if (tradeResult === 'loss') {
-                            tradeIndicator.textContent = '❌';
-                            indicatorsContainer.appendChild(tradeIndicator);
+                        // P&L Display
+                        if (entryData.trade) {
+                            const pnl = this.calculatePnl(entryData.trade);
+                            if (pnl !== 0) {
+                                const pnlDisplay = document.createElement('div');
+                                pnlDisplay.className = 'pnl-display';
+                                const pnlText = `${pnl > 0 ? '+' : ''}$${Math.abs(pnl).toFixed(2).replace('.', ',')}`;
+                                pnlDisplay.textContent = pnlText;
+                                if (pnl > 0) {
+                                    pnlDisplay.classList.add('profit-color');
+                                } else {
+                                    pnlDisplay.classList.add('loss-color');
+                                }
+                                day.appendChild(pnlDisplay);
+                            }
                         }
 
                         // 2. Weekly Icon
