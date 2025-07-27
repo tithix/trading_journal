@@ -2,9 +2,10 @@ name: Update Economic Calendar Data
 
 on:
   schedule:
-    # Exécute le workflow tous les lundis à 05:00 UTC (ce qui correspond au début de journée en Europe)
-    - cron: '0 5 * * 1'
-  # Permet de lancer manuellement ce workflow depuis l'onglet Actions de GitHub
+    # S'exécute à 02:00 UTC tous les dimanches.
+    # '0 2 * * 0' est un format cron : minute heure jour(mois) mois jour(semaine)
+    - cron: '0 2 * * 0'
+  # Permet aussi de lancer le workflow manuellement depuis l'onglet Actions de GitHub
   workflow_dispatch:
 
 jobs:
@@ -12,31 +13,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      # 1. Récupère le code de votre dépôt
+      - name: Check out repository
         uses: actions/checkout@v3
 
+      # 2. Met en place l'environnement Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.x' # Utilise la dernière version de Python 3
 
+      # 3. Installe les dépendances nécessaires
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests
 
+      # 4. Exécute le script de mise à jour
       - name: Run update script
         run: python database_updater.py
 
-      - name: Commit and push if changes
+      # 5. Commit et Push les modifications (si le fichier a changé)
+      - name: Commit and push if there are changes
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add webapp/journal_v2.html
-          # Vérifie s'il y a des changements à commiter
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Automated update of economic calendar data"
-            git push
-          fi
+          git add webapp/index.html
+          # Ne commit que s'il y a des changements à commiter
+          git diff --staged --quiet || git commit -m "Mise à jour automatique des données du calendrier économique"
+          git push
