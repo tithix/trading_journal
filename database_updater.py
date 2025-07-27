@@ -18,7 +18,7 @@ def fetch_and_update():
         return
 
     # 2. Mettre à jour le fichier HTML
-    # Note: Le chemin pointe maintenant vers 'index.html' comme demandé
+    # Note: Le chemin pointe maintenant vers 'index.html' à la racine
     html_path = 'index.html'
     try:
         with open(html_path, 'r', encoding='utf-8') as f:
@@ -41,7 +41,7 @@ def fetch_and_update():
 
     except FileNotFoundError:
         print(f"Erreur : le fichier '{html_path}' n'a pas été trouvé.")
-        print("Assurez-vous que le fichier 'journal_v2.html' a bien été renommé en 'index.html'.")
+        print("Assurez-vous que le fichier 'index.html' existe bien à la racine du projet.")
     except Exception as e:
         print(f"Une erreur est survenue lors de la mise à jour du fichier HTML : {e}")
 
