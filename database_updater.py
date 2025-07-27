@@ -19,7 +19,7 @@ def fetch_and_update():
 
     # 2. Mettre à jour le fichier HTML
     # Note: Le chemin pointe maintenant vers 'index.html' comme demandé
-    html_path = 'webapp/index.html'
+    html_path = 'index.html'
     try:
         with open(html_path, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -41,7 +41,7 @@ def fetch_and_update():
 
     except FileNotFoundError:
         print(f"Erreur : le fichier '{html_path}' n'a pas été trouvé.")
-        print("Assurez-vous que le fichier 'webapp/journal_v2.html' a bien été renommé en 'webapp/index.html'.")
+        print("Assurez-vous que le fichier 'journal_v2.html' a bien été renommé en 'index.html'.")
     except Exception as e:
         print(f"Une erreur est survenue lors de la mise à jour du fichier HTML : {e}")
 
