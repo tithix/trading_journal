@@ -38,7 +38,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add webapp/index.html
+          git add index.html
           # Ne commit que s'il y a des changements à commiter
           git diff --staged --quiet || git commit -m "Mise à jour automatique des données du calendrier économique"
           git push
